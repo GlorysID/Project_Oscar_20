@@ -55,9 +55,10 @@ window.addEventListener("scroll", () => {
 const materiList = [
   {
     id: 1,
-    title: "Pendahuluan",
-    content: "Apa itu Scratch & kenapa asik dipelajari.",
-    img: "img/brainicons.png",
+    title: "Pengenalan Scratch",
+    content:
+      "Scratch itu bahasa pemrograman visual.\nBedanya sama Python atau C++ → kalau bahasa itu pakai kode teks, Scratch pakai block warna-warni.\nCoding di Scratch ibarat main lego: tinggal tarik block → sambungin → jadi program. \nMakanya Scratch gampang dipahami semua orang, bahkan anak SD bisa langsung bikin animasi atau game.",
+    img: "../img/scratchimg.jpg",
   },
   {
     id: 2,
