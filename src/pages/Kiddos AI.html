@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Kiddos Ai</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap&subset=latin"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/ki-main.css" />
+  </head>
+  <body>
+    <div id="app" class="">
+      <!-- ===== Slide 1: Chatbot (Tetap desain aslinya) ===== -->
+      <section class="banner">
+        <canvas id="starfield"></canvas>
+        <h1 class="text-center my-text-center fw-bold">
+          <span class="kiddos">Kiddos</span>
+          <span class="ai">Ai</span>
+        </h1>
+        <!-- Pindahkan h1 ke atas chatbot -->
+        <div class="rt-chatbot">
+          <div class="rt-chat-window" id="rtChatWindow">
+            <div class="rt-hint">
+              Halo! Aku Kiddos Ai apa yang bisa aku bantu
+            </div>
+          </div>
+          <div id="quickReplies" class="quickReplies mt-1">
+            <button class="quick-reply">Apa itu HTML?</button>
+            <button class="quick-reply">Apa itu CSS?</button>
+            <button class="quick-reply">Contoh kode Python</button>
+          </div>
+          <form class="ai-input-row" id="rtForm" autocomplete="off">
+            <input
+              id="aiInput"
+              class="form-control ai-input"
+              type="text"
+              placeholder="Tanyakan apa saja"
+            />
+            <button id="rtSend" class="btn btn-primary ai-kirim" type="submit">
+              <i class="fa-solid fa-paper-plane"></i>
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <div class="bg-code">
+        <h1>Tulis Sekali, Jalankan di Sini</h1>
+        <p class="text text-center">
+          Web, C++ dan Python dengan Preview Browser Native
+        </p>
+        <div class="pink-glow"></div>
+        <div class="pink-glow2"></div>
+
+        <div class="rt-carousel position-relative">
+          <button class="rt-nav-btn rt-prev" aria-label="Sebelumnya">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <button class="rt-nav-btn rt-next" aria-label="Berikutnya">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+          <div id="CDEDITOR" class="code-editor">
+            <!-- ===== Slide 2: Web Editor (HTML/CSS/JS) + Live Preview ===== -->
+            <section class="rt-slide">
+              <div class="rt-surface">
+                <div
+                  class="d-flex justify-content-between align-items-center mb-2"
+                >
+                  <h5 class="m-0">🧪 Web Editor — HTML • CSS • JS</h5>
+                  <span class="hint-badge">Geser ↔ untuk berpindah slide</span>
+                </div>
+
+                <div class="editor-grid">
+                  <div class="pane">
+                    <h6>HTML</h6>
+                    <div id="ed_html" class="ace-wrapper"></div>
+                  </div>
+                  <div class="pane">
+                    <h6>CSS</h6>
+                    <div id="ed_css" class="ace-wrapper"></div>
+                  </div>
+                  <div class="pane">
+                    <h6>JavaScript</h6>
+                    <div id="ed_js" class="ace-wrapper"></div>
+                  </div>
+                  <div class="pane">
+                    <div
+                      class="d-flex justify-content-between align-items-center mb-2"
+                    >
+                      <h6 class="m-0">Preview</h6>
+                      <div class="tool-row">
+                        <button id="btnRun" class="ghost-btn">
+                          <i class="fa-solid fa-play"></i> Run
+                        </button>
+                        <button id="btnResetBoiler" class="ghost-btn">
+                          <i class="fa-solid fa-rotate-left"></i> Reset
+                        </button>
+                        <button id="btnExportHtml" class="ghost-btn">
+                          <i class="fa-solid fa-file-export"></i> Export
+                        </button>
+                      </div>
+                    </div>
+                    <div class="preview-wrapper" style="height: 80%">
+                      <iframe
+                        id="webPreview"
+                        title="Live Preview"
+                        style="width: 100%; height: 100%; border: 0"
+                        sandbox="allow-scripts allow-same-origin"
+                      ></iframe>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- ===== Slide 3: Python Editor + Terminal Python ===== -->
+            <section class="rt-slide">
+              <div class="rt-surface">
+                <div
+                  class="d-flex justify-content-between align-items-center mb-2"
+                >
+                  <h5 class="m-0">🐍 Python Editor</h5>
+                  <span class="hint-badge"
+                    >Client-side via Pyodide → Terminal Python</span
+                  >
+                </div>
+                <div class="pane mb-2">
+                  <div id="ed_py" class="ace-wrapper"></div>
+                </div>
+                <div class="tool-row mb-2">
+                  <button class="ghost-btn" id="runPy">
+                    <i class="fa-solid fa-play"></i> Run
+                  </button>
+                  <button class="ghost-btn" id="savePy">
+                    <i class="fa-solid fa-download"></i> Save .py
+                  </button>
+                  <span class="hint-badge"
+                    >print() & error tampil di Terminal Python</span
+                  >
+                </div>
+
+                <!-- Terminal Python -->
+                <div class="pane">
+                  <div
+                    class="d-flex justify-content-between align-items-center mb-2"
+                  >
+                    <h6 class="m-0">Terminal Python</h6>
+                    <div class="d-flex gap-2">
+                      <button id="clearTerminalPy" class="ghost-btn">
+                        <i class="fa-solid fa-broom"></i> Reset
+                      </button>
+                      <button id="copyTerminalPy" class="ghost-btn">
+                        <i class="fa-solid fa-copy"></i> Copy
+                      </button>
+                    </div>
+                  </div>
+                  <pre id="terminalPy" class="terminal"></pre>
+                </div>
+              </div>
+            </section>
+
+            <!-- ===== Slide 4: C++ Editor + Terminal C++ ===== -->
+            <section class="rt-slide">
+              <div class="rt-surface">
+                <div
+                  class="d-flex justify-content-between align-items-center mb-2"
+                >
+                  <h5 class="m-0">🧩 C++ Editor</h5>
+                  <span class="hint-badge">Transpile → JS → Terminal C++</span>
+                </div>
+                <div class="pane mb-2">
+                  <div id="ed_cpp" class="ace-wrapper"></div>
+                </div>
+                <div class="tool-row mb-2">
+                  <button class="ghost-btn" id="runCpp">
+                    <i class="fa-solid fa-play"></i> Run
+                  </button>
+                  <button class="ghost-btn" id="saveCpp">
+                    <i class="fa-solid fa-download"></i> Save .cpp
+                  </button>
+                  <span class="hint-badge"
+                    >Dukungan dasar: cout/cin/main()</span
+                  >
+                </div>
+
+                <!-- Terminal C++ -->
+                <div class="pane">
+                  <div
+                    class="d-flex justify-content-between align-items-center mb-2"
+                  >
+                    <h6 class="m-0">Terminal C++</h6>
+                    <div class="d-flex gap-2">
+                      <button id="clearTerminalCpp" class="ghost-btn">
+                        <i class="fa-solid fa-broom"></i> Reset
+                      </button>
+                      <button id="copyTerminalCpp" class="ghost-btn">
+                        <i class="fa-solid fa-copy"></i> Copy
+                      </button>
+                    </div>
+                  </div>
+                  <pre id="terminalCpp" class="terminal"></pre>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <!-- Dots -->
+          <div id="rtPager" class="rt-pager"></div>
+        </div>
+      </div>
+      <!-- Navbar -->
+      <nav class="custom-navbar fixed-top">
+        <div class="navbar-container">
+          <a href="#" class="logo"
+            ><img src="../img/KiddosLogo.png" alt="Logo"
+          /></a>
+          <div class="hamburger" id="hamburger">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Side Menu -->
+      <div class="side-menu" id="sideMenu">
+        <a href="../../index.html"
+          ><img
+            src="../img/homeicons.png"
+            alt="Home"
+            class="menu-icon"
+          />Home</a
+        >
+        <a href="#"
+          ><img
+            src="../img/brainicons.png"
+            alt="Learn"
+            class="menu-icon2"
+          />Learn</a
+        >
+        <a href="#"
+          ><img
+            src="../img/gameicons.png"
+            alt="Games"
+            class="menu-icon3"
+          />Games</a
+        >
+        <a href="#"
+          ><img
+            src="../img/profileicons.png"
+            alt="Profile"
+            class="menu-icon"
+          />Profile</a
+        >
+      </div>
+    </div>
+
+    <div class="footer"></div>
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.3/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.3/ext-language_tools.min.js"></script>
+    <!-- Pyodide (Python in browser) -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
+    <script src="../js/ki-function.js"></script>
+  </body>
+</html>

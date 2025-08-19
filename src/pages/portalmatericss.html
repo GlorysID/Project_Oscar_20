@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portal CSS</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="../../bootstrap-5.3.7-dist/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="../css/portalmatericss.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <canvas id="starsCanvas"></canvas>
+    <!-- Navbar -->
+    <nav class="custom-navbar fixed-top">
+      <div class="navbar-container">
+        <a href="../../index.html" class="logo"
+          ><img src="../img/KiddosLogo.png" alt="Logo"
+        /></a>
+        <div class="nav-right">
+          <div class="chatbot">
+            <a href="Kiddos AI.html"
+              ><img src="../img/boticons.png" alt="Chatbot"
+            /></a>
+          </div>
+          <div class="hamburger" id="hamburger">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Side Menu -->
+    <div class="side-menu" id="sideMenu">
+      <a href="../../index.html"
+        ><img src="../img/homeicons.png" class="menu-icon" />Home</a
+      >
+      <a href="../../index.html #Materi"
+        ><img src="../img/brainicons.png" class="menu-icon2" />Learn</a
+      >
+      <a href="../../index.html #Games"
+        ><img src="../img/gameicons.png" class="menu-icon3" />Games</a
+      >
+      <a href="#"
+        ><img src="../img/profileicons.png" class="menu-icon" />Profile</a
+      >
+    </div>
+
+    <header class="portal-header">
+      <img src="../img/cssicons.png" alt="css" />
+      <h1>Portal Belajar CSS</h1>
+      <p>Pilih bab seru untuk mulai styling dengan cara menyenangkan!</p>
+    </header>
+
+    <main class="portal-container">
+      <div class="portal-card">
+        <div class="icon">📖</div>
+        <h2>Pendahuluan</h2>
+        <p>Apa itu Scratch & kenapa asik dipelajari.</p>
+        <a href="materi1.html" class="btn">Mulai</a>
+      </div>
+
+      <div class="portal-card">
+        <div class="icon">🖥️</div>
+        <h2>Mengenal Tampilan</h2>
+        <p>Stage, sprite, dan blok-blok seru.</p>
+        <a href="materi2.html" class="btn">Mulai</a>
+      </div>
+
+      <div class="portal-card">
+        <div class="icon">🧩</div>
+        <h2>Jenis Blok</h2>
+        <p>Motion, looks, sound, event, dan lainnya.</p>
+        <a href="materi3.html" class="btn">Mulai</a>
+      </div>
+
+      <div class="portal-card">
+        <div class="icon">🐱</div>
+        <h2>Program Pertama</h2>
+        <p>Bikin kucing jalan pakai tombol panah.</p>
+        <a href="materi4.html" class="btn">Mulai</a>
+      </div>
+
+      <div class="portal-card">
+        <div class="icon">🎮</div>
+        <h2>Mini Project</h2>
+        <p>Game tangkap bola dengan paddle.</p>
+        <a href="materi5.html" class="btn">Mulai</a>
+      </div>
+
+      <div class="portal-card">
+        <div class="icon">🔥</div>
+        <h2>Tantangan</h2>
+        <p>Buat karya animasi atau game sendiri.</p>
+        <a href="materi6.html" class="btn">Mulai</a>
+      </div>
+    </main>
+
+    <!-- Materi Lain -->
+
+    <section class="materi-section container my-5" id="Materi">
+      <div class="materi-h text-center">
+        <h2 class="judul-materi">Belajar Juga Materi Dibawah Ini</h2>
+      </div>
+
+      <div class="row g-4 mt-3 justify-content-center">
+        <!-- 5 Materi Boxes -->
+        <div class="col-lg-4 col-md-6 col-sm-12">
+          <a href="portalmateriscratch.html" style="text-decoration: none">
+            <div class="materi-box">
+              <img src="../img/scratchicons.png" class="materi-icon" />
+              <div>
+                <h4>Scratch</h4>
+                <p>Belajar logika dasar dengan Scratch.</p>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-lg-4 col-md-6 col-sm-12">
+          <a href="portalmaterihtml.html" style="text-decoration: none">
+            <div class="materi-box">
+              <img src="../img/htmlicons.png" class="materi-icon" />
+              <div>
+                <h4>HTML</h4>
+                <p>Belajar struktur elemen website.</p>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-lg-4 col-md-6 col-sm-12">
+          <a href="portalmaterijs.html" style="text-decoration: none">
+            <div class="materi-box">
+              <img src="../img/jsicons.png" class="materi-icon" />
+              <div>
+                <h4>JavaScript</h4>
+                <p>Pengenalan JavaScript dan dasar syntax JavaScript.</p>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Row ke-2 -->
+        <div class="col-lg-4 col-md-6 col-sm-12 offset-lg-2">
+          <a href="portalmateripy.html" style="text-decoration: none">
+            <div class="materi-box">
+              <img src="../img/pythonicons.png" class="materi-icon" />
+              <div>
+                <h4>Python</h4>
+                <p>Pengenalan Python untuk data dan backend.</p>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-lg-4 col-md-6 col-sm-12">
+          <a href="portalmatericpp.html" style="text-decoration: none">
+            <div class="materi-box">
+              <img src="../img/cppicons.png" class="materi-icon" />
+              <div>
+                <h4>C++</h4>
+                <p>Pelajari dasar bahasa kuat untuk game dan sistem.</p>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- footer -->
+
+    <footer class="footer">
+      <div class="footer-container">
+        <!-- Kolom 1: Identitas -->
+        <div class="footer-about">
+          <h2>E-Learning Dev</h2>
+          <p>SMK BINA MANDIRI MULTIMEDIA</p>
+          <p><em>“Yang Handal Berawal Dari Yang Dasar”</em></p>
+        </div>
+
+        <!-- Kolom 2: Navigasi -->
+        <div class="footer-links">
+          <h3>Menu</h3>
+          <ul>
+            <li><a href="../../index.html">Home</a></li>
+            <li><a href="../../index.html #Materi">Learn</a></li>
+            <li><a href="../../index.html #Games">Games</a></li>
+          </ul>
+        </div>
+
+        <!-- Kolom 3: Kontak -->
+        <div class="footer-contact">
+          <h3>Kontak</h3>
+          <p>Email: anjalisaputra@gmail.com</p>
+          <p>Email: rexnabagus@gmail.com</p>
+          <p>
+            GitHub:
+            <a href="https://github.com/GlorysID">github.com/timalpha</a>
+          </p>
+          <p>
+            GitHub:
+            <a href="https://github.com/zxlyn16">github.com/timalpha</a>
+          </p>
+        </div>
+      </div>
+
+      <!-- Copyright -->
+      <p class="copyright">
+        © 2025 Tim E-Learning Dev – SMK BINA MANDIRI MULTIMEDIA.
+      </p>
+    </footer>
+
+    <script src="../js/portalmateri.js"></script>
+  </body>
+</html>
