@@ -1,30 +1,3 @@
-/* ===== NAVBAR STYLES ===== */
-.custom-navbar {
-  width: 100%;
-  background: rgba(39, 34, 34, .35);
-  opacity: 70%;
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid rgba(47, 32, 72, .1);
-  padding: 12px 25px;
-  transition: background .3s ease;
-}
-
-.custom-navbar.scrolled {
-  background: rgba(0, 0, 0, .75);
-}
-
-.navbar-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo img {
-  height: 45px;
-  filter: drop-shadow(0 0 4px rgba(0, 0, 0, .5));
-}
-
-
 .banner {
   position: relative;
   width: 100vw;
@@ -86,7 +59,7 @@
 }
 
 .bg-code h1 {
-  margin-top: 90px;
+  margin-top: 40px;
   font-size: 60px;
   align-items: center;
   justify-content: center;
@@ -167,14 +140,35 @@
   pointer-events: none;
   animation: glow-spin 28s linear infinite reverse;
 }
+/* BACKGROUND CODE END*/
 
-/* Animasi rotasi glow */
-@keyframes glow-spin {
-  0% { transform: rotate(0deg);}
-  100% { transform: rotate(360deg);}
+
+
+
+
+/* TERMINALSTYLE */
+.terminal {
+  height: 200px;
+  overflow-y: auto;
+  background: #000;
+  color: #0f0;
+  padding: 12px;
+  border-radius: 12px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: .9rem;
+  line-height: 1.4;
+  border: 1px solid rgba(255, 255, 255, .12);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, .3);
 }
 
+.terminal .error {
+  color: #ff6b6b;
+}
 
+.terminal .sys {
+  color: #9ad3ff;
+}
+/* TERMINAL STYLE END*/
 
 /* ===== ANIMATIONS ===== */
 @keyframes slideFadeIn {
