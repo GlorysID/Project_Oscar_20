@@ -55,31 +55,66 @@ window.addEventListener("scroll", () => {
 const materiList = [
   {
     id: 1,
-    title: "Pengenalan Scratch",
+    title: "Motion",
     content:
-      "Scratch itu bahasa pemrograman visual.\nBedanya sama Python atau C++ → kalau bahasa itu pakai kode teks, Scratch pakai block warna-warni.\nCoding di Scratch ibarat main lego: tinggal tarik block → sambungin → jadi program. \nMakanya Scratch gampang dipahami semua orang, bahkan anak SD bisa langsung bikin animasi atau game.",
+      "Motion  adalah  salah  satu  fungsi  di  dalam  Script/Code  yang memiliki blok-blok program untuk mengatur  semua gerakan sprite yang ada di dalam projek kita. Blok tersebut diantaranya adalah: ",
     img: "../img/scratchimg.jpg",
   },
   {
     id: 2,
-    title: "Kenapa Belajar Scratch?",
+    title: "Motion",
     content:
-      "Scratch cocok di pelajari bagi pemula karena scratch\n- Drag & drop sehingga gampang dipelajari\n- Hasil langsung keliatan di layar\n- Bisa bikin animasi, cerita, dan game\n- Jadi dasar sebelum masuk ke Python, JS, atau C++\n- Mengasah logika dasar",
-    img: "../img/scratchimg.jpg",
+      "Blok  ini  berfungsi  untuk memindahkan  sprite  secara horizontal  (sesuai  garis  x).  Angka yang  dimasukkan  ke dalam  blok  ini bisa  berupa  angka  negatif  maupun angka positif.   Jika angka yang  dimasukkan positif, maka sprite akan berpindah ke arah kanan (ke posisi x yang lebih besar)  Jika  angka  yang  dimasukkan  adalah negatif, maka sprite akan berpindah ke arah kiri (posisi x yang lebih kecil)",
+    img: "../img/motion1.png",
   },
   {
     id: 3,
-    title: "Antarmuka Scratch",
+    title: "Motion",
     content:
-      "Editor Scratch terbagi jadi 4 bagian:\n1. Stage (panggung hasil program)\n2. Sprite List (karakter/objek)\n3. Block Palette (kumpulan block perintah)\n4. Script Area (tempat nyusun block)",
-    img: "../img/editorscratch.png",
+      "  Blok  ini  berfungsi  untuk memutarkan  sprite  yang  ada  di projek kita\n sesuai arah jarum jam dan derajat yang kita inginkan",
+    img: "../img/motion2.png",
   },
   {
     id: 4,
-    title: "Jenis - Jenis Blok",
-    img: "../img/Jenisblokscratch.png",
+    title: "Motion",
     content:
-      "Block di Scratch punya warna beda sesuai fungsi:\n🔵 Motion (gerakan)\n🟣 Looks (tampilan)\n🔈 Sound (Suara)\n🟡 Events (Pemicu Peristiwa)\n🟠 Control (kontrol alur program)\n🟢 Operators (Operator)\n🔢 Variables (menyimpan data)",
+      "Blok  ini  berfungsi  untuk memutarkan  sprite  yang  ada  di projek  kita  berlawanan  arah  jarum jam dan derajat yang kita inginkan.",
+    img: "../img/motion3.png",
+  },
+  {
+    id: 5,
+    title: "Motion",
+    content:
+      "Blok  ini  berfungsi  untuk memindahkan  sprite  yang  ada  di projek  kita  ke  posisi  tertentu.  Kita dapat  memilih  posisi  pemindahan sprite  sesuai  dengan  pilihan  yang disediakan oleh Scratch .   Jika  kita  memilih  random  position, maka sprite akan berpindah ke tempat acak  yang ada  di area  output  projek kita.  Jika  kita  memilih  mouse-pointer, maka Scratch akan berpindah menuju kursor mouse kita.  Kita  juga  dapat memindahkan  posisi sprite kita ke posisi sprite lainnya jika kita  memiliki  lebih  dari  satu  sprite dalam satu projek.",
+    img: "../img/motion4.png",
+  },
+  {
+    id: 6,
+    title: "Motion",
+    content:
+      "Blok  ini  berfungsi  untuk  membuat sprite  kita  bergerak  menuju  posisi tertentu yang kita inginkan.   Berbeda  dari  sebelumnya  dimana sprite akan langsung muncul di posisi yang kita inginkan, blok ini membuat sprite “bergerak” menuju posisi yang kita inginkan.  Kita  juga  dapat  menentukan  berapa lama  waktu  yang  diperlukan  oleh sprite  untuk  berpindah  ke  posisi tersebut dengan satuan detik.  Sprite juga dapat  berpindah ke  sprite lain jika didalam projek terdapat lebih dari 1 sprite ",
+    img: "../img/motion5.png",
+  },
+  {
+    id: 7,
+    title: "Motion",
+    content:
+      "Blok  ini  berfungsi  untuk  membuat sprite bergerak  menuju  koordinat x dan y yang  diinginkan dengan waktu tertentu.",
+    img: "../img/motion6.png",
+  },
+  {
+    id: 8,
+    title: "Motion",
+    content:
+      "Blok  ini berfungsi  untuk  mengubah hadapan sprite sehingga sprite  akan menghadap  ke  arah  yang  telah ditentukan.",
+    img: "../img/motion7.png",
+  },
+  {
+    id: 7,
+    title: "Motion",
+    content:
+      "Blok  ini  berfungsi  untuk  membuat sprite bergerak  menuju  koordinat x dan y yang  diinginkan dengan waktu tertentu.",
+    img: "../img/motion8.png",
   },
 ];
 

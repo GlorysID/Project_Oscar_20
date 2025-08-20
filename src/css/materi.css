@@ -217,7 +217,8 @@ body {
 
 .container {
   display: flex;
-  padding: 20px;
+  align-items: stretch;
+  padding-top: 1.5rem;
 }
 
 /* Materi utama (kiri) */
@@ -233,6 +234,16 @@ body {
   border: 4px solid rgba(82, 33, 208, 0.34);
   transition: all 0.2s ease;
   margin-top: 4rem;
+  max-height: 80vh;
+  overflow: hidden; /* penting! */
+}
+
+#materi-content-container {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  min-height: 0;
+  max-height: 100%;
+  padding-right: 8px;
 }
 
 .materi-box:hover {
@@ -242,9 +253,11 @@ body {
 }
 
 .materi-content {
-  flex: 1; /* biar area ini ngambil ruang sisa */
-  overflow-y: auto; /* aktifin scroll di dalam box */
-  margin-bottom: 20px; /* kasih jarak sama tombol */
+  flex: 1 1 auto;
+  overflow-y: auto; /* Scroll hanya di bagian materi */
+  min-height: 0; /* Agar flexbox scroll berfungsi */
+  max-height: 100%;
+  padding-right: 8px; /* Sedikit ruang untuk scrollbar */
 }
 
 .materi-box .Bab {
@@ -262,15 +275,38 @@ body {
 }
 
 .materi-box #materi-img {
-  width: 30rem;
+  width: 100%;
+  max-width: 380px; /* Lebih besar dari sebelumnya */
+  height: auto;
+  display: block;
+  margin: 0 2.5rem 0 0; /* Sedikit tambah jarak kanan */
+  border-radius: 14px;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
+  object-fit: contain;
+  max-height: 520px; /* Batasi tinggi maksimal agar tetap proporsional */
 }
 
 .materi-box p {
   font-family: "Baloo 2", sans-serif;
   font-weight: 400;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   padding-bottom: 1rem;
   padding-top: 1rem;
+}
+
+/* Responsif untuk tablet dan HP */
+@media (max-width: 1024px) {
+  .materi-box #materi-img {
+    width: 100%;
+    max-width: 380px; /* Lebih besar dari sebelumnya */
+    height: auto;
+    display: block;
+    margin: 0 2.5rem 0 0; /* Sedikit tambah jarak kanan */
+    border-radius: 14px;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
+    object-fit: contain;
+    max-height: 520px;
+  }
 }
 
 /* Sidebar (kanan) */
@@ -281,6 +317,7 @@ body {
   border-radius: 12px;
   border: 4px solid rgba(82, 33, 208, 0.34);
   margin-top: 4rem;
+  height: 720px;
 }
 
 .sidebar h2 {
@@ -328,20 +365,25 @@ body {
 }
 
 .nav-btns button {
-  background: #45a29e;
-  border: none;
-  padding: 10px 20px;
-  margin: 0 10px;
-  border-radius: 8px;
-  cursor: pointer;
-  color: #fff;
+  border-radius: 15px;
+  border: 4px solid rgba(82, 33, 208, 0.34);
+  z-index: 3;
+  text-decoration: none;
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 600;
   font-size: 16px;
-  transition: background 0.2s ease;
+  color: white;
+  padding: 0.5rem;
+  background: #1d0331;
+  width: 10rem;
+  margin: 1rem;
 }
 
 .nav-btns button:hover {
-  background: #66fcf1;
-  color: #0b0c10;
+  border: 4px solid rgb(255, 255, 255);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+  transition: 0.2s;
 }
 
 /* footer */
@@ -553,4 +595,130 @@ body {
     padding-left: 0;
     margin: 10px 0;
   }
+}
+
+.back-btn-inside {
+  border-radius: 15px;
+  border: 4px solid rgba(82, 33, 208, 0.34);
+  z-index: 3;
+  text-decoration: none;
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 600;
+  color: white;
+  padding: 0.5rem;
+  background: #1d0331;
+  margin-bottom: 1rem;
+}
+.back-btn-inside:hover {
+  border: 4px solid rgb(255, 255, 255);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+  transition: 0.2s;
+}
+
+.top-nav-btns {
+  display: flex;
+  width: 100%;
+  margin-bottom: 1.2rem;
+  gap: 0;
+}
+
+.next-btn-inside {
+  border-radius: 15px;
+  border: 4px solid rgba(82, 33, 208, 0.34);
+  z-index: 3;
+  text-decoration: none;
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 600;
+  color: white;
+  padding: 0.5rem 1.2rem;
+  background: #1d0331;
+  transition: 0.2s;
+}
+
+.next-btn-inside:hover {
+  border: 4px solid rgb(255, 255, 255);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+.back-btn-inside,
+.next-btn-inside {
+  flex: 1 1 0;
+  width: 50%;
+  border-radius: 0;
+  border: 4px solid rgba(82, 33, 208, 0.34);
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 600;
+  color: white;
+  padding: 0.7rem 0;
+  background: #1d0331;
+  transition: 0.2s;
+  margin: 0;
+  box-shadow: none;
+  border-right: none;
+}
+
+.back-btn-inside {
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+}
+
+.next-btn-inside {
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  border-right: 4px solid rgba(82, 33, 208, 0.34);
+}
+
+.back-btn-inside:hover,
+.next-btn-inside:hover {
+  border: 4px solid #fff;
+  z-index: 2;
+  background: #2d0551;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.18);
+  transform: translateY(-2px);
+}
+
+.scratch-block {
+  display: inline-block;
+  padding: 8px 22px;
+  border-radius: 16px;
+  color: #fff;
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 700;
+  font-size: 1.08rem;
+  margin: 6px 8px 6px 0;
+  box-shadow: 0 2px 8px #0002;
+  vertical-align: middle;
+  letter-spacing: 0.5px;
+  border-bottom: 4px solid rgba(0, 0, 0, 0.08);
+}
+.scratch-motion {
+  background: #4c97ff;
+}
+.scratch-looks {
+  background: #9966ff;
+}
+.scratch-sound {
+  background: #d65cd6;
+}
+.scratch-events {
+  background: #ffd500;
+  color: #333;
+}
+.scratch-control {
+  background: #ffab19;
+  color: #333;
+}
+.scratch-sensing {
+  background: #5cb1d6;
+}
+.scratch-operators {
+  background: #59c059;
+}
+.scratch-variables {
+  background: #ff8c1a;
+}
+.scratch-myblocks {
+  background: #ff6680;
 }

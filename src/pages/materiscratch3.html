@@ -3,13 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Materi Pembelajaran</title>
+    <title>Materi Scratch Bab 3</title>
     <link rel="stylesheet" href="../css/materi.css" />
   </head>
   <body>
     <canvas id="starsCanvas"></canvas>
-
-    <!-- Navbar -->
     <nav class="custom-navbar fixed-top">
       <div class="navbar-container">
         <a href="../../index.html" class="logo"
@@ -25,8 +23,6 @@
         </div>
       </div>
     </nav>
-
-    <!-- Side Menu -->
     <div class="side-menu" id="sideMenu">
       <a href="../../index.html"
         ><img src="../img/homeicons.png" class="menu-icon" />Home</a
@@ -41,73 +37,51 @@
         ><img src="../img/profileicons.png" class="menu-icon" />Profile</a
       >
     </div>
-
     <div class="container">
       <!-- Box kiri (materi utama) -->
       <div class="materi-box">
-        <!-- Tombol navigasi atas -->
         <div class="top-nav-btns">
           <button class="back-btn-inside" onclick="window.history.back()">
             &#8592; Back
           </button>
           <button
             class="next-btn-inside"
-            onclick="window.location.href='materiscratch2.html'"
+            onclick="window.location.href='materiscratch4.html'"
           >
             Next Bab &#8594;
           </button>
         </div>
-        <div class="materi-content">
-          <h1 class="Bab">Bab 1</h1>
-          <h2 id="materi-title">Judul Materi</h2>
-          <img id="materi-img" src="" alt="Gambar Materi" />
-          <p id="materi-content">
-            Isi materi yang panjang banget sampe berhalaman-halaman...
-            <br /><br />
-            Baris tambahan...
-            <br /><br />
-            dan seterusnya...
-          </p>
-        </div>
+        <div id="materi-content-container"></div>
         <div class="nav-btns">
-          <button onclick="prevMateri()">⬅ Prev</button>
-          <button onclick="nextMateri()">Next ➡</button>
+          <button id="prevBtn">⬅ Prev</button>
+          <button id="nextBtn">Next ➡</button>
         </div>
       </div>
-
       <!-- Box kanan (materi lainnya) -->
       <div class="sidebar">
         <h2>Materi Lainnya</h2>
-
         <a href="portalmaterihtml.html" class="materi-card">
           <img src="../img/htmlicons.png" alt="HTML" class="icon" />
           <p>HTML</p>
         </a>
-
         <a href="portalmatericss.html" class="materi-card">
           <img src="../img/cssicons.png" alt="CSS" class="icon" />
           <p>CSS</p>
         </a>
-
         <a href="portalmaterijs.html" class="materi-card">
           <img src="../img/jsicons.png" alt="JavaScript" class="icon" />
           <p>JavaScript</p>
         </a>
-
         <a href="portalmateripy.html" class="materi-card">
           <img src="../img/pythonicons.png" alt="Python" class="icon" />
           <p>Python</p>
         </a>
-
         <a href="portalmatericpp.html" class="materi-card">
           <img src="../img/cppicons.png" alt="C++" class="icon" />
           <p>C++</p>
         </a>
       </div>
     </div>
-
-    <!-- footer -->
-
     <footer class="footer">
       <div class="footer-container">
         <!-- Kolom 1: Identitas -->
@@ -116,7 +90,6 @@
           <p>SMK BINA MANDIRI MULTIMEDIA</p>
           <p><em>“Yang Handal Berawal Dari Yang Dasar”</em></p>
         </div>
-
         <!-- Kolom 2: Navigasi -->
         <div class="footer-links">
           <h3>Menu</h3>
@@ -126,7 +99,6 @@
             <li><a href="../../index.html #Games">Games</a></li>
           </ul>
         </div>
-
         <!-- Kolom 3: Kontak -->
         <div class="footer-contact">
           <h3>Kontak</h3>
@@ -142,13 +114,12 @@
           </p>
         </div>
       </div>
-
       <!-- Copyright -->
       <p class="copyright">
         © 2025 Tim E-Learning Dev – SMK BINA MANDIRI MULTIMEDIA.
       </p>
     </footer>
-
-    <script src="../js/materi.js"></script>
+    <script src="../js/materi2.js"></script>
+    <script src="../js/materiscratch3.js"></script>
   </body>
 </html>
