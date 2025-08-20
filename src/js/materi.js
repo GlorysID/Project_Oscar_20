@@ -62,15 +62,24 @@ const materiList = [
   },
   {
     id: 2,
-    title: "Mengenal Tampilan",
-    content: "Stage, sprite, dan blok-blok seru.",
-    img: "img/boticons.png",
+    title: "Kenapa Belajar Scratch?",
+    content:
+      "Scratch cocok di pelajari bagi pemula karena scratch\n- Drag & drop sehingga gampang dipelajari\n- Hasil langsung keliatan di layar\n- Bisa bikin animasi, cerita, dan game\n- Jadi dasar sebelum masuk ke Python, JS, atau C++\n- Mengasah logika dasar",
+    img: "../img/scratchimg.jpg",
   },
   {
     id: 3,
-    title: "Jenis Blok",
-    content: "Motion, looks, sound, event, dan lainnya.",
-    img: "img/blok.png",
+    title: "Antarmuka Scratch",
+    content:
+      "Editor Scratch terbagi jadi 4 bagian:\n1. Stage (panggung hasil program)\n2. Sprite List (karakter/objek)\n3. Block Palette (kumpulan block perintah)\n4. Script Area (tempat nyusun block)",
+    img: "../img/editorscratch.png",
+  },
+  {
+    id: 4,
+    title: "Jenis - Jenis Blok",
+    img: "../img/Jenisblokscratch.png",
+    content:
+      "Block di Scratch punya warna beda sesuai fungsi:\n🔵 Motion (gerakan)\n🟣 Looks (tampilan)\n🟠 Control (kontrol alur program)\n🟡 Events (pemicu peristiwa)\n🔢 Variables (menyimpan data)",
   },
 ];
 
@@ -99,3 +108,59 @@ function prevMateri() {
 
 // load awal
 window.onload = () => loadMateri(currentIndex);
+
+// efek bintang
+const canvas = document.getElementById("starsCanvas");
+const ctx = canvas.getContext("2d");
+
+let stars = [];
+const numStars = 100;
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
+
+function createStars() {
+  stars = [];
+  for (let i = 0; i < numStars; i++) {
+    stars.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      radius: Math.random() * 1.5,
+      speed: Math.random() * 0.2 + 0.05,
+    });
+  }
+}
+
+function drawStars() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "white";
+  stars.forEach((star) => {
+    ctx.beginPath();
+    ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+    ctx.fill();
+  });
+}
+
+function updateStars() {
+  stars.forEach((star) => {
+    star.y += star.speed;
+    if (star.y > canvas.height) {
+      star.y = 0;
+      star.x = Math.random() * canvas.width;
+    }
+  });
+}
+
+function animate() {
+  drawStars();
+  updateStars();
+  requestAnimationFrame(animate);
+}
+
+createStars();
+animate();
