@@ -138,20 +138,20 @@ function renderMateri10() {
   </div>
 `;
 
-  document.getElementById("prevBtn").disabled = idx9 === 0;
+  document.getElementById("prevBtn").disabled = idx10 === 0;
   document.getElementById("nextBtn").disabled =
-    idx9 === materiHTMLBab10.length - 1;
+    idx10 === materiHTMLBab10.length - 1;
 }
 
 document.getElementById("prevBtn").onclick = function () {
-  if (idx9 > 0) {
-    idx9--;
+  if (idx10 > 0) {
+    idx10--;
     renderMateri10();
   }
 };
 document.getElementById("nextBtn").onclick = function () {
-  if (idx9 < materiHTMLBab10.length - 1) {
-    idx9++;
+  if (idx10 < materiHTMLBab10.length - 1) {
+    idx10++;
     renderMateri10();
   }
 };
