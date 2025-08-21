@@ -163,7 +163,7 @@ Browser merender HTML → tampil di layar</code></pre>
         <li>Aku bisa menulis paragraf, heading, gambar, dan tautan.</li>
         <li>Aku merapikan indentasi dan menulis komentar.</li>
       </ul>
-      <p>Kalau semua sudah dicentang, kamu siap lanjut ke Bab 2 (teks, list, gambar lebih dalam) atau mulai kenalan ringan dengan CSS. 🚀</p>
+      <p>Kalau semua sudah dicentang, kamu siap lanjut ke Bab 2. 🚀</p>
     `,
   },
 ];
