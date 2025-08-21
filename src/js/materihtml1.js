@@ -1,8 +1,3 @@
-// Materi HTML — Bab 1: Pendahuluan
-// Format mengikuti struktur materiBab6 milikmu (title, subtitle, html)
-// Cukup ganti sumber data di renderer-mu dari `materiBab6` menjadi `materiHTMLBab1`
-// lalu panggil render seperti biasa.
-
 const materiHTMLBab1 = [
   {
     title: "Bab 1",
