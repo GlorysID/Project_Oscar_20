@@ -282,26 +282,29 @@
 /* Tambahkan di main.css atau di <style> tag index.html */
 .profile-title {
   width: 100%;
-  margin-top: 50px;
+  margin-top: 90px;
   text-align: center;
-  font-size:80px;
-  font-family:  'Poppins', sans-serif ;
+  font-size:100px;
+  font-family: 'Baloo 2', cursive !important;
+
   z-index: 2;
   
 }
 .my {
     color: #ffffff ;
   background-clip: text;
-  font-weight: 700;
+  font-weight: bold;
   letter-spacing: 2px;
+
   text-shadow: 0 0 10px #ffffff;
 }
 .profile{
     color:  #ff38d6;
   background-clip: text;
-  font-weight: 700;
+  font-weight: bold;
   letter-spacing: 2px;
   text-shadow: 0 0 10px #ff38d6;
+
 }
 
 

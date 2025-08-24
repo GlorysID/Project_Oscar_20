@@ -6,12 +6,14 @@ body {
   padding: 0;
   background: #02030a; /* warna background utama */
   color: #fff;
+   font-family: 'Baloo 2', cursive;
 }
 
 html::-webkit-scrollbar,
 body::-webkit-scrollbar {
   display: none;
 }
+
 
 /* ===== STARFIELD BACKGROUND ===== */
 #starfield {
@@ -258,8 +260,8 @@ body::-webkit-scrollbar {
   width: 100%;
   margin-top: 50px;
   text-align: center;
-  font-size: 80px;
-  font-family: "Poppins", sans-serif;
+  font-size: 100px;
+ 
   z-index: 2;
   padding-top: 1rem;
 }
@@ -267,7 +269,7 @@ body::-webkit-scrollbar {
 .banner h1 .kiddos {
   color: #ffffff;
   background-clip: text;
-  font-weight: 700;
+ font-weight: bold;
   letter-spacing: 2px;
   text-shadow: 0 0 10px #ffffff;
 }
@@ -275,7 +277,7 @@ body::-webkit-scrollbar {
 .banner h1 .ai {
   color: #ff38d6;
   background-clip: text;
-  font-weight: 700;
+
   letter-spacing: 2px;
   text-shadow: 0 0 10px #ff38d6;
 }
@@ -582,8 +584,7 @@ body::-webkit-scrollbar {
   display: block;
   overflow-x: auto;
   margin: 6px 0 0;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-    "Liberation Mono", monospace;
+   font-family: 'Baloo 2', cursive;
   font-size: 0.88rem;
 }
 
@@ -836,8 +837,7 @@ body::-webkit-scrollbar {
   color: #0f0;
   padding: 12px;
   border-radius: 12px;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-    "Liberation Mono", monospace;
+   font-family: 'Baloo 2', cursive;
   font-size: 0.9rem;
   line-height: 1.4;
   border: 1px solid rgba(255, 255, 255, 0.12);
