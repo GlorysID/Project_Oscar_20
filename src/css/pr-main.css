@@ -50,6 +50,7 @@
 @import url(navsidebar.css);
 @import url(profile.css);
 @import url(xp.css);
+
 /* Responsive untuk <= 700px */
 @media (max-width: 700px) {
   .bgdesain, #app {
@@ -180,6 +181,5 @@
     box-sizing: border-box;
   }
 }
-
 
 
