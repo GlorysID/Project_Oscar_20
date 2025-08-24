@@ -1,0 +1,147 @@
+/* ...existing code... */
+
+/* Achievements Container */
+.achievements-container {
+  min-height: 0;
+  max-height: 300px;
+  height: auto;
+  padding: 10px 18px 10px 18px; /* lebih rapat */
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--rt-border);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+  display: flex;
+  padding-bottom: 5px;
+  flex-direction: column;
+  justify-content: flex-end;
+  box-sizing: border-box;
+  gap: 10px; /* hilangkan gap flex antar child */
+  margin-bottom: 20px;
+ 
+}
+
+
+.achievements-header {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 1.3em;
+  color: #fff;
+  margin-bottom: 6px; /* lebih rapat */
+}
+.achievements-list {
+  display: flex;
+  gap: 8px; /* badge lebih rapat */
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Modal Styles */
+.achievements-modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0; top: 0;
+  width: 100vw; height: 100vh;
+  background:  rgba(20, 16, 40, 0.85);
+  align-items: center;
+  justify-content: center;
+
+}
+.achievements-modal.active {
+  display: flex;
+}
+.modal-content {
+  background: #18122b;
+  border-radius: 24px;
+  padding: 32px 40px;
+  box-shadow: 0 0 32px #8b5cf6;
+  position: relative;
+  max-width: 50vw;
+  min-width: 30vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.modal-close {
+  position: absolute;
+  top: 18px;
+  right: 24px;
+  font-size: 2em;
+  color: #8b5cf6;
+  cursor: pointer;
+}
+.modal-images {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+  justify-content: center;
+}
+.modal-images img {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+
+  padding: 8px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .achievements-container {
+    min-height: 0;
+    max-height: 200px;
+    height: auto;
+    padding: 18px 6vw;
+  }
+  .modal-content {
+    min-width: 90vw;
+    padding: 24px 8vw;
+  }
+}
+/* ...existing code... */
+
+
+/* ...existing code... */
+
+/* Tooltip bubble */
+.badge-tooltip {
+  visibility: hidden;
+  opacity: 0;
+
+  color: #ffffff;
+  text-align: center;
+  border-radius: 8px;
+  padding: 6px 14px;
+  position: absolute;
+  z-index: 10;
+  bottom: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.95em;
+  white-space: nowrap;
+
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+.badge:hover .badge-tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Badge relative for tooltip */
+.badge {
+  position: relative;
+}
+
+/* Garis bawah sejajar profile */
+
+
+/* Responsive fix */
+@media (max-width: 900px) {
+  .achievements-container {
+    min-height: 0;
+    height: auto;
+  }
+}
+/* ...existing code... */

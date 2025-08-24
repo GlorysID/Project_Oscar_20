@@ -1,0 +1,99 @@
+/* ...existing code... */
+
+/* Achievements Container */
+.achievements-container {
+  width: 100%;
+  max-width: 370px;
+  min-width: 320px;
+  height: 200px; /* Samakan dengan avatar */
+  background: linear-gradient(135deg, #18122b 0%, #312e81 100%);
+  border-radius: 32px;
+  box-shadow: 0 0 40px 0 rgba(140, 80, 255, 0.18), 0 0 0 8px rgba(140,80,255,0.08);
+  padding: 32px 24px;
+  margin: 10px auto 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  cursor: pointer;
+  position: relative;
+  z-index: 4;
+}
+.achievements-header {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 1.3em;
+  color: #fff;
+  margin-bottom: 18px;
+}
+.achievements-list {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Modal Styles */
+.achievements-modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0; top: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(20, 16, 40, 0.85);
+  align-items: center;
+  justify-content: center;
+
+}
+.achievements-modal.active {
+  display: flex;
+}
+.modal-content {
+  background: #18122b;
+  border-radius: 24px;
+  padding: 32px 40px;
+  box-shadow: 0 0 32px #8b5cf6;
+  position: relative;
+  min-width: 320px;
+  max-width: 90vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.modal-close {
+  position: absolute;
+  top: 18px;
+  right: 24px;
+  font-size: 2em;
+  color: #8b5cf6;
+  cursor: pointer;
+}
+.modal-images {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+  justify-content: center;
+}
+.modal-images img {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  box-shadow: 0 0 12px #38bdf8;
+  background: #312e81;
+  padding: 8px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .achievements-container {
+    max-width: 98vw;
+    width: 100%;
+    height: 320px;
+  }
+  .modal-content {
+    min-width: 90vw;
+    padding: 24px 8vw;
+  }
+}
+/* ...existing code... */

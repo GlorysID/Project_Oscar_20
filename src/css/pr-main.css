@@ -1,0 +1,55 @@
+
+/* ===== APP CONTAINER ===== */
+#app {
+  z-index: 1;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  box-sizing: border-box;
+}
+
+
+
+/* ===== STARFIELD BACKGROUND ===== */
+#starfield {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  display: block;
+  background: linear-gradient(
+    to bottom,
+    rgba(29, 3, 49, 0) 0%,
+    rgba(29, 3, 49, 1) 100%
+  );
+  pointer-events: none;
+}
+
+.bgdesain{
+  position: relative;
+  width: 100vw;
+  min-width: 100vw;
+  max-width: 100vw;
+  margin: 0;
+  left: 0;
+  transform: none;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column; /* <--- pastikan column */
+  align-items: center; /* <--- center horizontal */
+  justify-content: center; /* <--- center vertical */
+  z-index: 2;
+  box-sizing: border-box;
+
+}
+
+@import url(achievment.css);
+@import url(navsidebar.css);
+@import url(profile.css);
+@import url(xp.css);
+
+
