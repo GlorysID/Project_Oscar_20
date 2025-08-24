@@ -229,15 +229,3 @@
   50% { filter: blur(8px) brightness(2); }
   100% { filter: blur(2px) brightness(1.2); }
 }
-
-/* Responsive: Stack role & img on small screens */
-@media (max-width: 600px) {
-  .xp-role-row {
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-  }
-  .xp-img-col {
-    justify-content: center;
-  }
-}
