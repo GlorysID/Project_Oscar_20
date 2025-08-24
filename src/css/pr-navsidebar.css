@@ -9,6 +9,8 @@
   z-index: 1001;
   transition: background 0.3s ease;
 }
+
+
 .custom-navbar.scrolled {
   background: rgba(0, 0, 0, 0.75);
 }
