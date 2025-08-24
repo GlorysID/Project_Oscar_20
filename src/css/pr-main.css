@@ -47,9 +47,136 @@
 
 }
 
-@import url(achievment.css);
-@import url(navsidebar.css);
-@import url(profile.css);
-@import url(xp.css);
+/* Responsive untuk <= 700px */
+@media (max-width: 700px) {
+  .bgdesain, #app {
+    height: auto !important;
+    min-height: 100vh;
+
+    overflow-y: auto !important;
+    box-sizing: border-box;
+  }
+  .profile-wrapper {
+    max-height: none;
+    overflow-y: auto;
+    box-sizing: border-box;
+  }
+  .profile-wrapper {
+    flex-direction: column;
+    gap: 18px;
+    max-width: 100%;
+    width: 100%;
+    padding: 16px 8px;
+    max-width: 90%;
+    align-items: stretch;
+    box-sizing: border-box;
+  }
+  .profile-left-col,
+  .profile-edit-panel {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  .profile-avatar {
+    width: 100%;
+    max-width: 220px;
+    min-width: 0;
+    margin: 0 auto 12px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+  .avatar-img {
+    width: 150px !important;
+    height: 150px !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    max-width: 130px !important;
+    max-height: 130px !important;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto;
+    display: block;
+    box-shadow: 0 0 18px #8b5cf6;
+  }
+  .achievements-container,
+  .xp-rank-container {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    margin-left: 0;
+    margin-right: 0;
+    border-radius: 10px;
+    padding: 10px 6px;
+  }
+  .profile-form {
+    padding: 16px 6px;
+    min-height: 320px;
+    box-sizing: border-box;
+  }
+}
+
+/* Responsive untuk <= 500px (mobile) */
+@media (max-width: 500px) {
+  .profile-wrapper {
+    flex-direction: column;
+    gap: 12px;
+    max-width: 100%;
+    width: 100%;
+    padding: 8px 2vw;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+    box-sizing: border-box;
+  }
+  .profile-left-col,
+  .profile-edit-panel {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  .profile-avatar {
+    margin: 0 auto 8px auto;
+  }
+  .avatar-img {
+    min-width: 80px !important;
+    min-height: 80px !important;
+    max-width: 100px !important;
+    max-height: 100px !important;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto;
+    display: block;
+  }
+  .achievements-container,
+  .xp-rank-container {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    margin-left: 0;
+    margin-right: 0;
+    border-radius: 10px;
+    padding: 8px 2px;
+    margin-bottom: 8px;
+  }
+  .profile-title {
+    font-size: 1.5em;
+    margin-top: 12px;
+  }
+  .profile-form {
+    padding: 8px 2px;
+    min-height: 260px;
+    border-radius: 10px;
+    box-sizing: border-box;
+  }
+}
+
 
 
