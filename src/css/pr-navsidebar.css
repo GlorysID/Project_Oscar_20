@@ -1,15 +1,14 @@
 /* ===== NAVBAR STYLES ===== */
+/* === NAVBAR === */
 .custom-navbar {
   width: 100%;
-  background: rgba(39, 34, 34, 0.35);
+  background: rgba(6, 5, 5, 0.35);
   opacity: 70%;
   backdrop-filter: blur(8px);
   border-bottom: 1px solid rgba(47, 32, 72, 0.1);
   padding: 12px 25px;
-  z-index: 1001;
   transition: background 0.3s ease;
 }
-
 
 .custom-navbar.scrolled {
   background: rgba(0, 0, 0, 0.75);
@@ -17,13 +16,27 @@
 
 .navbar-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* Logo kiri, icon kanan */
   align-items: center;
+  width: 100%;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* jarak antara chatbot & hamburger */
 }
 
 .logo img {
-  height: 45px;
+  height: 50px;
   filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.5));
+}
+
+/* Chatbot icon */
+.chatbot img {
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
 }
 
 /* ===== HAMBURGER MENU ===== */
