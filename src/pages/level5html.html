@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Level 2 – Gamifikasi HTML: Form & Tabel</title>
+    <title>Level 5 – Gamifikasi HTML: Semantic HTML</title>
     <link rel="stylesheet" href="../css/level1html.css" />
   </head>
   <body>
@@ -46,10 +46,10 @@
     <div class="page-wrapper">
       <div class="shell">
         <header>
-          <h1>Level 2 — Form & Tabel HTML</h1>
+          <h1>Level 5 — Semantic HTML</h1>
           <div class="sub">
             Drag & drop potongan tag ke slot kosong. Selesaikan seluruh level
-            untuk dapet badge <b>HTML GG</b>.
+            untuk dapet badge <b>HTML Navigator</b>.
           </div>
           <div class="progress"><div id="bar" class="bar"></div></div>
           <button id="resetBtn" class="reset-btn">Reset Progress</button>
@@ -103,7 +103,7 @@
             <div class="icon">🏅</div>
             <div>
               <div style="font-weight: 800">Badge!</div>
-              <div>HTML GG — Selesaikan semua level HTML.</div>
+              <div>HTML Navigator — Selesaikan semua level HTML Link.</div>
             </div>
           </div>
         </aside>
@@ -114,77 +114,80 @@
     <div id="nextLevelPopup" class="popup-overlay" style="display: none">
       <div class="popup-card">
         <h2>🎉 Level Selesai!</h2>
-        <p>Keren banget, kamu udah nyelesaiin semua soal di level ini.</p>
-        <button id="nextBtn">➡️ Lanjut ke Level Berikutnya</button>
+        <p>Keren banget, kamu udah nyelesaiin semua level di materi HTML.</p>
+        <button id="nextBtn">➡️ Kembali ke Games</button>
       </div>
     </div>
 
     <script>
-      // ======= DATA SOAL LEVEL 2 (versi fix) =======
+      // ======= DATA SOAL LEVEL 5 =======
       const QUIZ = [
         {
-          instruksi: "Buat baris tabel dengan data dua kolom.",
-          preview: `&lt;table&gt; &lt;tr&gt; &lt;?&gt; Nama &lt;?&gt; &lt;?&gt; Umur &lt;?&gt;`,
-          slots: ["<td>", "</td>", "<td>", "</td>"],
-          bank: ["<td>", "</td>", "<td>", "</td>", "<th>", "</th>"],
+          instruksi: "Gunakan tag untuk navigasi menu.",
+          preview: "&lt;?&gt;Menu Website&lt;?&gt;",
+          slots: ["<nav>", "</nav>"],
+          bank: ["<nav>", "</nav>", "<div>", "</div>"],
         },
         {
-          instruksi: "Kasih header tabel untuk judul kolom.",
-          preview: `&lt;tr&gt; &lt;?&gt; Nama &lt;?&gt; &lt;?&gt; Umur &lt;?&gt;`,
-          slots: ["<th>", "</th>", "<th>", "</th>"],
-          bank: ["<th>", "</th>", "<td>", "</td>"],
+          instruksi: "Buat header untuk judul halaman.",
+          preview: "&lt;?&gt;Judul Utama&lt;?&gt;",
+          slots: ["<header>", "</header>"],
+          bank: ["<header>", "</header>", "<h1>", "</h1>"],
         },
         {
-          instruksi: "Bikin input teks dalam form.",
-          preview: `&lt;form&gt; &lt;? type="text" name="user" ?&gt; &lt;/form&gt;`,
-          slots: ["<input", ">"],
-          bank: ["<input", ">", "<button>", "<textarea>"],
+          instruksi: "Pilih tag yang tepat untuk isi artikel.",
+          preview: "&lt;?&gt;Isi Artikel&lt;?&gt;",
+          slots: ["<article>", "</article>"],
+          bank: ["<article>", "</article>", "<section>", "</section>"],
         },
         {
-          instruksi: "Buat tombol submit di form.",
-          preview: `&lt;form&gt; &lt;?&gt;Kirim&lt;?&gt; &lt;/form&gt;`,
-          slots: ["<button type='submit'>", "</button>"],
-          bank: ["<button type='submit'>", "</button>"],
+          instruksi: "Gunakan section untuk kelompok konten.",
+          preview: "&lt;?&gt;Tentang Kami&lt;?&gt;",
+          slots: ["<section>", "</section>"],
+          bank: ["<section>", "</section>", "<div>", "</div>"],
         },
         {
-          instruksi: "Bungkus item daftar terurut.",
-          preview: `&lt;ol&gt; &lt;?&gt; Item 1 &lt;?&gt; &lt;?&gt; Item 2 &lt;?&gt; &lt;/ol&gt;`,
-          slots: ["<li>", "</li>", "<li>", "</li>"],
-          bank: ["<li>", "</li>", "<ul>", "</ul>"],
+          instruksi: "Sidebar biasanya ditulis pakai tag apa?",
+          preview: "&lt;?&gt;Link Tambahan&lt;?&gt;",
+          slots: ["<aside>", "</aside>"],
+          bank: ["<aside>", "</aside>", "<footer>", "</footer>"],
         },
         {
-          instruksi: "Tambahkan caption pada tabel.",
-          preview: `&lt;table&gt; &lt;?&gt; Daftar Siswa &lt;?&gt; &lt;/table&gt;`,
-          slots: ["<caption>", "</caption>"],
-          bank: ["<caption>", "</caption>", "<thead>", "</thead>"],
+          instruksi: "Tambahkan bagian bawah halaman (footer).",
+          preview: "&lt;?&gt;Hak Cipta 2025&lt;?&gt;",
+          slots: ["<footer>", "</footer>"],
+          bank: ["<footer>", "</footer>", "<div>", "</div>"],
         },
         {
-          instruksi: "Buat area teks multi-line di form.",
-          preview: `&lt;form&gt; &lt;?&gt;Tulis di sini&lt;?&gt; &lt;/form&gt;`,
-          slots: ["<textarea>", "</textarea>"],
-          bank: ["<textarea>", "</textarea>", "<input>", "</input>"],
+          instruksi: "Kenapa lebih baik pakai semantic tag?",
+          preview: "?",
+          slots: ["Lebih jelas & mudah dibaca"],
+          bank: [
+            "Lebih jelas & mudah dibaca",
+            "Biar keren aja",
+            "Karena singkat",
+          ],
         },
         {
-          instruksi: "Tambahkan select dropdown dengan opsi.",
-          preview: `&lt;form&gt; &lt;?&gt; &lt;option&gt;A&lt;/option&gt; &lt;option&gt;B&lt;/option&gt; &lt;?&gt; &lt;/form&gt;`,
-          slots: ["<select>", "</select>"],
-          bank: ["<select>", "</select>", "<option>", "</option>"],
+          instruksi: "Pilih struktur halaman paling benar.",
+          preview:
+            "&lt;header&gt;...&lt;/header&gt; &lt;nav&gt;...&lt;/nav&gt; &lt;main&gt;...&lt;/main&gt; &lt;footer&gt;...&lt;/footer&gt;",
+          slots: ["header", "nav", "main", "footer"],
+          bank: ["header", "nav", "main", "footer", "div", "span"],
         },
       ];
 
-      // ======= STATE =======
+      // ======= SCRIPT SAMA KAYAK LEVEL 3 =======
       let idx = 0;
       let answers = Array(QUIZ.length).fill(null);
       let done = Array(QUIZ.length).fill(false);
-      const LS_KEY = "course:HTML:level2:progress";
+      const LS_KEY = "course:HTML:level4:progress";
 
-      // restore progress
       const saved = JSON.parse(localStorage.getItem(LS_KEY) || "{}");
       if (saved.idx !== undefined) idx = saved.idx;
       if (saved.answers) answers = saved.answers;
       if (saved.done) done = saved.done;
 
-      // ======= RENDER =======
       const bar = document.getElementById("bar");
       const qTitle = document.getElementById("qTitle");
       const preview = document.getElementById("preview");
@@ -197,18 +200,15 @@
       function render() {
         const q = QUIZ[idx];
         document.getElementById("instruksiBox").textContent = q.instruksi || "";
-
         qTitle.textContent = `Tantangan ${idx + 1}/${QUIZ.length}`;
         preview.innerHTML = q.preview.replaceAll(
           "&lt;?&gt;",
           "<span style='color:#22c55e'>[slot]</span>"
         );
 
-        // progress bar
         const doneCount = done.filter(Boolean).length;
         bar.style.width = ((doneCount / QUIZ.length) * 100).toFixed(1) + "%";
 
-        // pills
         pillWrap.innerHTML = "";
         for (let i = 0; i < QUIZ.length; i++) {
           const d = document.createElement("div");
@@ -223,7 +223,6 @@
           pillWrap.appendChild(d);
         }
 
-        // slots
         slotsWrap.innerHTML = "";
         const currentAns = answers[idx] || Array(q.slots.length).fill(null);
         for (let i = 0; i < q.slots.length; i++) {
@@ -239,19 +238,15 @@
           slotsWrap.appendChild(s);
         }
 
-        // bank
         bankWrap.innerHTML = "";
         let bankTokens = buildBankTokens(q, currentAns);
-
-        // RANDOMIZE urutan bank
         bankTokens = [...bankTokens];
         for (let i = bankTokens.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
           [bankTokens[i], bankTokens[j]] = [bankTokens[j], bankTokens[i]];
         }
-
         bankTokens.forEach((tok, i) => {
-          const uniqueKey = tok + "::" + i; // kasih ID unik
+          const uniqueKey = tok + "::" + i;
           const c = document.createElement("div");
           c.className = "chip";
           c.draggable = true;
@@ -267,66 +262,54 @@
           bankWrap.appendChild(c);
         });
 
-        // feedback
         feedback.className = "msg hidden";
         feedback.textContent = "";
         badgeBox.classList.toggle("hidden", !(doneCount === QUIZ.length));
       }
 
       function placeToken(slotIndex, tokenKey) {
-        const [value] = tokenKey.split("::"); // ambil value murni
+        const [value] = tokenKey.split("::");
         const q = QUIZ[idx];
         let cur = answers[idx] || Array(q.slots.length).fill(null);
-
-        cur[slotIndex] = value; // simpan hanya value murni
+        cur[slotIndex] = value;
         answers[idx] = cur;
         save();
         render();
       }
 
       function buildBankTokens(q, currentAns) {
-        // Hitung berapa kali tiap token muncul di slots
         const neededCounts = {};
         q.slots.forEach((tok) => {
           neededCounts[tok] = (neededCounts[tok] || 0) + 1;
         });
-
-        // Hitung berapa kali token sudah dipakai
         const usedCounts = {};
         currentAns.forEach((tok) => {
           if (tok) {
             usedCounts[tok] = (usedCounts[tok] || 0) + 1;
           }
         });
-
-        // Bikin ulang daftar bank
         const result = [];
         q.bank.forEach((tok) => {
           const used = usedCounts[tok] || 0;
           const needed = neededCounts[tok] || 0;
-
-          // kalau masih ada sisa token yang boleh dipakai → tampilkan
           if (used < needed) {
             result.push(tok);
-            usedCounts[tok] = used + 1; // update sementara
+            usedCounts[tok] = used + 1;
           } else {
-            result.push(tok); // tampilkan semua token di bank (opsional)
+            result.push(tok);
           }
         });
-
         return result;
       }
 
       function checkCurrent() {
         const q = QUIZ[idx];
         const cur = answers[idx] || Array(q.slots.length).fill(null);
-        // semua harus terisi
         if (cur.some((v) => !v)) {
-          showMsg("Isi semua slot dulu ya 🔎", false, (soft = true));
+          showMsg("Isi semua slot dulu ya 🔎", false, true);
           blinkEmpty();
           return;
         }
-        // tandai benar/salah di slot
         const slots = [...document.querySelectorAll(".slot")];
         let allCorrect = true;
         for (let i = 0; i < q.slots.length; i++) {
@@ -343,20 +326,17 @@
           done[idx] = true;
           showMsg("Mantap! Jawaban tepat ✅", true);
           save();
-          // lanjut otomatis setelah sedikit jeda
           setTimeout(() => {
             if (idx < QUIZ.length - 1) {
               idx++;
               save();
               render();
             } else {
-              render(); // <-- ini biar bar & pill update full
+              render();
               onFinishLevel();
             }
           }, 700);
-        } else {
-          showMsg("Masih ada yang melenceng. Coba perbaiki ya ❌", false);
-        }
+        } else showMsg("Masih ada yang melenceng ❌", false);
       }
 
       function blinkEmpty() {
@@ -385,14 +365,10 @@
       }
 
       function onFinishLevel() {
-        // munculin popup
         document.getElementById("nextLevelPopup").style.display = "flex";
-
-        // tombol next
         document.getElementById("nextBtn").onclick = () => {
           document.getElementById("nextLevelPopup").style.display = "none";
-          // TODO: arahkan ke level berikutnya (misal redirect)
-          window.location.href = "level3html.html";
+          window.location.href = "../../index.html #Games";
         };
       }
 
@@ -414,11 +390,8 @@
         }
       });
 
-      // ======= EVENTS =======
       document.getElementById("btnCheck").onclick = checkCurrent;
       document.getElementById("btnReset").onclick = resetCurrent;
-
-      // first render
       render();
 
       // Animasi Bintang di Banner
@@ -491,21 +464,16 @@
         sideMenu.classList.remove("active");
         hamburger.classList.remove("open");
 
-        // reset animasi biar pas buka lagi fresh
         sideMenu.querySelectorAll("a").forEach((link) => {
           link.style.animation = "none";
           setTimeout(() => (link.style.animation = ""), 10);
         });
       }
 
-      // Toggle menu on click
       hamburger.addEventListener("click", () => {
         const isOpen = sideMenu.classList.toggle("active");
         hamburger.classList.toggle("open");
-
-        if (!isOpen) {
-          closeMenu();
-        }
+        if (!isOpen) closeMenu();
       });
 
       // Auto-close kalau kursor keluar area menu
