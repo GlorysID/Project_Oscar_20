@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Helper: Tambah tooltip ke badge
   function addTooltip(badge) {
-    if (!badge.querySelector('.badge-tooltip')) {
+    if (!badge.querySelector(".badge-tooltip")) {
       const img = badge.querySelector("img");
       const tooltip = document.createElement("span");
       tooltip.className = "badge-tooltip";
@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function renderPreview() {
     achievementsPreview.innerHTML = "";
     let shown = allBadges.slice(0, MAX_BADGES);
-    shown.forEach(badge => {
+    shown.forEach((badge) => {
       addTooltip(badge);
       achievementsPreview.appendChild(badge);
     });
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Render semua badge ke modal
   function renderModal() {
     modalImages.innerHTML = "";
-    allBadges.forEach(badge => {
+    allBadges.forEach((badge) => {
       // Clone node supaya event & tooltip tetap
       const clone = badge.cloneNode(true);
       addTooltip(clone);
@@ -86,10 +86,11 @@ document.addEventListener("DOMContentLoaded", function () {
   `;
 
   function updateXPBar() {
-    const percent = Math.min(xp, XP_LIMIT) / XP_LIMIT * 100;
+    const percent = (Math.min(xp, XP_LIMIT) / XP_LIMIT) * 100;
     xpBar.style.width = percent + "%";
     xpValue.textContent = xp;
-    if (xp > 8000) { // Api biru hanya jika XP > 8000
+    if (xp > 8000) {
+      // Api biru hanya jika XP > 8000
       xpBar.classList.add("over");
       xpFire.classList.add("active");
       xpBarBg.classList.add("fire-active");
@@ -122,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
           </svg>
         </div>
       `;
-      const fireMain = xpFire.querySelector('.fire-main');
+      const fireMain = xpFire.querySelector(".fire-main");
       fireMain.style.animation = "fireWave 1.2s infinite alternate";
     } else {
       xpBar.classList.remove("over");
@@ -146,12 +147,12 @@ document.addEventListener("DOMContentLoaded", function () {
   updateXPBar();
 });
 
-
-
 // modal
 // achievment
 document.addEventListener("DOMContentLoaded", function () {
-  const achievementsContainer = document.getElementById("achievementsContainer");
+  const achievementsContainer = document.getElementById(
+    "achievementsContainer"
+  );
   const achievementsModal = document.getElementById("achievementsModal");
   const modalClose = document.getElementById("modalClose");
 
@@ -171,61 +172,72 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-  // XP Role Logic
-  const xpValue = document.getElementById("xpValue");
-  const xpRole = document.getElementById("xpRole");
-  const xpUp = document.getElementById("xpUp");
-  const xpDown = document.getElementById("xpDown");
-  const xpBar = document.getElementById("xpBar");
-  const xpRankImg = document.getElementById("xpRankImg"); // Tambahkan ini
-  let xp = 0;
-  const XP_MAX = 10000;
+// XP Role Logic
+const xpValue = document.getElementById("xpValue");
+const xpRole = document.getElementById("xpRole");
+const xpUp = document.getElementById("xpUp");
+const xpDown = document.getElementById("xpDown");
+const xpBar = document.getElementById("xpBar");
+const xpRankImg = document.getElementById("xpRankImg"); // Tambahkan ini
+let xp = 0;
+const XP_MAX = 10000;
 
-  function getRole(xp) {
-    if (xp <= 999) return "Rookie";
-    if (xp <= 1999) return "Apprentice";
-    if (xp <= 2999) return "Adventurer";
-    if (xp <= 3999) return "Challenger";
-    if (xp <= 4999) return "Warrior";
-    if (xp <= 5999) return "Elite";
-    if (xp <= 6999) return "Hero";
-    if (xp <= 7999) return "Master";
-    if (xp <= 8999) return "Grandmaster";
-    return "Legend";
+function getRole(xp) {
+  if (xp <= 999) return "Rookie";
+  if (xp <= 1999) return "Apprentice";
+  if (xp <= 2999) return "Adventurer";
+  if (xp <= 3999) return "Challenger";
+  if (xp <= 4999) return "Warrior";
+  if (xp <= 5999) return "Elite";
+  if (xp <= 6999) return "Hero";
+  if (xp <= 7999) return "Master";
+  if (xp <= 8999) return "Grandmaster";
+  return "Legend";
+}
+
+// Mapping role ke gambar
+function getRankImg(role) {
+  switch (role) {
+    case "Rookie":
+      return "../img/rank_rookie.png";
+    case "Apprentice":
+      return "../img/rank_apprentice.png";
+    case "Adventurer":
+      return "../img/rank_adventurer.png";
+    case "Challenger":
+      return "../img/rank_challenger.png";
+    case "Warrior":
+      return "../img/rank_warrior.png";
+    case "Elite":
+      return "../img/rank_elite.png";
+    case "Hero":
+      return "../img/rank_hero.png";
+    case "Master":
+      return "../img/rank_master.png";
+    case "Grandmaster":
+      return "../img/rank_grandmaster.png";
+    case "Legend":
+      return "../img/rank_legend.png";
+    default:
+      return "../mg/rank_rookie.png";
   }
+}
 
-  // Mapping role ke gambar
-  function getRankImg(role) {
-    switch (role) {
-      case "Rookie": return "/src/img/rank_rookie.png";
-      case "Apprentice": return "/src/img/rank_apprentice.png";
-      case "Adventurer": return "/src/img/rank_adventurer.png";
-      case "Challenger": return "/src/img/rank_challenger.png";
-      case "Warrior": return "/src/img/rank_warrior.png";
-      case "Elite": return "/src/img/rank_elite.png";
-      case "Hero": return "/src/img/rank_hero.png";
-      case "Master": return "/src/img/rank_master.png";
-      case "Grandmaster": return "/src/img/rank_grandmaster.png";
-      case "Legend": return "/src/img/rank_legend.png";
-      default: return "/src/mg/rank_rookie.png";
-    }
-  }
+function updateXPUI() {
+  xpValue.textContent = xp;
+  const role = getRole(xp);
+  xpRole.textContent = role;
+  xpBar.style.width = (xp / XP_MAX) * 100 + "%";
+  if (xpRankImg) xpRankImg.src = getRankImg(role); // Update gambar
+}
 
-  function updateXPUI() {
-    xpValue.textContent = xp;
-    const role = getRole(xp);
-    xpRole.textContent = role;
-    xpBar.style.width = (xp / XP_MAX * 100) + "%";
-    if (xpRankImg) xpRankImg.src = getRankImg(role); // Update gambar
-  }
-
-  xpUp.addEventListener("click", function () {
-    xp = Math.min(XP_MAX, xp + 100);
-    updateXPUI();
-  });
-  xpDown.addEventListener("click", function () {
-    xp = Math.max(0, xp - 100);
-    updateXPUI();
-  });
-
+xpUp.addEventListener("click", function () {
+  xp = Math.min(XP_MAX, xp + 100);
   updateXPUI();
+});
+xpDown.addEventListener("click", function () {
+  xp = Math.max(0, xp - 100);
+  updateXPUI();
+});
+
+updateXPUI();

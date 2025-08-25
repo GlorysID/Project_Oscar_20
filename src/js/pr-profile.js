@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const avatarCropCancel = document.getElementById("avatarCropCancel");
   const avatarCropApply = document.getElementById("avatarCropApply");
   const avatarZoom = document.getElementById("avatarZoom");
-  const defaultAvatar = "/src/img/profileicon.png";
+  const defaultAvatar = "../img/profileicon.png";
 
   // Nama & Username di kiri
   const avatarName = document.getElementById("avatarName");
@@ -46,7 +46,10 @@ document.addEventListener("DOMContentLoaded", function () {
   avatarInput.addEventListener("change", function () {
     const file = this.files[0];
     if (!file) return;
-    if (!["image/png", "image/jpeg", "image/webp"].includes(file.type) || file.size > 1024 * 1024) {
+    if (
+      !["image/png", "image/jpeg", "image/webp"].includes(file.type) ||
+      file.size > 1024 * 1024
+    ) {
       alert("Format harus JPG/PNG/WebP dan ukuran ≤ 1 MB.");
       return;
     }
@@ -83,13 +86,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const dy = e.clientY - dragStart.y;
     cropOffset = {
       x: imgOffsetStart.x + dx,
-      y: imgOffsetStart.y + dy
+      y: imgOffsetStart.y + dy,
     };
     renderCropPreview();
   });
   window.addEventListener("mouseup", function () {
     isDragging = false;
-    avatarCropPreview.style.cursor = "grab";  
+    avatarCropPreview.style.cursor = "grab";
   });
 
   // Touch support
@@ -107,7 +110,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const dy = touch.clientY - dragStart.y;
     cropOffset = {
       x: imgOffsetStart.x + dx,
-      y: imgOffsetStart.y + dy
+      y: imgOffsetStart.y + dy,
     };
     renderCropPreview();
   });
@@ -221,7 +224,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // === Avatar Edit Click Handler ===
-  [avatarImg, avatarEditIcon, avatarEditHover].forEach(el => {
+  [avatarImg, avatarEditIcon, avatarEditHover].forEach((el) => {
     el.addEventListener("click", function (e) {
       e.preventDefault();
       e.stopImmediatePropagation();
@@ -232,7 +235,9 @@ document.addEventListener("DOMContentLoaded", function () {
   // === Nama & Username Update Logic ===
   function updateAvatarInfo() {
     avatarName.textContent = nameInput.value.trim() || "Nama";
-    avatarUsername.textContent = usernameInput.value.trim() ? "@" + usernameInput.value.trim() : "@username";
+    avatarUsername.textContent = usernameInput.value.trim()
+      ? "@" + usernameInput.value.trim()
+      : "@username";
   }
   nameInput.addEventListener("input", updateAvatarInfo);
   usernameInput.addEventListener("input", updateAvatarInfo);
@@ -247,25 +252,27 @@ document.addEventListener("DOMContentLoaded", function () {
   cancelEditProfile.addEventListener("click", function () {
     profileEditPanel.classList.remove("active");
   });
-  document.getElementById("editProfileForm").addEventListener("submit", function (e) {
-    e.preventDefault();
-    updateAvatarInfo();
-    profileEditPanel.classList.remove("active");
-  });
+  document
+    .getElementById("editProfileForm")
+    .addEventListener("submit", function (e) {
+      e.preventDefault();
+      updateAvatarInfo();
+      profileEditPanel.classList.remove("active");
+    });
 
   // Toggle password
-  document.getElementById("toggleEditPassword").addEventListener("click", function () {
-    const pw = document.getElementById("editPassword");
-    pw.type = pw.type === "password" ? "text" : "password";
-    this.querySelector("i").classList.toggle("fa-eye");
-    this.querySelector("i").classList.toggle("fa-eye-slash");
-  });
+  document
+    .getElementById("toggleEditPassword")
+    .addEventListener("click", function () {
+      const pw = document.getElementById("editPassword");
+      pw.type = pw.type === "password" ? "text" : "password";
+      this.querySelector("i").classList.toggle("fa-eye");
+      this.querySelector("i").classList.toggle("fa-eye-slash");
+    });
 
   // Inisialisasi awal
   updateAvatarInfo();
 });
-
-
 
 // Handler klik avatar image
 avatarImg.addEventListener("click", (e) => {
@@ -288,12 +295,11 @@ avatarEditHover.addEventListener("click", (e) => {
   avatarInput.click();
 });
 
-
 avatarInput.addEventListener("change", function () {
   const file = this.files[0];
   if (!file) {
     // User klik Batal → reset state, pastikan modal crop ga muncul
-    avatarInput.value = ""; 
+    avatarInput.value = "";
     return;
   }
 
@@ -304,7 +310,3 @@ avatarInput.addEventListener("change", function () {
   };
   reader.readAsDataURL(file);
 });
-
-
-
-
