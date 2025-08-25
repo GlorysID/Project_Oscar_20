@@ -1,0 +1,315 @@
+/* === NAVBAR === */
+.custom-navbar {
+  width: 100%;
+  background: rgba(6, 5, 5, 0.35);
+  opacity: 70%;
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(47, 32, 72, 0.1);
+  padding: 12px 25px;
+  transition: background 0.3s ease;
+}
+
+.custom-navbar.scrolled {
+  background: rgba(0, 0, 0, 0.75);
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between; /* Logo kiri, icon kanan */
+  align-items: center;
+  width: 100%;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* jarak antara chatbot & hamburger */
+}
+
+.logo img {
+  height: 50px;
+  filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.5));
+}
+
+/* Chatbot icon */
+.chatbot img {
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+}
+
+/* Hamburger */
+.hamburger {
+  cursor: pointer;
+  width: 30px;
+  height: 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.hamburger span {
+  height: 3px;
+  background: white;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+.hamburger.open span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.open span:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* side menu */
+.side-menu {
+  position: fixed;
+  top: 0;
+  right: -300px;
+  height: 100vh;
+  width: 300px;
+  background: linear-gradient(
+    180deg,
+    rgba(18, 18, 30, 0.98) 0%,
+    rgba(10, 10, 18, 0.95) 100%
+  );
+  backdrop-filter: blur(8px);
+  padding: 80px 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.3s ease;
+  opacity: 0;
+  z-index: 1000;
+  box-shadow: -5px 0 20px rgba(0, 0, 0, 0.6);
+  font-family: "Baloo 2", sans-serif;
+}
+
+.side-menu.active {
+  right: 0;
+  opacity: 1;
+}
+
+/* Link Style */
+.side-menu a {
+  position: relative;
+  color: #ddd;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  padding: 8px 0;
+  transition: color 0.3s ease;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.side-menu .menu-icon,
+.side-menu .menu-icon2,
+.side-menu .menu-icon3 {
+  margin-right: 0.8rem;
+  margin-bottom: 7px;
+}
+
+.side-menu .menu-icon {
+  width: 1.5rem;
+}
+.side-menu .menu-icon2 {
+  width: 1.3rem;
+}
+.side-menu .menu-icon3 {
+  width: 1.4rem;
+}
+
+/* Hover animasi underline glowing */
+.side-menu a::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background: linear-gradient(90deg, #a78bfa, #8b5cf6, #4c1d95);
+  box-shadow: 0 0 6px #8b5cf6;
+  transition: width 0.3s ease;
+}
+
+.side-menu a:hover {
+  color: #c4b5fd;
+}
+
+.side-menu a:hover::after {
+  width: 100%;
+}
+
+/* Entrance animation */
+.side-menu.active a {
+  animation: slideFadeIn 0.4s ease forwards;
+}
+.side-menu.active a:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.side-menu.active a:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.side-menu.active a:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.side-menu.active a:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+@keyframes slideFadeIn {
+  from {
+    transform: translateX(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+html {
+  margin: 0;
+  font-family: "Baloo 2", sans-serif;
+  overflow-x: hidden;
+}
+
+body {
+  background: #1d0331 !important;
+}
+
+#starsCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* === LEVEL SECTION (scoped, gak ganggu tema global) === */
+.level-theme {
+  --bg-card: rgba(27, 8, 46, 0.55); /* ungu gelap transparan, selaras #1d0331 */
+  --bg-card-hover: rgba(27, 8, 46, 0.75);
+  --ring: rgba(167, 139, 250, 0.35); /* #a78bfa */
+  --ring-strong: rgba(139, 92, 246, 0.6); /* #8b5cf6 */
+  --text: #ede9fe; /* ungu muda */
+  --success-bg: rgba(16, 185, 129, 0.15); /* hijau lembut buat completed */
+}
+
+.level-section {
+  position: relative;
+  z-index: 1; /* di atas canvas bintang */
+  width: 100%;
+  min-height: 100vh; /* full layar */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 90px 20px 40px; /* kasih jarak bawah navbar */
+  background: transparent; /* TIDAK mengubah warna dasar */
+}
+
+.level-container {
+  width: 100%;
+  max-width: 1100px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 28px;
+}
+
+.level-card {
+  position: relative; /* FIX biar icon tetap di dalam card */
+  background: rgba(0, 0, 0, 0.6);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  border-radius: 20px;
+  border: 3px solid rgba(82, 33, 208, 0.34);
+  padding: 48px 18px 36px; /* padding top lebih gede biar teks gak ketabrak icon */
+  padding-bottom: 2.5rem;
+  text-align: center;
+  color: white;
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  transform: translateZ(0);
+  transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.level-card:hover:not(.locked) {
+  background: rgba(0, 0, 0, 0.6);
+  transform: translateY(-6px);
+  border: 3px solid white;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45),
+    0 0 0 4px rgba(167, 139, 250, 0.08);
+}
+
+/* State: Locked / Completed */
+.level-card.locked {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: saturate(0.8);
+}
+.level-card.locked::after,
+.level-card.completed::after {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  font-size: 1.4rem;
+}
+.level-card.locked::after {
+  content: "🔒";
+}
+.level-card.completed {
+  background: linear-gradient(0deg, var(--success-bg), var(--success-bg)),
+    var(--bg-card);
+  border-color: rgba(16, 185, 129, 0.45);
+}
+.level-card.completed::after {
+  content: "✅";
+}
+
+/* Responsiveness */
+/* Tablet (iPad landscape & portrait) */
+/* Laptop / Tablet besar */
+@media (max-width: 1200px) {
+  .level-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .level-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+/* HP */
+@media (max-width: 480px) {
+  .level-container {
+    grid-template-columns: 1fr; /* full width */
+    gap: 16px;
+  }
+  .level-card {
+    padding: 28px 12px 20px;
+    font-size: 1.1rem;
+  }
+}
+
+/* Judul Level */
+.level-title {
+  font-size: 2.2rem;
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 600;
+  color: white;
+  text-align: center;
+  margin-bottom: 40px;
+  letter-spacing: 1px;
+}

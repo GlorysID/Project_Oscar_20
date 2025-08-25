@@ -4,378 +4,121 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Level 1 – Gamifikasi HTML: Lengkapin Tag</title>
-    <style>
-      :root {
-        --pri: #2563eb;
-        --ok: #16a34a;
-        --err: #dc2626;
-        --muted: #e5e7eb;
-        --chip: #111827;
-        --bg: #f8fafc;
-      }
-      * {
-        box-sizing: border-box;
-      }
-      body {
-        margin: 0;
-        background: var(--bg);
-        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial,
-          sans-serif;
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .shell {
-        width: min(960px, 95vw);
-        background: #fff;
-        border-radius: 16px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-        padding: 20px;
-        display: grid;
-        grid-template-columns: 1.2fr 0.8fr;
-        gap: 18px;
-        min-height: 80vh;
-      }
-      header {
-        grid-column: 1/-1;
-      }
-      h1 {
-        margin: 0 0 6px;
-        font-size: 1.6rem;
-      }
-      .sub {
-        color: #475569;
-        font-size: 0.95rem;
-      }
-
-      /* progress */
-      .progress {
-        height: 12px;
-        width: 100%;
-        background: var(--muted);
-        border-radius: 999px;
-        overflow: hidden;
-        margin-top: 12px;
-      }
-      .bar {
-        height: 100%;
-        width: 0%;
-        background: linear-gradient(90deg, var(--pri), #22c55e);
-        transition: width 0.3s;
-      }
-
-      /* left: game board */
-      .card {
-        background: #f9fafb;
-        border: 1px solid #eef2f7;
-        border-radius: 14px;
-        padding: 16px;
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
-      }
-      .prompt {
-        background: #fff;
-        border: 1px dashed #cbd5e1;
-        border-radius: 12px;
-        padding: 14px;
-        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-        line-height: 1.8;
-        overflow-x: auto;
-      }
-      .slots {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        align-items: center;
-      }
-      .slot {
-        min-width: 90px;
-        min-height: 36px;
-        background: #fff;
-        border: 2px dashed #94a3b8;
-        border-radius: 10px;
-        padding: 6px 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #64748b;
-        font-family: ui-monospace, monospace;
-        user-select: none;
-      }
-      .slot.filled {
-        border-style: solid;
-        border-color: #94a3b8;
-        color: #0f172a;
-      }
-      .slot.correct {
-        border-color: var(--ok);
-        background: #dcfce7;
-      }
-      .slot.wrong {
-        border-color: var(--err);
-        background: #fee2e2;
-      }
-
-      /* bank */
-      .bank {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-      }
-      .chip {
-        background: var(--chip);
-        color: #fff;
-        padding: 8px 12px;
-        border-radius: 999px;
-        font-family: ui-monospace, monospace;
-        cursor: grab;
-        user-select: none;
-      }
-      .chip:active {
-        cursor: grabbing;
-        transform: scale(0.98);
-      }
-
-      /* actions + feedback */
-      .actions {
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-      }
-      button {
-        border: 0;
-        border-radius: 10px;
-        padding: 10px 14px;
-        font-weight: 600;
-        cursor: pointer;
-      }
-      .primary {
-        background: var(--pri);
-        color: #fff;
-      }
-      .ghost {
-        background: #e2e8f0;
-        color: #0f172a;
-      }
-      .success {
-        background: var(--ok);
-        color: #fff;
-      }
-      .danger {
-        background: var(--err);
-        color: #fff;
-      }
-      .msg {
-        font-weight: 700;
-      }
-      .msg.ok {
-        color: var(--ok);
-      }
-      .msg.err {
-        color: var(--err);
-      }
-      .hidden {
-        display: none;
-      }
-
-      /* right: sidebar */
-      .side {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-      }
-      .stat {
-        background: #f9fafb;
-        border: 1px solid #eef2f7;
-        border-radius: 14px;
-        padding: 14px;
-      }
-      .stat h3 {
-        margin: 0.2rem 0 0.6rem;
-        font-size: 1.05rem;
-      }
-      .list {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 8px;
-      }
-      .pill {
-        border-radius: 999px;
-        padding: 8px;
-        text-align: center;
-        font-weight: 700;
-        background: #e5e7eb;
-      }
-      .pill.done {
-        background: #dcfce7;
-        color: #166534;
-      }
-      .badge {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        background: #fff;
-        border: 1px dashed #cbd5e1;
-        border-radius: 12px;
-        padding: 12px;
-      }
-      .badge .icon {
-        font-size: 24px;
-      }
-
-      .popup-overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.6);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 999;
-      }
-
-      .popup-card {
-        background: #fff;
-        border-radius: 1rem;
-        padding: 2rem;
-        text-align: center;
-        width: 90%;
-        max-width: 400px;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-        animation: pop 0.3s ease;
-      }
-
-      .popup-card h2 {
-        margin-bottom: 1rem;
-        color: #0f172a;
-      }
-
-      .popup-card button {
-        margin-top: 1rem;
-        padding: 0.7rem 1.5rem;
-        border: none;
-        border-radius: 0.5rem;
-        background: #2563eb;
-        color: #fff;
-        font-weight: 600;
-        cursor: pointer;
-        transition: background 0.2s;
-      }
-
-      .popup-card button:hover {
-        background: #1e40af;
-      }
-
-      @keyframes pop {
-        from {
-          transform: scale(0.8);
-          opacity: 0;
-        }
-        to {
-          transform: scale(1);
-          opacity: 1;
-        }
-      }
-
-      /* responsive */
-      @media (max-width: 900px) {
-        .shell {
-          grid-template-columns: 1fr;
-          min-height: 95vh;
-        }
-
-        .reset-btn {
-          margin-top: 10px;
-          padding: 10px 14px;
-          border: none;
-          background: #e74c3c;
-          color: #fff;
-          border-radius: 8px;
-          cursor: pointer;
-          font-weight: bold;
-        }
-        .reset-btn:hover {
-          background: #c0392b;
-        }
-      }
-    </style>
+    <link rel="stylesheet" href="../css/level1html.CSS" />
   </head>
   <body>
-    <div class="shell">
-      <header>
-        <h1>Level 1 — Lengkapin Tag HTML</h1>
-        <div class="sub">
-          Drag & drop potongan tag ke slot kosong. Selesaikan 8 tantangan buat
-          dapet badge <b>HTML Rookie</b>.
-        </div>
-        <div class="progress"><div id="bar" class="bar"></div></div>
-        <button id="resetBtn" class="reset-btn">Reset Progress</button>
-      </header>
-
-      <!-- LEFT: GAME -->
-      <section class="card">
-        <div id="qTitle" class="sub" style="font-weight: 700">
-          Tantangan 1/8
-        </div>
-
-        <div
-          id="instruksiBox"
-          class="sub"
-          style="font-weight: 600; color: #0f172a"
-        ></div>
-
-        <div class="prompt">
-          <code id="preview">
-            <!-- preview code akan dirender di sini -->
-          </code>
-        </div>
-
-        <div class="slots" id="slots"></div>
-
-        <div>
-          <div style="font-weight: 700; margin-bottom: 6px">Bank Tag:</div>
-          <div id="bank" class="bank"></div>
-        </div>
-
-        <div class="actions">
-          <button id="btnCheck" class="primary">Cek Jawaban</button>
-          <button id="btnReset" class="ghost">Reset Susunan</button>
-          <span id="feedback" class="msg hidden"></span>
-        </div>
-      </section>
-
-      <!-- RIGHT: SIDEBAR -->
-      <aside class="side">
-        <div class="stat">
-          <h3>Progress Soal</h3>
-          <div id="pillWrap" class="list"></div>
-        </div>
-
-        <div class="stat">
-          <h3>Aturan Main</h3>
-          <ul
-            style="
-              margin: 0.2rem 0 0.2rem 1rem;
-              color: #334155;
-              line-height: 1.6;
-            "
-          >
-            <li>Drag potongan tag ke slot kosong.</li>
-            <li>Tekan <b>Cek Jawaban</b> untuk menilai.</li>
-            <li>Benar = lanjut otomatis ke soal berikutnya.</li>
-            <li>Semua benar = dapat badge 🎖️.</li>
-          </ul>
-        </div>
-
-        <div id="badgeBox" class="badge hidden">
-          <div class="icon">🏅</div>
-          <div>
-            <div style="font-weight: 800">Badge Unlocked!</div>
-            <div>HTML Rookie — Selesaikan semua tantangan Level 1.</div>
+    <!-- Navbar -->
+    <nav class="custom-navbar fixed-top">
+      <div class="navbar-container">
+        <a href="../../index.html" class="logo"
+          ><img src="../img/KiddosLogo.png" alt="Logo"
+        /></a>
+        <div class="nav-right">
+          <div class="chatbot">
+            <a href="Kiddos AI.html"
+              ><img src="../img/boticons.png" alt="Chatbot"
+            /></a>
+          </div>
+          <div class="hamburger" id="hamburger">
+            <span></span><span></span><span></span>
           </div>
         </div>
-      </aside>
+      </div>
+    </nav>
+
+    <!-- Side Menu -->
+    <div class="side-menu" id="sideMenu">
+      <a href="../../index.html"
+        ><img src="../img/homeicons.png" class="menu-icon" />Home</a
+      >
+      <a href="../../index.html #Materi"
+        ><img src="../img/brainicons.png" class="menu-icon2" />Learn</a
+      >
+      <a href="../../index.html #Games"
+        ><img src="../img/gameicons.png" class="menu-icon3" />Games</a
+      >
+      <a href="profile.html"
+        ><img src="../img/profileicons.png" class="menu-icon" />Profile</a
+      >
+    </div>
+
+    <canvas id="starsCanvas"></canvas>
+    <div class="page-wrapper">
+      <div class="shell">
+        <header>
+          <h1>Level 1 — Lengkapi Tag HTML</h1>
+          <div class="sub">
+            Drag & drop potongan tag ke slot kosong. Selesaikan seluruh level
+            untuk dapet badge <b>HTML GG</b>.
+          </div>
+          <div class="progress"><div id="bar" class="bar"></div></div>
+          <button id="resetBtn" class="reset-btn">Reset Progress</button>
+        </header>
+
+        <!-- LEFT: GAME -->
+        <section class="card">
+          <div id="qTitle" class="sub" style="font-weight: 700">
+            Tantangan 1/8
+          </div>
+
+          <div
+            id="instruksiBox"
+            class="sub"
+            style="font-weight: 600; color: #0f172a"
+          ></div>
+
+          <div class="prompt">
+            <code id="preview">
+              <!-- preview code akan dirender di sini -->
+            </code>
+          </div>
+
+          <div class="slots" id="slots"></div>
+
+          <div>
+            <div style="font-weight: 700; margin-bottom: 6px">Bank Tag:</div>
+            <div id="bank" class="bank"></div>
+          </div>
+
+          <div class="actions">
+            <button id="btnCheck" class="primary">Cek Jawaban</button>
+            <button id="btnReset" class="ghost">Reset Susunan</button>
+            <span id="feedback" class="msg hidden"></span>
+          </div>
+        </section>
+
+        <!-- RIGHT: SIDEBAR -->
+        <aside class="side">
+          <div class="stat">
+            <h3>Progress Soal</h3>
+            <div id="pillWrap" class="list"></div>
+          </div>
+
+          <div class="stat">
+            <h3>Aturan Main</h3>
+            <ul
+              style="
+                margin: 0.2rem 0 0.2rem 1rem;
+                color: #334155;
+                line-height: 1.6;
+              "
+            >
+              <li>Drag potongan tag ke slot kosong.</li>
+              <li>Tekan <b>Cek Jawaban</b> untuk menilai.</li>
+              <li>Benar = lanjut otomatis ke soal berikutnya.</li>
+              <li>Semua level selesai = dapat badge 🎖️.</li>
+            </ul>
+          </div>
+
+          <div id="badgeBox" class="badge hidden">
+            <div class="icon">🏅</div>
+            <div>
+              <div style="font-weight: 800">Badge!</div>
+              <div>HTML GG — Selesaikan semua level HTML.</div>
+            </div>
+          </div>
+        </aside>
+      </div>
     </div>
 
     <script>
@@ -624,7 +367,7 @@
         document.getElementById("nextBtn").onclick = () => {
           document.getElementById("nextLevelPopup").style.display = "none";
           // TODO: arahkan ke level berikutnya (misal redirect)
-          window.location.href = "level2.html";
+          window.location.href = "level2html.html";
         };
       }
 
@@ -652,6 +395,115 @@
 
       // first render
       render();
+
+      // Animasi Bintang di Banner
+      const canvas = document.getElementById("starsCanvas");
+      const ctx = canvas.getContext("2d");
+
+      let stars = [];
+      const numStars = 100;
+
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+
+      window.addEventListener("resize", resizeCanvas);
+      resizeCanvas();
+
+      function createStars() {
+        stars = [];
+        for (let i = 0; i < numStars; i++) {
+          stars.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            radius: Math.random() * 1.5,
+            speed: Math.random() * 0.2 + 0.05,
+          });
+        }
+      }
+
+      function drawStars() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "white";
+        stars.forEach((star) => {
+          ctx.beginPath();
+          ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+          ctx.fill();
+        });
+      }
+
+      function updateStars() {
+        stars.forEach((star) => {
+          star.y += star.speed;
+          if (star.y > canvas.height) {
+            star.y = 0;
+            star.x = Math.random() * canvas.width;
+          }
+        });
+      }
+
+      function animate() {
+        drawStars();
+        updateStars();
+        requestAnimationFrame(animate);
+      }
+
+      createStars();
+      animate();
+
+      // Navbar dan Hamburger Menu
+      const hamburger = document.getElementById("hamburger");
+      const sideMenu = document.getElementById("sideMenu");
+      const navbar = document.querySelector(".custom-navbar");
+
+      function openMenu() {
+        sideMenu.classList.add("active");
+        hamburger.classList.add("open");
+      }
+
+      function closeMenu() {
+        sideMenu.classList.remove("active");
+        hamburger.classList.remove("open");
+
+        // reset animasi biar pas buka lagi fresh
+        sideMenu.querySelectorAll("a").forEach((link) => {
+          link.style.animation = "none";
+          setTimeout(() => (link.style.animation = ""), 10);
+        });
+      }
+
+      // Toggle menu on click
+      hamburger.addEventListener("click", () => {
+        const isOpen = sideMenu.classList.toggle("active");
+        hamburger.classList.toggle("open");
+
+        if (!isOpen) {
+          closeMenu();
+        }
+      });
+
+      // Auto-close kalau kursor keluar area menu
+      sideMenu.addEventListener("mouseleave", () => {
+        closeMenu();
+      });
+
+      // Auto-open kalau kursor mentok kanan layar
+      document.addEventListener("mousemove", (e) => {
+        const edgeThreshold = 10; // jarak dari tepi kanan (px)
+        if (window.innerWidth - e.clientX <= edgeThreshold) {
+          openMenu();
+        }
+      });
+
+      // Scroll effect: navbar jadi lebih gelwwap
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 50) {
+          navbar.classList.add("scrolled");
+        } else {
+          navbar.classList.remove("scrolled");
+        }
+      });
     </script>
 
     <!-- Overlay & Popup Next Level -->
