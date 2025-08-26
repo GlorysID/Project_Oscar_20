@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Level 3 – Game HTML: Multimedia</title>
+    <title>Level 1 – Game JavaScript: Variabel, Tipe Data & Operator</title>
     <link rel="stylesheet" href="../css/level1html.css" />
     <style>
       .pill {
@@ -65,10 +65,10 @@
     <div class="page-wrapper">
       <div class="shell">
         <header>
-          <h1>Level 3 — Multimedia</h1>
+          <h1>Level 1 — Variabel, Tipe Data & Operator</h1>
           <div class="sub">
-            Drag & drop potongan tag ke slot kosong. Selesaikan seluruh level
-            untuk dapet badge <b>HTML GG</b>.
+            Drag & drop kode ke slot kosong. Selesaikan semua level untuk dapet
+            badge <b>JS Master</b>.
           </div>
           <div class="progress"><div id="bar" class="bar"></div></div>
           <button id="resetBtn" class="reset-btn">Reset Progress</button>
@@ -87,7 +87,7 @@
           <div class="prompt"><code id="preview"></code></div>
           <div class="slots" id="slots"></div>
           <div>
-            <div style="font-weight: 700; margin-bottom: 6px">Bank Tag:</div>
+            <div style="font-weight: 700; margin-bottom: 6px">Bank Kode:</div>
             <div id="bank" class="bank"></div>
           </div>
           <div class="actions">
@@ -112,17 +112,17 @@
                 line-height: 1.6;
               "
             >
-              <li>Drag potongan tag ke slot kosong.</li>
+              <li>Drag kode ke slot kosong.</li>
               <li>Tekan <b>Cek Jawaban</b> untuk menilai.</li>
               <li>Benar = lanjut otomatis ke soal berikutnya.</li>
-              <li>Semua level selesai = dapat badge 🎖️.</li>
+              <li>Selesaikan semua level untuk dapet badge 🎖️.</li>
             </ul>
           </div>
           <div id="badgeBox" class="badge hidden">
             <div class="icon">🏅</div>
             <div>
               <div style="font-weight: 800">Badge!</div>
-              <div>HTML GG — Selesaikan semua level HTML.</div>
+              <div>JS Master — Selesaikan semua level JavaScript.</div>
             </div>
           </div>
         </aside>
@@ -132,73 +132,70 @@
     <!-- Popup Next Level -->
     <div id="nextLevelPopup" class="popup-overlay" style="display: none">
       <div class="popup-card">
-        <h2>🎉 Level Selesai!</h2>
-        <p>Keren banget, kamu udah nyelesaiin semua soal di level ini.</p>
+        <h2>🎉 Level JavaScript Selesai!</h2>
+        <p>Keren! Kamu udah kuasain variabel & tipe data dasar.</p>
         <button id="nextBtn">➡️ Lanjut ke Level Berikutnya</button>
       </div>
     </div>
 
     <script>
-      // ======= DATA SOAL LEVEL 3 =======
+      // ======= DATA SOAL JAVASCRIPT =======
       const QUIZ = [
         {
-          instruksi: "Tambahkan gambar dengan sumber dan teks alternatif.",
-          preview: `&lt;? src="foto.png" alt="Deskripsi"?&gt;`,
-          slots: ["<img", ">"],
-          bank: ["<img", ">", "<video>", "</video>"],
+          instruksi: "Buat variabel dengan kata kunci modern.",
+          preview: "? nama = 'Budi';",
+          slots: ["let"],
+          bank: ["let", "var", "const"],
         },
         {
-          instruksi: "Tambahkan audio dengan kontrol.",
-          preview: `&lt;? controls&gt; &lt;source src="lagu.mp3" type="audio/mpeg"&gt; &lt;?&gt;`,
-          slots: ["<audio", "</audio>"],
-          bank: ["<audio", "</audio>", "<video", "</video>"],
+          instruksi: "Buat konstanta untuk nilai yang tidak berubah.",
+          preview: "? PI = 3.14;",
+          slots: ["const"],
+          bank: ["let", "const", "var"],
         },
         {
-          instruksi: "Tambahkan video dengan kontrol.",
-          preview: `&lt;? controls&gt; &lt;source src="video.mp4" type="video/mp4"&gt; &lt;?&gt;`,
-          slots: ["<video", "</video>"],
-          bank: ["<video", "</video>", "<audio", "</audio>"],
+          instruksi: "Tipe data apa untuk angka?",
+          preview: "let umur = ?;",
+          slots: ["Number"],
+          bank: ["Number", "String", "Boolean"],
         },
         {
-          instruksi: "Buat hyperlink ke Google.",
-          preview: `&lt;? href="https://google.com"?&gt;Google&lt;?&gt;`,
-          slots: ["<a", "</a>"],
-          bank: ["<a", "</a>", "<p>", "</p>"],
+          instruksi: "Tipe data untuk teks 'Halo'.",
+          preview: "let sapaan = ?;",
+          slots: ["String"],
+          bank: ["String", "Number", "Boolean"],
         },
         {
-          instruksi: "Sematkan iframe YouTube.",
-          preview: `&lt;? src="https://youtube.com/embed/abc123"?&gt;&lt;?&gt;`,
-          slots: ["<iframe", "</iframe>"],
-          bank: ["<iframe", "</iframe>", "<embed>", "</embed>"],
+          instruksi: "Operator matematika untuk sisa bagi.",
+          preview: "10 ? 3 // hasil 1",
+          slots: ["%"],
+          bank: ["%", "/", "*"],
         },
         {
-          instruksi: "Tambahkan gambar dengan lebar 300px.",
-          preview: `&lt;img src="foto.png" alt="foto" ?="300"&gt;`,
-          slots: ["width"],
-          bank: ["width", "height", "src"],
+          instruksi: "Operator logika 'dan'.",
+          preview: "true ? false",
+          slots: ["&&"],
+          bank: ["&&", "||", "!"],
         },
         {
-          instruksi: "Tambahkan teks tebal dengan tag semantic.",
-          preview: `&lt;?&gt;Teks Tebal&lt;?&gt;`,
-          slots: ["<strong>", "</strong>"],
-          bank: ["<strong>", "</strong>", "<b>", "</b>"],
+          instruksi: "Operator perbandingan identik (nilai & tipe).",
+          preview: "5 ? '5' // false",
+          slots: ["==="],
+          bank: ["==", "===", "!="],
         },
         {
-          instruksi: "Tambahkan garis horizontal.",
-          preview: `&lt;?&gt;`,
-          slots: ["<hr>"],
-          bank: ["<hr>", "<br>", "<p>"],
+          instruksi: "Nilai kosong (kosong tapi ada).",
+          preview: "let x = ?;",
+          slots: ["null"],
+          bank: ["null", "undefined", "0"],
         },
       ];
 
-      // ======= COPY-PASTE SCRIPT LEVEL 2 (render, check, reset, animasi, navbar) =======
-      // (semua fungsi render, checkCurrent, save, animasi bintang, navbar, dsb sama persis)
-      // tinggal ganti LS_KEY & redirect level selesai
-
+      // ======= SCRIPT GAME (sama kayak CSS) =======
       let idx = 0;
       let answers = Array(QUIZ.length).fill(null);
       let done = Array(QUIZ.length).fill(false);
-      const LS_KEY = "course:HTML:level3:progress";
+      const LS_KEY = "course:JS:level1:progress";
 
       const saved = JSON.parse(localStorage.getItem(LS_KEY) || "{}");
       if (saved.idx !== undefined) idx = saved.idx;
@@ -219,7 +216,7 @@
         document.getElementById("instruksiBox").textContent = q.instruksi || "";
         qTitle.textContent = `Tantangan ${idx + 1}/${QUIZ.length}`;
         preview.innerHTML = q.preview.replaceAll(
-          "&lt;?&gt;",
+          "?",
           "<span style='color:#22c55e'>[slot]</span>"
         );
 
@@ -251,13 +248,7 @@
         }
 
         bankWrap.innerHTML = "";
-        let bankTokens = buildBankTokens(q, currentAns);
-        bankTokens = [...bankTokens];
-        for (let i = bankTokens.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [bankTokens[i], bankTokens[j]] = [bankTokens[j], bankTokens[i]];
-        }
-        bankTokens.forEach((tok, i) => {
+        q.bank.forEach((tok, i) => {
           const uniqueKey = tok + "::" + i;
           const c = document.createElement("div");
           c.className = "chip";
@@ -289,37 +280,11 @@
         render();
       }
 
-      function buildBankTokens(q, currentAns) {
-        const neededCounts = {};
-        q.slots.forEach((tok) => {
-          neededCounts[tok] = (neededCounts[tok] || 0) + 1;
-        });
-        const usedCounts = {};
-        currentAns.forEach((tok) => {
-          if (tok) {
-            usedCounts[tok] = (usedCounts[tok] || 0) + 1;
-          }
-        });
-        const result = [];
-        q.bank.forEach((tok) => {
-          const used = usedCounts[tok] || 0;
-          const needed = neededCounts[tok] || 0;
-          if (used < needed) {
-            result.push(tok);
-            usedCounts[tok] = used + 1;
-          } else {
-            result.push(tok);
-          }
-        });
-        return result;
-      }
-
       function checkCurrent() {
         const q = QUIZ[idx];
         const cur = answers[idx] || Array(q.slots.length).fill(null);
         if (cur.some((v) => !v)) {
           showMsg("Isi semua slot dulu ya 🔎", false, true);
-          blinkEmpty();
           return;
         }
         const slots = [...document.querySelectorAll(".slot")];
@@ -348,22 +313,7 @@
               onFinishLevel();
             }
           }, 700);
-        } else showMsg("Masih ada yang melenceng ❌", false);
-      }
-
-      function blinkEmpty() {
-        document.querySelectorAll(".slot").forEach((s) => {
-          if (s.textContent === "drop here") {
-            s.animate(
-              [
-                { transform: "scale(1)" },
-                { transform: "scale(1.05)" },
-                { transform: "scale(1)" },
-              ],
-              { duration: 300 }
-            );
-          }
-        });
+        } else showMsg("Masih ada yang salah ❌", false);
       }
 
       function resetCurrent() {
@@ -380,7 +330,7 @@
         document.getElementById("nextLevelPopup").style.display = "flex";
         document.getElementById("nextBtn").onclick = () => {
           document.getElementById("nextLevelPopup").style.display = "none";
-          window.location.href = "level4html.html"; // next level
+          window.location.href = "level2js.html";
         };
       }
 
@@ -405,115 +355,6 @@
       document.getElementById("btnCheck").onclick = checkCurrent;
       document.getElementById("btnReset").onclick = resetCurrent;
       render();
-
-      // Animasi Bintang di Banner
-      const canvas = document.getElementById("starsCanvas");
-      const ctx = canvas.getContext("2d");
-
-      let stars = [];
-      const numStars = 100;
-
-      function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-      }
-
-      window.addEventListener("resize", resizeCanvas);
-      resizeCanvas();
-
-      function createStars() {
-        stars = [];
-        for (let i = 0; i < numStars; i++) {
-          stars.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            radius: Math.random() * 1.5,
-            speed: Math.random() * 0.2 + 0.05,
-          });
-        }
-      }
-
-      function drawStars() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = "white";
-        stars.forEach((star) => {
-          ctx.beginPath();
-          ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-          ctx.fill();
-        });
-      }
-
-      function updateStars() {
-        stars.forEach((star) => {
-          star.y += star.speed;
-          if (star.y > canvas.height) {
-            star.y = 0;
-            star.x = Math.random() * canvas.width;
-          }
-        });
-      }
-
-      function animate() {
-        drawStars();
-        updateStars();
-        requestAnimationFrame(animate);
-      }
-
-      createStars();
-      animate();
-
-      // Navbar dan Hamburger Menu
-      const hamburger = document.getElementById("hamburger");
-      const sideMenu = document.getElementById("sideMenu");
-      const navbar = document.querySelector(".custom-navbar");
-
-      function openMenu() {
-        sideMenu.classList.add("active");
-        hamburger.classList.add("open");
-      }
-
-      function closeMenu() {
-        sideMenu.classList.remove("active");
-        hamburger.classList.remove("open");
-
-        // reset animasi biar pas buka lagi fresh
-        sideMenu.querySelectorAll("a").forEach((link) => {
-          link.style.animation = "none";
-          setTimeout(() => (link.style.animation = ""), 10);
-        });
-      }
-
-      // Toggle menu on click
-      hamburger.addEventListener("click", () => {
-        const isOpen = sideMenu.classList.toggle("active");
-        hamburger.classList.toggle("open");
-
-        if (!isOpen) {
-          closeMenu();
-        }
-      });
-
-      // Auto-close kalau kursor keluar area menu
-      sideMenu.addEventListener("mouseleave", () => {
-        closeMenu();
-      });
-
-      // Auto-open kalau kursor mentok kanan layar
-      document.addEventListener("mousemove", (e) => {
-        const edgeThreshold = 10; // jarak dari tepi kanan (px)
-        if (window.innerWidth - e.clientX <= edgeThreshold) {
-          openMenu();
-        }
-      });
-
-      // Scroll effect: navbar jadi lebih gelwwap
-      window.addEventListener("scroll", () => {
-        if (window.scrollY > 50) {
-          navbar.classList.add("scrolled");
-        } else {
-          navbar.classList.remove("scrolled");
-        }
-      });
     </script>
   </body>
 </html>

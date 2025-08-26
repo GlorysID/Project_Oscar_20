@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Level 3 – Game HTML: Multimedia</title>
-    <link rel="stylesheet" href="../css/level1html.css" />
+    <title>Level 2 – Game CSS: Warna, Background, Font & Box Model</title>
+    <link rel="stylesheet" href="../css/level1html.CSS" />
     <style>
       .pill {
         display: inline-block;
@@ -34,9 +34,9 @@
         </a>
         <div class="nav-right">
           <div class="chatbot">
-            <a href="Kiddos AI.html"
-              ><img src="../img/boticons.png" alt="Chatbot"
-            /></a>
+            <a href="Kiddos AI.html">
+              <img src="../img/boticons.png" alt="Chatbot" />
+            </a>
           </div>
           <div class="hamburger" id="hamburger">
             <span></span><span></span><span></span>
@@ -65,10 +65,10 @@
     <div class="page-wrapper">
       <div class="shell">
         <header>
-          <h1>Level 3 — Multimedia</h1>
+          <h1>Level 2 — Warna, Background, Font & Box Model</h1>
           <div class="sub">
-            Drag & drop potongan tag ke slot kosong. Selesaikan seluruh level
-            untuk dapet badge <b>HTML GG</b>.
+            Drag & drop selector ke slot kosong. Selesaikan semua level untuk
+            dapet badge <b>CSS Explorer</b>.
           </div>
           <div class="progress"><div id="bar" class="bar"></div></div>
           <button id="resetBtn" class="reset-btn">Reset Progress</button>
@@ -77,7 +77,7 @@
         <!-- LEFT: GAME -->
         <section class="card">
           <div id="qTitle" class="sub" style="font-weight: 700">
-            Tantangan 1/8
+            Tantangan 1/10
           </div>
           <div
             id="instruksiBox"
@@ -87,7 +87,9 @@
           <div class="prompt"><code id="preview"></code></div>
           <div class="slots" id="slots"></div>
           <div>
-            <div style="font-weight: 700; margin-bottom: 6px">Bank Tag:</div>
+            <div style="font-weight: 700; margin-bottom: 6px">
+              Bank Jawaban:
+            </div>
             <div id="bank" class="bank"></div>
           </div>
           <div class="actions">
@@ -112,17 +114,17 @@
                 line-height: 1.6;
               "
             >
-              <li>Drag potongan tag ke slot kosong.</li>
+              <li>Drag jawaban ke slot kosong.</li>
               <li>Tekan <b>Cek Jawaban</b> untuk menilai.</li>
               <li>Benar = lanjut otomatis ke soal berikutnya.</li>
-              <li>Semua level selesai = dapat badge 🎖️.</li>
+              <li>Selesaikan semua level untuk dapet badge 🎖️.</li>
             </ul>
           </div>
           <div id="badgeBox" class="badge hidden">
             <div class="icon">🏅</div>
             <div>
               <div style="font-weight: 800">Badge!</div>
-              <div>HTML GG — Selesaikan semua level HTML.</div>
+              <div>CSS Explorer — Selesaikan semua level CSS.</div>
             </div>
           </div>
         </aside>
@@ -132,73 +134,82 @@
     <!-- Popup Next Level -->
     <div id="nextLevelPopup" class="popup-overlay" style="display: none">
       <div class="popup-card">
-        <h2>🎉 Level Selesai!</h2>
-        <p>Keren banget, kamu udah nyelesaiin semua soal di level ini.</p>
+        <h2>🎉 Level 2 Selesai!</h2>
+        <p>Keren! Kamu udah kuasain warna, background, font, dan box model.</p>
         <button id="nextBtn">➡️ Lanjut ke Level Berikutnya</button>
       </div>
     </div>
 
     <script>
-      // ======= DATA SOAL LEVEL 3 =======
+      // ======= DATA SOAL LEVEL 2 =======
       const QUIZ = [
         {
-          instruksi: "Tambahkan gambar dengan sumber dan teks alternatif.",
-          preview: `&lt;? src="foto.png" alt="Deskripsi"?&gt;`,
-          slots: ["<img", ">"],
-          bank: ["<img", ">", "<video>", "</video>"],
+          instruksi: "Gunakan nama warna untuk teks merah.",
+          preview: "p { color: ?; }",
+          slots: ["red"],
+          bank: ["red", "#ff0000", "rgb(0,0,0)"],
         },
         {
-          instruksi: "Tambahkan audio dengan kontrol.",
-          preview: `&lt;? controls&gt; &lt;source src="lagu.mp3" type="audio/mpeg"&gt; &lt;?&gt;`,
-          slots: ["<audio", "</audio>"],
-          bank: ["<audio", "</audio>", "<video", "</video>"],
+          instruksi: "Gunakan HEX untuk warna biru.",
+          preview: "h1 { color: ?; }",
+          slots: ["#0000ff"],
+          bank: ["#0000ff", "blue", "rgb(255,0,0)"],
         },
         {
-          instruksi: "Tambahkan video dengan kontrol.",
-          preview: `&lt;? controls&gt; &lt;source src="video.mp4" type="video/mp4"&gt; &lt;?&gt;`,
-          slots: ["<video", "</video>"],
-          bank: ["<video", "</video>", "<audio", "</audio>"],
+          instruksi: "Gunakan RGB untuk warna hijau.",
+          preview: "div { color: ?; }",
+          slots: ["rgb(0,255,0)"],
+          bank: ["rgb(0,255,0)", "green", "#00f"],
         },
         {
-          instruksi: "Buat hyperlink ke Google.",
-          preview: `&lt;? href="https://google.com"?&gt;Google&lt;?&gt;`,
-          slots: ["<a", "</a>"],
-          bank: ["<a", "</a>", "<p>", "</p>"],
+          instruksi: "Gunakan HSL untuk abu-abu.",
+          preview: "span { color: ?; }",
+          slots: ["hsl(0, 0%, 50%)"],
+          bank: ["hsl(0, 0%, 50%)", "#808080", "gray"],
         },
         {
-          instruksi: "Sematkan iframe YouTube.",
-          preview: `&lt;? src="https://youtube.com/embed/abc123"?&gt;&lt;?&gt;`,
-          slots: ["<iframe", "</iframe>"],
-          bank: ["<iframe", "</iframe>", "<embed>", "</embed>"],
+          instruksi: "Set background warna kuning.",
+          preview: "body { background-color: ?; }",
+          slots: ["yellow"],
+          bank: ["yellow", "background", "#000"],
         },
         {
-          instruksi: "Tambahkan gambar dengan lebar 300px.",
-          preview: `&lt;img src="foto.png" alt="foto" ?="300"&gt;`,
-          slots: ["width"],
-          bank: ["width", "height", "src"],
+          instruksi: "Set background gambar 'bg.png' tanpa repeat.",
+          preview: "div { background: url('bg.png') ?; }",
+          slots: ["no-repeat"],
+          bank: ["no-repeat", "repeat", "cover"],
         },
         {
-          instruksi: "Tambahkan teks tebal dengan tag semantic.",
-          preview: `&lt;?&gt;Teks Tebal&lt;?&gt;`,
-          slots: ["<strong>", "</strong>"],
-          bank: ["<strong>", "</strong>", "<b>", "</b>"],
+          instruksi: "Atur font-family jadi Arial.",
+          preview: "p { font-family: ?; }",
+          slots: ["Arial"],
+          bank: ["Arial", "serif", "Times"],
         },
         {
-          instruksi: "Tambahkan garis horizontal.",
-          preview: `&lt;?&gt;`,
-          slots: ["<hr>"],
-          bank: ["<hr>", "<br>", "<p>"],
+          instruksi: "Atur font-size jadi 16px.",
+          preview: "p { font-size: ?; }",
+          slots: ["16px"],
+          bank: ["16px", "12pt", "bold"],
+        },
+        {
+          instruksi: "Box model: atur padding 20px.",
+          preview: "div { padding: ?; }",
+          slots: ["20px"],
+          bank: ["20px", "margin", "border"],
+        },
+        {
+          instruksi: "Box model: gunakan border 1px solid black.",
+          preview: "div { border: ?; }",
+          slots: ["1px solid black"],
+          bank: ["1px solid black", "20px", "auto"],
         },
       ];
 
-      // ======= COPY-PASTE SCRIPT LEVEL 2 (render, check, reset, animasi, navbar) =======
-      // (semua fungsi render, checkCurrent, save, animasi bintang, navbar, dsb sama persis)
-      // tinggal ganti LS_KEY & redirect level selesai
-
+      // ======= LOGIC GAME (sama kayak level 1) =======
       let idx = 0;
       let answers = Array(QUIZ.length).fill(null);
       let done = Array(QUIZ.length).fill(false);
-      const LS_KEY = "course:HTML:level3:progress";
+      const LS_KEY = "course:CSS:level2:progress";
 
       const saved = JSON.parse(localStorage.getItem(LS_KEY) || "{}");
       if (saved.idx !== undefined) idx = saved.idx;
@@ -219,7 +230,7 @@
         document.getElementById("instruksiBox").textContent = q.instruksi || "";
         qTitle.textContent = `Tantangan ${idx + 1}/${QUIZ.length}`;
         preview.innerHTML = q.preview.replaceAll(
-          "&lt;?&gt;",
+          "?",
           "<span style='color:#22c55e'>[slot]</span>"
         );
 
@@ -251,12 +262,8 @@
         }
 
         bankWrap.innerHTML = "";
-        let bankTokens = buildBankTokens(q, currentAns);
-        bankTokens = [...bankTokens];
-        for (let i = bankTokens.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [bankTokens[i], bankTokens[j]] = [bankTokens[j], bankTokens[i]];
-        }
+        let bankTokens = [...q.bank];
+        bankTokens = bankTokens.sort(() => Math.random() - 0.5);
         bankTokens.forEach((tok, i) => {
           const uniqueKey = tok + "::" + i;
           const c = document.createElement("div");
@@ -289,37 +296,11 @@
         render();
       }
 
-      function buildBankTokens(q, currentAns) {
-        const neededCounts = {};
-        q.slots.forEach((tok) => {
-          neededCounts[tok] = (neededCounts[tok] || 0) + 1;
-        });
-        const usedCounts = {};
-        currentAns.forEach((tok) => {
-          if (tok) {
-            usedCounts[tok] = (usedCounts[tok] || 0) + 1;
-          }
-        });
-        const result = [];
-        q.bank.forEach((tok) => {
-          const used = usedCounts[tok] || 0;
-          const needed = neededCounts[tok] || 0;
-          if (used < needed) {
-            result.push(tok);
-            usedCounts[tok] = used + 1;
-          } else {
-            result.push(tok);
-          }
-        });
-        return result;
-      }
-
       function checkCurrent() {
         const q = QUIZ[idx];
         const cur = answers[idx] || Array(q.slots.length).fill(null);
         if (cur.some((v) => !v)) {
           showMsg("Isi semua slot dulu ya 🔎", false, true);
-          blinkEmpty();
           return;
         }
         const slots = [...document.querySelectorAll(".slot")];
@@ -348,22 +329,7 @@
               onFinishLevel();
             }
           }, 700);
-        } else showMsg("Masih ada yang melenceng ❌", false);
-      }
-
-      function blinkEmpty() {
-        document.querySelectorAll(".slot").forEach((s) => {
-          if (s.textContent === "drop here") {
-            s.animate(
-              [
-                { transform: "scale(1)" },
-                { transform: "scale(1.05)" },
-                { transform: "scale(1)" },
-              ],
-              { duration: 300 }
-            );
-          }
-        });
+        } else showMsg("Masih ada yang salah ❌", false);
       }
 
       function resetCurrent() {
@@ -380,7 +346,7 @@
         document.getElementById("nextLevelPopup").style.display = "flex";
         document.getElementById("nextBtn").onclick = () => {
           document.getElementById("nextLevelPopup").style.display = "none";
-          window.location.href = "level4html.html"; // next level
+          window.location.href = "level3css.html";
         };
       }
 
@@ -476,21 +442,16 @@
         sideMenu.classList.remove("active");
         hamburger.classList.remove("open");
 
-        // reset animasi biar pas buka lagi fresh
         sideMenu.querySelectorAll("a").forEach((link) => {
           link.style.animation = "none";
           setTimeout(() => (link.style.animation = ""), 10);
         });
       }
 
-      // Toggle menu on click
       hamburger.addEventListener("click", () => {
         const isOpen = sideMenu.classList.toggle("active");
         hamburger.classList.toggle("open");
-
-        if (!isOpen) {
-          closeMenu();
-        }
+        if (!isOpen) closeMenu();
       });
 
       // Auto-close kalau kursor keluar area menu
