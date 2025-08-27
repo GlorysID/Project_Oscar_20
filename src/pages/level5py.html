@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Level 5 – Game Python: File Handling & OOP</title>
+    <link rel="stylesheet" href="../css/level1html.css" />
+    <style>
+      .pill {
+        display: inline-block;
+        padding: 6px 10px;
+        margin: 4px;
+        border-radius: 6px;
+        background: #e2e8f0;
+        font-weight: bold;
+        user-select: none;
+      }
+      .pill.done {
+        background: #22c55e;
+        color: white;
+      }
+      .pill.active {
+        background: #3b82f6;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="custom-navbar fixed-top">
+      <div class="navbar-container">
+        <a href="../../index.html" class="logo">
+          <img src="../img/KiddosLogo.png" alt="Logo" />
+        </a>
+        <div class="nav-right">
+          <div class="chatbot">
+            <a href="Kiddos AI.html"
+              ><img src="../img/boticons.png" alt="Chatbot"
+            /></a>
+          </div>
+          <div class="hamburger" id="hamburger">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Side Menu -->
+    <div class="side-menu" id="sideMenu">
+      <a href="../../index.html"
+        ><img src="../img/homeicons.png" class="menu-icon" />Home</a
+      >
+      <a href="../../index.html#Materi"
+        ><img src="../img/brainicons.png" class="menu-icon2" />Learn</a
+      >
+      <a href="../../index.html#Games"
+        ><img src="../img/gameicons.png" class="menu-icon3" />Games</a
+      >
+      <a href="profile.html"
+        ><img src="../img/profileicons.png" class="menu-icon" />Profile</a
+      >
+    </div>
+
+    <canvas id="starsCanvas"></canvas>
+    <div class="page-wrapper">
+      <div class="shell">
+        <header>
+          <h1>Level 5 — File Handling & OOP</h1>
+          <div class="sub">
+            Drag & drop kode ke slot kosong. Ini level terakhir, selesaikan
+            semua biar dapet badge <b>Python King 🏆</b>.
+          </div>
+          <div class="progress"><div id="bar" class="bar"></div></div>
+          <button id="resetBtn" class="reset-btn">Reset Progress</button>
+        </header>
+
+        <!-- LEFT: GAME -->
+        <section class="card">
+          <div id="qTitle" class="sub" style="font-weight: 700">
+            Tantangan 1/10
+          </div>
+          <div
+            id="instruksiBox"
+            class="sub"
+            style="font-weight: 600; color: #ffffff"
+          ></div>
+          <div class="prompt"><code id="preview"></code></div>
+          <div class="slots" id="slots"></div>
+          <div>
+            <div style="font-weight: 700; margin-bottom: 6px; color: white">
+              Bank Kode:
+            </div>
+            <div id="bank" class="bank"></div>
+          </div>
+          <div class="actions">
+            <button id="btnCheck" class="primary">Cek Jawaban</button>
+            <button id="btnReset" class="ghost">Reset Susunan</button>
+            <span id="feedback" class="msg hidden"></span>
+          </div>
+        </section>
+
+        <!-- RIGHT: SIDEBAR -->
+        <aside class="side">
+          <div class="stat">
+            <h3>Progress Soal</h3>
+            <div id="pillWrap" class="list"></div>
+          </div>
+          <div class="stat">
+            <h3>Aturan Main</h3>
+            <ul
+              style="
+                margin: 0.2rem 0 0.2rem 1rem;
+                color: #334155;
+                line-height: 1.6;
+              "
+            >
+              <li>Drag kode ke slot kosong.</li>
+              <li>Tekan <b>Cek Jawaban</b> untuk menilai.</li>
+              <li>Benar = lanjut otomatis ke soal berikutnya.</li>
+              <li>Selesaikan semua level untuk dapet badge 🎖️.</li>
+            </ul>
+          </div>
+          <div id="badgeBox" class="badge hidden">
+            <div class="icon">🏆</div>
+            <div>
+              <div style="font-weight: 800">Badge!</div>
+              <div>Python King — Selesaikan semua level Python.</div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <!-- Popup Finish -->
+    <div id="nextLevelPopup" class="popup-overlay" style="display: none">
+      <div class="popup-card">
+        <h2>🎉 Semua Level Selesai!</h2>
+        <p>
+          GG! Kamu udah kuasain Python dasar, dapet badge <b>Python King 🏆</b>!
+        </p>
+        <button onclick="window.location.href='../../index.html #Games'">
+          Kembali ke Games
+        </button>
+      </div>
+    </div>
+
+    <script>
+      // ======= DATA SOAL LEVEL 5 =======
+      const QUIZ = [
+        {
+          instruksi: "Buka file 'data.txt' dalam mode baca.",
+          preview: "f = open('data.txt', ?)",
+          slots: ["'r'"],
+          bank: ["'r'", "'w'", "'a'"],
+        },
+        {
+          instruksi: "Buka file 'data.txt' dalam mode tulis.",
+          preview: "f = open('data.txt', ?)",
+          slots: ["'w'"],
+          bank: ["'w'", "'r'", "'a'"],
+        },
+        {
+          instruksi: "Baca seluruh isi file.",
+          preview: "content = f.?()",
+          slots: ["read"],
+          bank: ["read", "write", "close"],
+        },
+        {
+          instruksi: "Tulis teks 'Hello' ke file.",
+          preview: "f.?('Hello')",
+          slots: ["write"],
+          bank: ["write", "read", "open"],
+        },
+        {
+          instruksi: "Tangani error dengan try-except.",
+          preview: "try:\n    x = 1/0\n? Exception as e:\n    print(e)",
+          slots: ["except"],
+          bank: ["except", "finally", "raise"],
+        },
+
+        {
+          instruksi: "Buat class bernama Person.",
+          preview: "class ?:\n    pass",
+          slots: ["Person"],
+          bank: ["Person", "Car", "Animal"],
+        },
+        {
+          instruksi: "Buat constructor dengan parameter self & name.",
+          preview: "def ?(self, name):\n    self.name = name",
+          slots: ["__init__"],
+          bank: ["__init__", "__str__", "__main__"],
+        },
+        {
+          instruksi: "Buat object dari class Person.",
+          preview: "p = ?('Budi')",
+          slots: ["Person"],
+          bank: ["Person", "Car", "Animal"],
+        },
+        {
+          instruksi: "Buat method greet dalam class.",
+          preview: "def ?(self):\n    print('Hello')",
+          slots: ["greet"],
+          bank: ["greet", "hello", "speak"],
+        },
+        {
+          instruksi: "Buat class Student yang mewarisi Person.",
+          preview: "class Student(?):\n    pass",
+          slots: ["Person"],
+          bank: ["Person", "object", "Animal"],
+        },
+      ];
+
+      // ======= SCRIPT GAME =======
+      let idx = 0;
+      let answers = Array(QUIZ.length).fill(null);
+      let done = Array(QUIZ.length).fill(false);
+      const LS_KEY = "course:PY:level5:progress";
+
+      const saved = JSON.parse(localStorage.getItem(LS_KEY) || "{}");
+      if (saved.idx !== undefined) idx = saved.idx;
+      if (saved.answers) answers = saved.answers;
+      if (saved.done) done = saved.done;
+
+      const bar = document.getElementById("bar");
+      const qTitle = document.getElementById("qTitle");
+      const preview = document.getElementById("preview");
+      const slotsWrap = document.getElementById("slots");
+      const bankWrap = document.getElementById("bank");
+      const feedback = document.getElementById("feedback");
+      const pillWrap = document.getElementById("pillWrap");
+      const badgeBox = document.getElementById("badgeBox");
+
+      function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+      }
+
+      function render() {
+        const q = QUIZ[idx];
+        document.getElementById("instruksiBox").textContent = q.instruksi || "";
+        qTitle.textContent = `Tantangan ${idx + 1}/${QUIZ.length}`;
+        preview.innerHTML = q.preview.replaceAll(
+          "?",
+          "<span style='color:#22c55e'>[slot]</span>"
+        );
+
+        const doneCount = done.filter(Boolean).length;
+        bar.style.width = ((doneCount / QUIZ.length) * 100).toFixed(1) + "%";
+
+        pillWrap.innerHTML = "";
+        for (let i = 0; i < QUIZ.length; i++) {
+          const d = document.createElement("div");
+          d.className =
+            "pill" + (done[i] ? " done" : "") + (i === idx ? " active" : "");
+          d.textContent = i + 1;
+          pillWrap.appendChild(d);
+        }
+
+        slotsWrap.innerHTML = "";
+        const currentAns = answers[idx] || Array(q.slots.length).fill(null);
+        for (let i = 0; i < q.slots.length; i++) {
+          const s = document.createElement("div");
+          s.className = "slot" + (currentAns[i] ? " filled" : "");
+          s.dataset.slotIndex = i;
+          s.ondragover = (e) => e.preventDefault();
+          s.ondrop = (e) => {
+            const tokenKey = e.dataTransfer.getData("text/plain");
+            placeToken(i, tokenKey);
+          };
+          s.textContent = currentAns[i] || "drop here";
+          slotsWrap.appendChild(s);
+        }
+
+        const randomizedBank = shuffle([...q.bank]);
+        bankWrap.innerHTML = "";
+        randomizedBank.forEach((tok, i) => {
+          const uniqueKey = tok + "::" + i;
+          const c = document.createElement("div");
+          c.className = "chip";
+          c.draggable = true;
+          c.textContent = tok;
+          c.ondragstart = (e) =>
+            e.dataTransfer.setData("text/plain", uniqueKey);
+          c.onclick = () => {
+            const firstEmpty = (
+              answers[idx] || Array(q.slots.length).fill(null)
+            ).findIndex((v) => !v);
+            if (firstEmpty > -1) placeToken(firstEmpty, uniqueKey);
+          };
+          bankWrap.appendChild(c);
+        });
+
+        feedback.className = "msg hidden";
+        feedback.textContent = "";
+        badgeBox.classList.toggle("hidden", !(doneCount === QUIZ.length));
+      }
+
+      function placeToken(slotIndex, tokenKey) {
+        const [value] = tokenKey.split("::");
+        const q = QUIZ[idx];
+        let cur = answers[idx] || Array(q.slots.length).fill(null);
+        cur[slotIndex] = value;
+        answers[idx] = cur;
+        save();
+        render();
+      }
+
+      function checkCurrent() {
+        const q = QUIZ[idx];
+        const cur = answers[idx] || Array(q.slots.length).fill(null);
+        if (cur.some((v) => !v)) {
+          showMsg("Isi semua slot dulu ya 🔎", false, true);
+          return;
+        }
+        const slots = [...document.querySelectorAll(".slot")];
+        let allCorrect = true;
+        for (let i = 0; i < q.slots.length; i++) {
+          if (cur[i] === q.slots[i]) {
+            slots[i].classList.add("correct");
+            slots[i].classList.remove("wrong");
+          } else {
+            slots[i].classList.add("wrong");
+            slots[i].classList.remove("correct");
+            allCorrect = false;
+          }
+        }
+        if (allCorrect) {
+          done[idx] = true;
+          showMsg("Mantap! Jawaban tepat ✅", true);
+          save();
+          setTimeout(() => {
+            if (idx < QUIZ.length - 1) {
+              idx++;
+              save();
+              render();
+            } else {
+              render();
+              onFinishLevel();
+            }
+          }, 700);
+        } else showMsg("Masih ada yang salah ❌", false);
+      }
+
+      function resetCurrent() {
+        const q = QUIZ[idx];
+        answers[idx] = Array(q.slots.length).fill(null);
+        document
+          .querySelectorAll(".slot")
+          .forEach((s) => s.classList.remove("correct", "wrong", "filled"));
+        save();
+        render();
+      }
+
+      function onFinishLevel() {
+        document.getElementById("nextLevelPopup").style.display = "flex";
+      }
+
+      function showMsg(text, ok, soft = false) {
+        feedback.textContent = text;
+        feedback.className = "msg " + (ok ? "ok" : "err");
+        if (soft) feedback.classList.add("soft");
+        feedback.classList.remove("hidden");
+      }
+
+      function save() {
+        localStorage.setItem(LS_KEY, JSON.stringify({ idx, answers, done }));
+      }
+
+      document.getElementById("resetBtn").addEventListener("click", () => {
+        if (confirm("Yakin mau reset progress?")) {
+          localStorage.removeItem(LS_KEY);
+          location.reload();
+        }
+      });
+
+      document.getElementById("btnCheck").onclick = checkCurrent;
+      document.getElementById("btnReset").onclick = resetCurrent;
+      render();
+
+      // Animasi Bintang
+      const canvas = document.getElementById("starsCanvas");
+      const ctx = canvas.getContext("2d");
+      let stars = [];
+      const numStars = 100;
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      window.addEventListener("resize", resizeCanvas);
+      resizeCanvas();
+      function createStars() {
+        stars = [];
+        for (let i = 0; i < numStars; i++) {
+          stars.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            radius: Math.random() * 1.5,
+            speed: Math.random() * 0.2 + 0.05,
+          });
+        }
+      }
+      function drawStars() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "white";
+        stars.forEach((star) => {
+          ctx.beginPath();
+          ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+          ctx.fill();
+        });
+      }
+      function updateStars() {
+        stars.forEach((star) => {
+          star.y += star.speed;
+          if (star.y > canvas.height) {
+            star.y = 0;
+            star.x = Math.random() * canvas.width;
+          }
+        });
+      }
+      function animate() {
+        drawStars();
+        updateStars();
+        requestAnimationFrame(animate);
+      }
+      createStars();
+      animate();
+
+      // Navbar
+      const hamburger = document.getElementById("hamburger");
+      const sideMenu = document.getElementById("sideMenu");
+      const navbar = document.querySelector(".custom-navbar");
+      function openMenu() {
+        sideMenu.classList.add("active");
+        hamburger.classList.add("open");
+      }
+      function closeMenu() {
+        sideMenu.classList.remove("active");
+        hamburger.classList.remove("open");
+        sideMenu.querySelectorAll("a").forEach((link) => {
+          link.style.animation = "none";
+          setTimeout(() => (link.style.animation = ""), 10);
+        });
+      }
+      hamburger.addEventListener("click", () => {
+        const isOpen = sideMenu.classList.toggle("active");
+        hamburger.classList.toggle("open");
+        if (!isOpen) closeMenu();
+      });
+      sideMenu.addEventListener("mouseleave", () => {
+        closeMenu();
+      });
+      document.addEventListener("mousemove", (e) => {
+        const edgeThreshold = 10;
+        if (window.innerWidth - e.clientX <= edgeThreshold) {
+          openMenu();
+        }
+      });
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 50) navbar.classList.add("scrolled");
+        else navbar.classList.remove("scrolled");
+      });
+    </script>
+  </body>
+</html>

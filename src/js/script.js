@@ -135,3 +135,28 @@ document.addEventListener("DOMContentLoaded", setRandomTip);
 
 // Kalo mau auto-rotate tiap 8 detik, buka komen di bawah:
 setInterval(setRandomTip, 4000);
+
+document.addEventListener("DOMContentLoaded", () => {
+  const cards = document.querySelectorAll(".game-card");
+
+  cards.forEach((card) => {
+    const video = card.querySelector("video");
+    const poster = card.querySelector(".poster");
+
+    // default ke poster
+    video.pause();
+    video.currentTime = 0;
+
+    card.addEventListener("mouseenter", () => {
+      poster.style.opacity = "0"; // sembunyikan poster
+      video.currentTime = 0; // mulai dari awal
+      video.play();
+    });
+
+    card.addEventListener("mouseleave", () => {
+      video.pause();
+      video.currentTime = 0; // reset ke frame awal
+      poster.style.opacity = "1"; // munculin poster lagi
+    });
+  });
+});
