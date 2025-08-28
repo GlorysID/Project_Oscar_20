@@ -1,3 +1,9 @@
+<?php
+require_once __DIR__ . "/auth/config.php";
+require_once __DIR__ . "/auth/helpers.php";
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,6 +22,31 @@
       body::-webkit-scrollbar {
         display: none;
       }
+
+      .btn {
+        height: 30px;
+        padding: 0 16px;
+        background: linear-gradient(45deg, #8b5cf6, #a78bfa);
+        padding-top: 2px;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(138, 92, 246, 0.3);
+      }
+
+      .btn:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(138, 92, 246, 0.4);
+      }
+
+      .btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
     </style>
   </head>
   <body>
@@ -26,6 +57,37 @@
           ><img src="src/img/KiddosLogo.png" alt="Logo"
         /></a>
         <div class="nav-right">
+          <?php if (is_logged_in()): ?>
+          <div
+            id="userMenu"
+            style="display: flex; align-items: center; gap: 10px"
+          >
+            <img
+              src="<?= $BASE_URL ?>/auth/avatar.php?id=<?= $_SESSION['user']['id'] ?>"
+              alt="Avatar"
+              style="
+                width: 36px;
+                height: 36px;
+                border-radius: 50%;
+                object-fit: cover;
+                cursor: pointer;
+              "
+              onclick="location.href='src/pages/profile.php'"
+            />
+            <a href="auth/logout.php" class="btn btn-outline-light btn-sm"
+              >Logout</a
+            >
+          </div>
+          <?php else: ?>
+
+          <div
+            class="auth-buttons"
+            style="display: flex; gap: 10px; align-items: center"
+          >
+            <a href="src/pages/login.php" class="btn">Login</a>
+            <a href="src/pages/register.php" class="btn">Sign Up</a>
+          </div>
+          <?php endif; ?>
           <div class="chatbot">
             <a href="src/pages/Kiddos AI.html"
               ><img src="src/img/boticons.png" alt="Chatbot"
@@ -47,21 +109,26 @@
       <a href="#Games"
         ><img src="src/img/gameicons.png" class="menu-icon3" />Games</a
       >
-      <a href="src/pages/profile.html"
-        ><img src="src/img/profileicons.png" class="menu-icon" />Profile</a
-      >
+      <?php if (is_logged_in()): ?>
+      <a href="src/pages/profile.php">
+        <img src="src/img/profileicons.png" class="menu-icon" />Profile
+      </a>
+      <?php else: ?>
+      <a href="#" onclick="showLoginModal()">
+        <img src="src/img/profileicons.png" class="menu-icon" />Profile
+      </a>
+      <?php endif; ?>
     </div>
 
     <!-- Banner -->
+
     <section class="banner">
       <canvas id="starsCanvas"></canvas>
 
       <div class="banner-gradient"></div>
-      <!-- gradient overlay untuk smooth transisi -->
       <img src="src/img/KiddosMain.png" class="main-logo" alt="Kiddos Logo" />
       <a href="#Materi" class="main-button">Pelajari Sekarang!</a>
 
-      <!-- Floating Logos -->
       <img src="src/img/pythonicons.png" class="icon python" alt="Python" />
       <img src="src/img/jsicons.png" class="icon js" alt="JavaScript" />
       <img src="src/img/htmlicons.png" class="icon html" alt="HTML" />
@@ -210,7 +277,7 @@
                 class="poster"
                 alt="Poster"
               />
-              <video muted>
+              <video muted autoplay loop playsinline>
                 <source src="src/video/scratchpreview.mp4" type="video/mp4" />
               </video>
             </div>
@@ -222,7 +289,7 @@
           <div class="game-card">
             <div class="media-card">
               <img src="src/img/htmlposter.png" class="poster" alt="Poster" />
-              <video muted>
+              <video muted autoplay loop playsinline>
                 <source src="src/video/htmlpreview.mp4" type="video/mp4" />
                 Browser Tidak Support Video.
               </video>
@@ -235,7 +302,7 @@
           <div class="game-card">
             <div class="media-card">
               <img src="src/img/cssposter.png" class="poster" alt="Poster" />
-              <video muted>
+              <video muted autoplay loop playsinline>
                 <source src="src/video/csspreview.mp4" type="video/mp4" />
                 Browser Tidak Support Video.
               </video>
@@ -248,7 +315,7 @@
           <div class="game-card">
             <div class="media-card">
               <img src="src/img/jsposter.png" class="poster" alt="Poster" />
-              <video muted>
+              <video muted autoplay loop playsinline>
                 <source src="src/video/jspreview.mp4" type="video/mp4" />
                 Browser Tidak Support Video.
               </video>
@@ -261,7 +328,7 @@
           <div class="game-card">
             <div class="media-card">
               <img src="src/img/pyposter.png" class="poster" alt="Poster" />
-              <video muted>
+              <video muted autoplay loop playsinline>
                 <source src="src/video/pythonpreview.mp4" type="video/mp4" />
                 Browser Tidak Support Video.
               </video>
@@ -274,7 +341,7 @@
           <div class="game-card">
             <div class="media-card">
               <img src="src/img/c++poster.png" class="poster" alt="Poster" />
-              <video muted>
+              <video muted autoplay loop playsinline>
                 <source src="src/video/c++preview.mp4" type="video/mp4" />
                 Browser Tidak Support Video.
               </video>
@@ -326,6 +393,17 @@
         © 2025 Tim E-Learning Dev – SMK BINA MANDIRI MULTIMEDIA.
       </p>
     </footer>
+
+    <!-- modal -->
+    <!-- Modal untuk login warning -->
+    <div id="loginModal" class="modal" style="display: none">
+      <div class="modal-content">
+        <h3>⚠ Harus Login</h3>
+        <p>Anda harus login dulu untuk membuka halaman Profile.</p>
+        <a href="src/pages/login.php"><button>Login Sekarang</button></a>
+        <button onclick="closeLoginModal()">Tutup</button>
+      </div>
+    </div>
 
     <script src="src/js/script.js"></script>
   </body>

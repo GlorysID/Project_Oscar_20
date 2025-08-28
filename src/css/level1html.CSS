@@ -9,6 +9,9 @@
 * {
   box-sizing: border-box;
 }
+body::-webkit-scrollbar {
+  display: none;
+}
 
 /* === NAVBAR FIXED AT TOP === */
 .custom-navbar {
@@ -22,7 +25,7 @@
   border-bottom: 1px solid rgba(47, 32, 72, 0.1);
   padding: 12px 25px;
   transition: background 0.3s ease;
-  z-index: 1001; /* biar di atas canvas + shell */
+  z-index: 1001;
 }
 
 .custom-navbar.scrolled {
@@ -31,7 +34,7 @@
 
 .navbar-container {
   display: flex;
-  justify-content: space-between; /* Logo kiri, icon kanan */
+  justify-content: space-between;
   align-items: center;
   width: 100%;
 }
@@ -39,7 +42,7 @@
 .nav-right {
   display: flex;
   align-items: center;
-  gap: 15px; /* jarak antara chatbot & hamburger */
+  gap: 15px;
 }
 
 .logo img {
@@ -141,7 +144,7 @@
   width: 1.4rem;
 }
 
-/* Hover animasi underline glowing */
+/* Hover animasi */
 .side-menu a::after {
   content: "";
   position: absolute;
@@ -199,10 +202,6 @@ body {
   );
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   min-height: 100vh;
-  /* HAPUS flex align center ini 👇 */
-  /* display: flex;
-  align-items: center;
-  justify-content: center; */
 }
 
 #starsCanvas {
@@ -218,8 +217,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: calc(100vh - 80px); /* tinggi layar dikurang navbar */
-  padding-top: 80px; /* biar ga ketiban navbar */
+  min-height: calc(100vh - 80px);
+  padding-top: 80px;
 }
 
 .shell {
@@ -497,7 +496,19 @@ button {
 }
 
 /* responsive */
-@media (max-width: 900px) {
+@media (max-width: 767px) {
+  /* Navbar */
+  .custom-navbar {
+    padding: 10px 15px;
+  }
+  .logo img {
+    height: 40px;
+  }
+  .chatbot img {
+    width: 28px;
+    height: 28px;
+  }
+
   .shell {
     grid-template-columns: 1fr;
     min-height: 95vh;

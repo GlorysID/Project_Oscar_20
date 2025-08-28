@@ -34,11 +34,10 @@
   left: 0;
   transform: none;
   min-height: 100vh;
-  /* overflow: hidden; */
   display: flex;
-  flex-direction: column; /* <--- pastikan column */
-  align-items: center; /* <--- center horizontal */
-  justify-content: center; /* <--- center vertical */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   z-index: 2;
   box-sizing: border-box;
 }

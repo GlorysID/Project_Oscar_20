@@ -1,4 +1,3 @@
-/* ===== NAVBAR STYLES ===== */
 /* === NAVBAR === */
 .custom-navbar {
   width: 100%;
@@ -16,7 +15,7 @@
 
 .navbar-container {
   display: flex;
-  justify-content: space-between; /* Logo kiri, icon kanan */
+  justify-content: space-between;
   align-items: center;
   width: 100%;
 }
@@ -24,7 +23,7 @@
 .nav-right {
   display: flex;
   align-items: center;
-  gap: 15px; /* jarak antara chatbot & hamburger */
+  gap: 15px;
 }
 
 .logo img {

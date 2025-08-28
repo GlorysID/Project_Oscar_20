@@ -160,3 +160,65 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
+async function refreshAuthUI() {
+  try {
+    const res = await fetch("/project-oscar-main/auth/whoami.php", {
+      credentials: "include",
+    });
+    const j = await res.json();
+    const authButtons = document.querySelector(".auth-buttons");
+    if (!authButtons) return;
+    if (j.logged_in) {
+      // hide login/signup
+      authButtons.style.display = "none";
+
+      // create avatar/profile + logout
+      let right = document.querySelector(".nav-right");
+      if (right && !document.getElementById("userMenu")) {
+        const div = document.createElement("div");
+        div.id = "userMenu";
+        div.style.display = "flex";
+        div.style.alignItems = "center";
+        div.style.gap = "10px";
+
+        const img = document.createElement("img");
+        img.src = j.avatar
+          ? `/project-oscar-main/${j.avatar}`
+          : "/project-oscar-main/src/img/default-avatar.png";
+        img.alt = j.username;
+        img.style.width = "36px";
+        img.style.height = "36px";
+        img.style.borderRadius = "50%";
+        img.style.objectFit = "cover";
+        img.style.cursor = "pointer";
+        img.onclick = () =>
+          (location.href = "/project-oscar-main/src/pages/profile.php");
+
+        const logout = document.createElement("a");
+        logout.href = "/project-oscar-main/auth/logout.php";
+        logout.className = "btn btn-outline-light btn-sm";
+        logout.textContent = "Logout";
+
+        div.appendChild(img);
+        div.appendChild(logout);
+        right.insertBefore(div, right.querySelector("#hamburger"));
+      }
+    } else {
+      authButtons.style.display = "flex";
+      const um = document.getElementById("userMenu");
+      if (um) um.remove();
+    }
+  } catch (err) {
+    console.error("auth check failed", err);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", refreshAuthUI);
+
+function showLoginModal() {
+  document.getElementById("loginModal").style.display = "flex";
+}
+function closeLoginModal() {
+  document.getElementById("loginModal").style.display = "none";
+}

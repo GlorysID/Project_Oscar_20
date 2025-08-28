@@ -1,5 +1,3 @@
-/* ...existing code... */
-
 /* Profile Wrapper: 2 Kolom */
 .profile-wrapper {
   display: flex;
@@ -10,7 +8,7 @@
   z-index: 3;
 
   position: relative;
-  overflow: visible; /* pastikan panel bisa keluar dari wrapper */
+  overflow: visible;
 
   --rt-max-w: 600vh;
   --rt-win-h: 400px;
@@ -41,8 +39,6 @@
   height: 100%;
 }
 
-/* Avatar & Achievements tinggi sama */
-
 /* Kolom kanan: Profile Form */
 .profile-edit-panel {
   flex: 2 1 0;
@@ -51,7 +47,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  height: 100%; /* tambahkan ini */
+  height: 100%;
 }
 
 /* Avatar Container */
@@ -68,9 +64,9 @@
 }
 
 .avatar-img {
-  width: 150px; /* dari 120px */
-  height: 150px; /* dari 120px */
-  border-radius: 50%; /* Lebih bulat */
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
   margin-bottom: 0px;
   object-fit: cover;
   box-shadow: 0 0 24px #8b5cf6;
@@ -199,8 +195,6 @@
   transition: background 0.2s;
 }
 
-/* Samakan tinggi Achievements dengan Avatar */
-
 /* Avatar Crop Modal */
 .avatar-crop-modal {
   display: none;
@@ -233,7 +227,7 @@
   flex-direction: column;
   align-items: center;
   box-sizing: border-box;
-  overflow-y: auto; /* Scroll hanya di konten, bukan di modal */
+  overflow-y: auto;
 }
 .avatar-crop-close {
   position: absolute;
@@ -244,9 +238,9 @@
   cursor: pointer;
 }
 .avatar-crop-preview {
-  width: 320px; /* dari 220px */
-  height: 320px; /* dari 220px */
-  border-radius: 50%; /* agar bulat penuh */
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
   overflow: hidden;
   background: #312e81;
   margin: 24px 0;
@@ -276,7 +270,6 @@
   margin-top: 12px;
 }
 
-/* Tambahkan di main.css atau di <style> tag index.html */
 .profile-title {
   width: 100%;
   margin-top: 90px;
@@ -345,7 +338,6 @@
   pointer-events: auto;
 }
 
-/* passsword field */
 .password-field {
   position: relative;
   width: 100%;
@@ -369,8 +361,6 @@
   color: #a855f7;
 }
 
-/* filepath: c:\Users\USER\Downloads\profile 1\achievment.css */
-
 .profile-left-col > #editProfileFormContainer {
   width: 100%;
   max-width: 370px;
@@ -378,5 +368,5 @@
 }
 
 .achievements-container {
-  margin-top: 4px; /* tambahkan/ubah jadi lebih kecil, misal 4px */
+  margin-top: 4px;
 }

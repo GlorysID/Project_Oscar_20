@@ -1,11 +1,9 @@
-/* ...existing code... */
-
 /* Achievements Container */
 .achievements-container {
   min-height: 0;
   max-height: 300px;
   height: auto;
-  padding: 10px 18px 10px 18px; /* lebih rapat */
+  padding: 10px 18px 10px 18px;
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--rt-border);
@@ -16,22 +14,20 @@
   flex-direction: column;
   justify-content: flex-end;
   box-sizing: border-box;
-  gap: 10px; /* hilangkan gap flex antar child */
+  gap: 10px;
   margin-bottom: 20px;
- 
 }
 
-
 .achievements-header {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 700;
   font-size: 1.3em;
   color: #fff;
-  margin-bottom: 6px; /* lebih rapat */
+  margin-bottom: 6px;
 }
 .achievements-list {
   display: flex;
-  gap: 8px; /* badge lebih rapat */
+  gap: 8px;
   flex-wrap: wrap;
   justify-content: center;
 }
@@ -41,12 +37,13 @@
   display: none;
   position: fixed;
   z-index: 9999;
-  left: 0; top: 0;
-  width: 100vw; height: 100vh;
-  background:  rgba(20, 16, 40, 0.85);
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(20, 16, 40, 0.85);
   align-items: center;
   justify-content: center;
-
 }
 .achievements-modal.active {
   display: flex;
@@ -99,10 +96,6 @@
     padding: 24px 8vw;
   }
 }
-/* ...existing code... */
-
-
-/* ...existing code... */
 
 /* Tooltip bubble */
 .badge-tooltip {
@@ -134,9 +127,6 @@
   position: relative;
 }
 
-/* Garis bawah sejajar profile */
-
-
 /* Responsive fix */
 @media (max-width: 900px) {
   .achievements-container {
@@ -144,4 +134,3 @@
     height: auto;
   }
 }
-/* ...existing code... */

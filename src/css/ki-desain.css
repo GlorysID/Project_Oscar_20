@@ -9,9 +9,9 @@
   height: 100vh;
   overflow: hidden;
   display: flex;
-  flex-direction: column;      /* <--- pastikan column */
-  align-items: center;         /* <--- center horizontal */
-  justify-content: center;     /* <--- center vertical */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   z-index: 2;
   box-sizing: border-box;
 }
@@ -20,14 +20,13 @@
   width: 100%;
   margin-top: 50px;
   text-align: center;
-  font-size:80px;
-  font-family:  'Poppins', sans-serif ;
+  font-size: 80px;
+  font-family: "Poppins", sans-serif;
   z-index: 2;
-  
 }
 
 .banner h1 .kiddos {
-  color: #ffffff ;
+  color: #ffffff;
   background-clip: text;
   font-weight: 700;
   letter-spacing: 2px;
@@ -35,14 +34,13 @@
 }
 
 .banner h1 .ai {
-  color:  #ff38d6;
+  color: #ff38d6;
   background-clip: text;
   font-weight: 700;
   letter-spacing: 2px;
   text-shadow: 0 0 10px #ff38d6;
 }
 
-/* Tambahkan ini untuk background hijau di bawah banner */
 .bg-code {
   margin-top: 0;
   width: 100vw;
@@ -53,7 +51,6 @@
   position: relative;
   z-index: 1;
   box-sizing: border-box;
-  /* Gradasi ungu gelap ke hitam */
   background: linear-gradient(180deg, rgba(29, 3, 49, 1) 0%, #0a0512 100%);
   overflow: hidden;
 }
@@ -72,10 +69,8 @@
   align-items: center;
   justify-content: center;
   display: flex;
-  
 }
 
-/* Ornamen glow pink kiri atas (bulat, smooth) */
 .bg-code::before {
   content: "";
   position: absolute;
@@ -84,15 +79,19 @@
   width: 220px;
   height: 220px;
   border-radius: 50%;
-  background: radial-gradient(circle at 50% 50%, #ff38d6 0%, rgba(255,56,214,0.15) 70%, transparent 100%);
+  background: radial-gradient(
+    circle at 50% 50%,
+    #ff38d6 0%,
+    rgba(255, 56, 214, 0.15) 70%,
+    transparent 100%
+  );
   filter: blur(32px);
   opacity: 0.7;
   z-index: 0;
   pointer-events: none;
-  animation: glow-spin 32s linear infinite; /* Lebih lambat */
+  animation: glow-spin 32s linear infinite;
 }
 
-/* Ornamen glow pink kanan bawah (bulat, smooth) */
 .bg-code::after {
   content: "";
   position: absolute;
@@ -101,15 +100,19 @@
   width: 260px;
   height: 260px;
   border-radius: 50%;
-  background: radial-gradient(circle at 50% 50%, #ff38d6 0%, rgba(255,56,214,0.12) 70%, transparent 100%);
+  background: radial-gradient(
+    circle at 50% 50%,
+    #ff38d6 0%,
+    rgba(255, 56, 214, 0.12) 70%,
+    transparent 100%
+  );
   filter: blur(36px);
   opacity: 0.6;
   z-index: 0;
   pointer-events: none;
-  animation: glow-spin 40s linear infinite reverse; /* Lebih lambat dan arah berlawanan */
+  animation: glow-spin 40s linear infinite reverse;
 }
 
-/* Ornamen glow pink tengah kiri */
 .bg-code .pink-glow {
   position: absolute;
   top: 40%;
@@ -117,7 +120,12 @@
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  background: radial-gradient(circle at 50% 50%, #ff38d6 0%, rgba(255,56,214,0.10) 70%, transparent 100%);
+  background: radial-gradient(
+    circle at 50% 50%,
+    #ff38d6 0%,
+    rgba(255, 56, 214, 0.1) 70%,
+    transparent 100%
+  );
   filter: blur(24px);
   opacity: 0.5;
   z-index: 0;
@@ -125,7 +133,6 @@
   animation: glow-spin 36s linear infinite;
 }
 
-/* Ornamen glow pink tengah kanan */
 .bg-code .pink-glow2 {
   position: absolute;
   top: 60%;
@@ -133,20 +140,19 @@
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background: radial-gradient(circle at 50% 50%, #ff38d6 0%, rgba(255,56,214,0.10) 70%, transparent 100%);
+  background: radial-gradient(
+    circle at 50% 50%,
+    #ff38d6 0%,
+    rgba(255, 56, 214, 0.1) 70%,
+    transparent 100%
+  );
   filter: blur(20px);
   opacity: 0.4;
   z-index: 0;
   pointer-events: none;
   animation: glow-spin 28s linear infinite reverse;
 }
-/* BACKGROUND CODE END*/
 
-
-
-
-
-/* TERMINALSTYLE */
 .terminal {
   height: 200px;
   overflow-y: auto;
@@ -154,11 +160,12 @@
   color: #0f0;
   padding: 12px;
   border-radius: 12px;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-  font-size: .9rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", monospace;
+  font-size: 0.9rem;
   line-height: 1.4;
-  border: 1px solid rgba(255, 255, 255, .12);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, .3);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
 .terminal .error {
@@ -168,9 +175,7 @@
 .terminal .sys {
   color: #9ad3ff;
 }
-/* TERMINAL STYLE END*/
 
-/* ===== ANIMATIONS ===== */
 @keyframes slideFadeIn {
   from {
     transform: translateX(20px);
@@ -195,7 +200,7 @@
 
 @keyframes rt-bounce {
   0% {
-    transform: translateY(8px) scale(.98);
+    transform: translateY(8px) scale(0.98);
     opacity: 0;
   }
   60% {
@@ -208,8 +213,10 @@
 }
 
 @keyframes rt-blink {
-  0%, 80%, 100% {
-    opacity: .25;
+  0%,
+  80%,
+  100% {
+    opacity: 0.25;
   }
   40% {
     opacity: 1;
@@ -230,38 +237,62 @@
   }
 }
 
-/* ===== RESPONSIVE DESIGN ===== */
 @media (min-width: 992px) {
   .editor-grid {
     grid-template-columns: 1fr 1fr;
   }
 }
 
-/* Bootstrap SM: max-width 576px */
 @media (max-width: 575.98px) {
-  .rt-carousel { padding-inline: 48px; }
-  .rt-nav-btn { width: 52px; height: 52px; }
-  .rt-prev { left: 8px; }
-  .rt-next { right: 8px; }
+  .rt-carousel {
+    padding-inline: 48px;
+  }
+  .rt-nav-btn {
+    width: 52px;
+    height: 52px;
+  }
+  .rt-prev {
+    left: 8px;
+  }
+  .rt-next {
+    right: 8px;
+  }
 }
 
-/* Bootstrap XS: max-width 480px */
 @media (max-width: 479.98px) {
-  .rt-carousel { padding: 0 52px 40px; }
-  .rt-nav-btn { width: 48px; height: 48px; }
-  .rt-prev { left: 8px; }
-  .rt-next { right: 8px; }
+  .rt-carousel {
+    padding: 0 52px 40px;
+  }
+  .rt-nav-btn {
+    width: 48px;
+    height: 48px;
+  }
+  .rt-prev {
+    left: 8px;
+  }
+  .rt-next {
+    right: 8px;
+  }
 }
 
-/* Bootstrap custom for very small device */
 @media (max-width: 419.98px) {
-  .rt-chat-window { height: 360px; }
-  .rt-bubble { max-width: calc(86% - 44px); }
-  .rt-avatar { width: 32px; height: 32px; font-size: 16px; }
-  .rt-avatar::after { width: 8px; height: 8px; }
+  .rt-chat-window {
+    height: 360px;
+  }
+  .rt-bubble {
+    max-width: calc(86% - 44px);
+  }
+  .rt-avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+  }
+  .rt-avatar::after {
+    width: 8px;
+    height: 8px;
+  }
 }
 
-/* Chatbot container responsive */
 @media (max-width: 991.98px) {
   .rt-chatbot {
     max-width: 98vw;
@@ -279,7 +310,6 @@
   }
 }
 
-/* Hilangkan tombol slider di tablet & mobile */
 @media (max-width: 767.98px) {
   .rt-nav-btn {
     display: none !important;
@@ -290,7 +320,6 @@
   }
 }
 
-/* Perbaiki preview editor di mobile */
 @media (max-width: 575.98px) {
   .preview-wrapper {
     height: 260px;
@@ -302,7 +331,6 @@
   }
 }
 
-/* Navigasi lebih kecil di tablet & android */
 @media (max-width: 767.98px) {
   .custom-navbar {
     padding: 8px 12px;
@@ -317,10 +345,20 @@
   }
 }
 
-/* Untuk device sangat kecil */
 @media (max-width: 419.98px) {
-  .rt-chat-window { height: 220px; }
-  .rt-bubble { max-width: calc(82% - 32px); }
-  .rt-avatar { width: 24px; height: 24px; font-size: 13px; }
-  .rt-avatar::after { width: 6px; height: 6px; }
+  .rt-chat-window {
+    height: 220px;
+  }
+  .rt-bubble {
+    max-width: calc(82% - 32px);
+  }
+  .rt-avatar {
+    width: 24px;
+    height: 24px;
+    font-size: 13px;
+  }
+  .rt-avatar::after {
+    width: 6px;
+    height: 6px;
+  }
 }
