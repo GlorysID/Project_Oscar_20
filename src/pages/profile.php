@@ -317,11 +317,15 @@
 
       <?php else: ?>
         <!-- Modal kalau belum login -->
-        <div class="modal fade show" id="loginRequiredModal" tabindex="-1" style="display:block; background:rgba(0,0,0,0.8);">
+        <div class="modal fade show" id="loginRequiredModal" tabindex="-1" style="display:block; background: linear-gradient(
+    to bottom,
+    rgb(7, 0, 11) 0%,
+    rgba(29, 3, 49, 1) 100%
+  );">
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content text-center p-4">
-              <h3 class="mb-3">⚠️ Akses Ditolak</h3>
-              <p>Kamu harus login dulu untuk membuka halaman Profile.</p>
+              <h3 class="mb-3 text-dark">⚠️ Akses Ditolak</h3>
+              <p class="text-dark">Kamu harus login dulu untuk membuka semua fitur.</p>
               <a href="/project_oscar_20/src/pages/login.php" class="btn btn-primary mt-3">Login Sekarang</a>
             </div>
           </div>

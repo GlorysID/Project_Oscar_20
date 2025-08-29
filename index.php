@@ -114,7 +114,7 @@ require_once __DIR__ . "/auth/helpers.php";
         <img src="src/img/profileicons.png" class="menu-icon" />Profile
       </a>
       <?php else: ?>
-      <a href="#" onclick="showLoginModal()">
+      <a href="src/pages/profile.php" onclick="showLoginModal()">
         <img src="src/img/profileicons.png" class="menu-icon" />Profile
       </a>
       <?php endif; ?>
@@ -369,6 +369,7 @@ require_once __DIR__ . "/auth/helpers.php";
             <li><a href="#">Home</a></li>
             <li><a href="#Materi">Learn</a></li>
             <li><a href="#Games">Games</a></li>
+            <li><a href="src/pages/profile.php">Profile</a></li>
           </ul>
         </div>
 
