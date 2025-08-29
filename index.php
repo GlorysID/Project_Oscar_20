@@ -74,7 +74,7 @@ require_once __DIR__ . "/auth/helpers.php";
               "
               onclick="location.href='src/pages/profile.php'"
             />
-            <a href="auth/logout.php" class="btn btn-outline-light btn-sm"
+            <a href="auth/logout.php" class="btn btn-outline-light btn-sm" style="padding-top:0.3rem;"
               >Logout</a
             >
           </div>

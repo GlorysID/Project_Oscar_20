@@ -22,7 +22,7 @@
     }
 
     function redirect($path) {
-    $base = "/Project_Oscar_20"; // ganti sesuai folder project di htdocs
+    $base = "/Project_Oscar_20";
     header("Location: " . $base . $path);
     exit;
 }

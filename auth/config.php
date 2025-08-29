@@ -4,7 +4,7 @@ $DB_HOST = "localhost";
 $DB_NAME = "kiddos_auth";
 $DB_USER = "root";
 $DB_PASS = "";
-$BASE_URL = "/project-oscar-main";
+$BASE_URL = "/project_oscar_20";
 
 // === PDO Connection ===
 try {

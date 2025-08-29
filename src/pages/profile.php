@@ -47,6 +47,7 @@
         /* ===== BASE STYLES ===== */
         html,
         body {
+          font-family: "Baloo 2", sans-serif;
           height: 100%;
           margin: 0;
           padding: 0;
@@ -58,6 +59,31 @@
         body::-webkit-scrollbar {
           display: none;
         }
+
+        .btn {
+        height: 30px;
+        padding: 0 16px;
+        background: linear-gradient(45deg, #8b5cf6, #a78bfa);
+        padding-top: 2px;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(138, 92, 246, 0.3);
+      }
+
+      .btn:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(138, 92, 246, 0.4);
+      }
+
+      .btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
       </style>
     </head>
     <body>
@@ -197,7 +223,7 @@
             <!-- Form Edit Profil (panel kanan, hidden by default) -->
             <div class="profile-edit-panel" id="profileEditPanel">
               <div class="profile-form">
-                <form id="editProfileForm" method="POST" action="/project-oscar-main/auth/update_profile.php" enctype="multipart/form-data">
+                <form id="editProfileForm" method="POST" action="/project_oscar_20/auth/update_profile.php" enctype="multipart/form-data">
                   <label>Nama Display</label>
                   <input type="text" name="full_name" id="editName" value="<?= htmlspecialchars($user['full_name'] ?? '') ?>" />
 
@@ -241,12 +267,12 @@
             <a href="../../index.php" class="logo"
               ><img src="../img/KiddosLogo.png" alt="Logo"
             /></a>
-            <div class="nav-right">
-              <div class="chatbot">
-                <a href="Kiddos AI.html"><img src="../img/boticons.png" alt="Chatbot"></a>
-              </div>
-              <?php if ($logged_in): ?>
-                <a href="/project-oscar-main/auth/logout.php" class="btn btn-primary">Logout</a>
+            <?php if ($logged_in): ?>
+              <div class="nav-right">
+                <div class="chatbot">
+                  <a href="Kiddos AI.html"><img src="../img/boticons.png" alt="Chatbot"></a>
+                </div>
+                <a href="/project_oscar_20/auth/logout.php" class="btn btn-outline-light btn-sm" style="padding-top:0.3rem; ">Logout</a>
               <?php endif; ?>
               <div class="hamburger" id="hamburger">
                 <span></span><span></span><span></span>
@@ -296,7 +322,7 @@
             <div class="modal-content text-center p-4">
               <h3 class="mb-3">⚠️ Akses Ditolak</h3>
               <p>Kamu harus login dulu untuk membuka halaman Profile.</p>
-              <a href="/project-oscar-main/src/pages/login.php" class="btn btn-primary mt-3">Login Sekarang</a>
+              <a href="/project_oscar_20/src/pages/login.php" class="btn btn-primary mt-3">Login Sekarang</a>
             </div>
           </div>
         </div>

@@ -106,7 +106,7 @@ if (!empty($_FILES['avatar']['tmp_name']) && is_uploaded_file($_FILES['avatar'][
     $stmt->execute([':id' => $user_id]);
     $old = $stmt->fetch(PDO::FETCH_ASSOC);
     if ($old && !empty($old['avatar'])) {
-        $oldAvatar = $old['avatar']; // bisa '/project-oscar-main/uploads/avatars/...' atau 'uploads/...'
+        $oldAvatar = $old['avatar']; // bisa '/project_oscar_20/uploads/avatars/...' atau 'uploads/...'
         $oldBasename = basename($oldAvatar);
         $oldFull = $uploadsDir . DIRECTORY_SEPARATOR . $oldBasename;
         if (is_file($oldFull)) {
