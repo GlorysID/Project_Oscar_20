@@ -17,11 +17,66 @@
       }
       .pill.done {
         background: #22c55e;
-        color: white;
+        color: #fff;
       }
       .pill.active {
         background: #3b82f6;
-        color: white;
+        color: #fff;
+      }
+      .ghost.disabled,
+      .ghost[disabled] {
+        opacity: 0.45;
+        pointer-events: none;
+      }
+      .msg.soft {
+        opacity: 0.95;
+        font-size: 0.95rem;
+      }
+      .chip {
+        background: var(--chip);
+        color: #fff;
+        padding: 8px 12px;
+        border-radius: 999px;
+        font-family: ui-monospace, monospace;
+        cursor: grab;
+        user-select: none;
+      }
+      .chip:active {
+        cursor: grabbing;
+        transform: scale(0.98);
+      }
+      .slots {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+      }
+      .slot {
+        min-width: 90px;
+        min-height: 36px;
+        background: #fff;
+        border: 2px dashed #94a3b8;
+        border-radius: 10px;
+        padding: 6px 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #64748b;
+        font-family: ui-monospace, monospace;
+        user-select: none;
+      }
+      .slot.filled {
+        border-style: solid;
+        border-color: #94a3b8;
+        color: #0f172a;
+      }
+      .slot.correct {
+        border-color: var(--ok);
+        background: #dcfce7;
+      }
+      .slot.wrong {
+        border-color: var(--err);
+        background: #fee2e2;
       }
     </style>
   </head>
@@ -29,9 +84,9 @@
     <!-- Navbar -->
     <nav class="custom-navbar fixed-top">
       <div class="navbar-container">
-        <a href="../../index.php" class="logo">
-          <img src="../img/KiddosLogo.png" alt="Logo" />
-        </a>
+        <a href="../../index.php" class="logo"
+          ><img src="../img/KiddosLogo.png" alt="Logo"
+        /></a>
         <div class="nav-right">
           <div class="chatbot">
             <a href="Kiddos AI.html"
@@ -94,16 +149,18 @@
           <div
             id="instruksiBox"
             class="sub"
-            style="font-weight: 600; color: #ffffff"
+            style="font-weight: 600; color: #fff"
           ></div>
           <div class="prompt"><code id="preview"></code></div>
           <div class="slots" id="slots"></div>
+
           <div>
             <div style="font-weight: 700; margin-bottom: 6px; color: white">
               Bank Jawaban:
             </div>
             <div id="bank" class="bank"></div>
           </div>
+
           <div class="actions">
             <button id="btnCheck" class="primary">Cek Jawaban</button>
             <button id="btnReset" class="ghost">Reset Susunan</button>
@@ -153,301 +210,466 @@
     </div>
 
     <script>
-      // ======= DATA SOAL BLOK SCRATCH =======
-      const QUIZ = [
-        {
-          instruksi: "Blok biru digunakan untuk?",
-          preview: "?",
-          slots: ["Motion (Gerakan)"],
-          bank: ["Motion (Gerakan)", "Looks (Tampilan)", "Control (Kontrol)"],
-        },
-        {
-          instruksi: "Contoh blok Motion adalah?",
-          preview: "?",
-          slots: ["move 10 steps"],
-          bank: ["move 10 steps", "Memainkan suara", "say Hello!"],
-        },
-        {
-          instruksi: "Blok ungu (Looks) digunakan untuk?",
-          preview: "?",
-          slots: ["Mengubah tampilan sprite"],
-          bank: ["Mengubah tampilan sprite", "Memutar sprite", "Mengatur skor"],
-        },
-        {
-          instruksi: "Contoh blok Looks adalah?",
-          preview: "?",
-          slots: ["switch costume to ..."],
-          bank: ["switch costume to ...", "play sound Meow"],
-        },
-        {
-          instruksi: "Blok pink (Sound) digunakan untuk?",
-          preview: "?",
-          slots: ["Memainkan suara"],
-          bank: ["Memainkan suara", "Mengulang perintah", "Membuat variabel"],
-        },
-        {
-          instruksi: "Blok kuning (Events) berfungsi untuk?",
-          preview: "?",
-          slots: ["Memicu peristiwa (aksi)"],
-          bank: [
-            "Memicu peristiwa (aksi)",
-            "Menggambar sprite",
-            "Menghapus variabel",
-          ],
-        },
-        {
-          instruksi: "Blok oranye (Control) digunakan untuk?",
-          preview: "?",
-          slots: ["Mengatur alur program"],
-          bank: ["Mengatur alur program", "Mengubah kostum", "Menambah suara"],
-        },
-        {
-          instruksi: "Blok hijau (Operators) untuk?",
-          preview: "?",
-          slots: ["Operasi matematika/logika"],
-          bank: [
-            "Operasi matematika/logika",
-            "Memainkan musik",
-            "Menampilkan teks",
-          ],
-        },
-        {
-          instruksi: "Blok oranye tua (Variables) berfungsi untuk?",
-          preview: "?",
-          slots: ["Membuat & mengatur variabel"],
-          bank: [
-            "Membuat & mengatur variabel",
-            "Mengubah warna sprite",
-            "Memicu event",
-          ],
-        },
-        {
-          instruksi: "Blok merah muda (My Blocks) digunakan untuk?",
-          preview: "?",
-          slots: ["Membuat blok buatan sendiri"],
-          bank: [
-            "Membuat blok buatan sendiri",
-            "Menjalankan perintah acak",
-            "Membuat suara baru",
-          ],
-        },
-      ];
+      // endpoint (sesuaikan jika berbeda)
+      const API = "/project_oscar_20/src/pages/level2_api.php";
 
-      // ======= GAME LOGIC =======
-      let idx = 0;
-      let answers = Array(QUIZ.length).fill(null);
-      let done = Array(QUIZ.length).fill(false);
-      const LS_KEY = "course:Scratch:level2:progress";
+      document.addEventListener("DOMContentLoaded", () => {
+        const QUIZ = [
+          {
+            instruksi: "Blok biru digunakan untuk?",
+            preview: "?",
+            slots: ["Motion (Gerakan)"],
+            bank: ["Motion (Gerakan)", "Looks (Tampilan)", "Control (Kontrol)"],
+          },
+          {
+            instruksi: "Contoh blok Motion adalah?",
+            preview: "?",
+            slots: ["move 10 steps"],
+            bank: ["move 10 steps", "Memainkan suara", "say Hello!"],
+          },
+          {
+            instruksi: "Blok ungu (Looks) digunakan untuk?",
+            preview: "?",
+            slots: ["Mengubah tampilan sprite"],
+            bank: [
+              "Mengubah tampilan sprite",
+              "Memutar sprite",
+              "Mengatur skor",
+            ],
+          },
+          {
+            instruksi: "Contoh blok Looks adalah?",
+            preview: "?",
+            slots: ["switch costume to ..."],
+            bank: ["switch costume to ...", "play sound Meow"],
+          },
+          {
+            instruksi: "Blok pink (Sound) digunakan untuk?",
+            preview: "?",
+            slots: ["Memainkan suara"],
+            bank: ["Memainkan suara", "Mengulang perintah", "Membuat variabel"],
+          },
+          {
+            instruksi: "Blok kuning (Events) berfungsi untuk?",
+            preview: "?",
+            slots: ["Memicu peristiwa (aksi)"],
+            bank: [
+              "Memicu peristiwa (aksi)",
+              "Menggambar sprite",
+              "Menghapus variabel",
+            ],
+          },
+          {
+            instruksi: "Blok oranye (Control) digunakan untuk?",
+            preview: "?",
+            slots: ["Mengatur alur program"],
+            bank: [
+              "Mengatur alur program",
+              "Mengubah kostum",
+              "Menambah suara",
+            ],
+          },
+          {
+            instruksi: "Blok hijau (Operators) untuk?",
+            preview: "?",
+            slots: ["Operasi matematika/logika"],
+            bank: [
+              "Operasi matematika/logika",
+              "Memainkan musik",
+              "Menampilkan teks",
+            ],
+          },
+          {
+            instruksi: "Blok oranye tua (Variables) berfungsi untuk?",
+            preview: "?",
+            slots: ["Membuat & mengatur variabel"],
+            bank: [
+              "Membuat & mengatur variabel",
+              "Mengubah warna sprite",
+              "Memicu event",
+            ],
+          },
+          {
+            instruksi: "Blok merah muda (My Blocks) digunakan untuk?",
+            preview: "?",
+            slots: ["Membuat blok buatan sendiri"],
+            bank: [
+              "Membuat blok buatan sendiri",
+              "Menjalankan perintah acak",
+              "Membuat suara baru",
+            ],
+          },
+        ];
 
-      const saved = JSON.parse(localStorage.getItem(LS_KEY) || "{}");
-      if (saved.idx !== undefined) idx = saved.idx;
-      if (saved.answers) answers = saved.answers;
-      if (saved.done) done = saved.done;
+        // UI elems
+        const bar = document.getElementById("bar");
+        const qTitle = document.getElementById("qTitle");
+        const previewEl = document.getElementById("preview");
+        const slotsWrap = document.getElementById("slots");
+        const bankWrap = document.getElementById("bank");
+        const feedback = document.getElementById("feedback");
+        const pillWrap = document.getElementById("pillWrap");
+        const badgeBox = document.getElementById("badgeBox");
+        const btnPrev = document.getElementById("btnPrev");
 
-      const bar = document.getElementById("bar");
-      const qTitle = document.getElementById("qTitle");
-      const preview = document.getElementById("preview");
-      const slotsWrap = document.getElementById("slots");
-      const bankWrap = document.getElementById("bank");
-      const feedback = document.getElementById("feedback");
-      const pillWrap = document.getElementById("pillWrap");
-      const badgeBox = document.getElementById("badgeBox");
+        // state (will be loaded from DB)
+        let idx = 0;
+        let answers = Array(QUIZ.length).fill(null);
+        let done = Array(QUIZ.length).fill(false);
 
-      function render() {
-        const q = QUIZ[idx];
-        document.getElementById("instruksiBox").textContent = q.instruksi || "";
-        qTitle.textContent = `Tantangan ${idx + 1}/${QUIZ.length}`;
-        preview.innerHTML = q.preview.replaceAll(
-          "?",
-          "<span style='color:#22c55e'>[slot]</span>"
-        );
-
-        const doneCount = done.filter(Boolean).length;
-        bar.style.width = ((doneCount / QUIZ.length) * 100).toFixed(1) + "%";
-
-        pillWrap.innerHTML = "";
-        for (let i = 0; i < QUIZ.length; i++) {
-          const d = document.createElement("div");
-          d.className =
-            "pill" + (done[i] ? " done" : "") + (i === idx ? " active" : "");
-          d.textContent = i + 1;
-          pillWrap.appendChild(d);
-        }
-
-        slotsWrap.innerHTML = "";
-        const currentAns = answers[idx] || Array(q.slots.length).fill(null);
-        for (let i = 0; i < q.slots.length; i++) {
-          const s = document.createElement("div");
-          s.className = "slot" + (currentAns[i] ? " filled" : "");
-          s.dataset.slotIndex = i;
-          s.ondragover = (e) => e.preventDefault();
-          s.ondrop = (e) => {
-            const tokenKey = e.dataTransfer.getData("text/plain");
-            placeToken(i, tokenKey);
-          };
-          s.textContent = currentAns[i] || "drop here";
-          slotsWrap.appendChild(s);
-        }
-
-        bankWrap.innerHTML = "";
-        let bankTokens = [...q.bank];
-        bankTokens = [...bankTokens];
-        for (let i = bankTokens.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [bankTokens[i], bankTokens[j]] = [bankTokens[j], bankTokens[i]];
-        }
-        bankTokens.forEach((tok, i) => {
-          const uniqueKey = tok + "::" + i;
-          const c = document.createElement("div");
-          c.className = "chip";
-          c.draggable = true;
-          c.textContent = tok;
-          c.ondragstart = (e) =>
-            e.dataTransfer.setData("text/plain", uniqueKey);
-          c.onclick = () => {
-            const firstEmpty = (
-              answers[idx] || Array(q.slots.length).fill(null)
-            ).findIndex((v) => !v);
-            if (firstEmpty > -1) placeToken(firstEmpty, uniqueKey);
-          };
-          bankWrap.appendChild(c);
-        });
-
-        feedback.className = "msg hidden";
-        feedback.textContent = "";
-        badgeBox.classList.toggle("hidden", !(doneCount === QUIZ.length));
-      }
-
-      function placeToken(slotIndex, tokenKey) {
-        const [value] = tokenKey.split("::");
-        const q = QUIZ[idx];
-        let cur = answers[idx] || Array(q.slots.length).fill(null);
-        cur[slotIndex] = value;
-        answers[idx] = cur;
-        save();
-        render();
-      }
-
-      function checkCurrent() {
-        const q = QUIZ[idx];
-        const cur = answers[idx] || Array(q.slots.length).fill(null);
-        if (cur.some((v) => !v)) {
-          showMsg("Isi semua slot dulu ya 🔎", false, true);
-          return;
-        }
-        const slots = [...document.querySelectorAll(".slot")];
-        let allCorrect = true;
-        for (let i = 0; i < q.slots.length; i++) {
-          if (cur[i] === q.slots[i]) {
-            slots[i].classList.add("correct");
-            slots[i].classList.remove("wrong");
-          } else {
-            slots[i].classList.add("wrong");
-            slots[i].classList.remove("correct");
-            allCorrect = false;
+        // load from DB
+        async function loadFromServer() {
+          try {
+            const resp = await fetch(API + "?action=get_progress", {
+              credentials: "same-origin",
+            });
+            const data = await resp.json();
+            if (data.success && data.progress) {
+              const p = data.progress;
+              if (p.idx !== undefined) idx = p.idx;
+              if (Array.isArray(p.answers)) answers = p.answers;
+              if (Array.isArray(p.done)) done = p.done;
+            }
+            // (optional) you can show current exp from data.exp
+            render();
+          } catch (err) {
+            console.error("Gagal load progress:", err);
+            render(); // fallback render empty state
           }
         }
-        if (allCorrect) {
-          done[idx] = true;
-          showMsg("Mantap! Jawaban tepat ✅", true);
-          save();
-          setTimeout(() => {
-            if (idx < QUIZ.length - 1) {
-              idx++;
-              save();
-              render();
-            } else {
-              render();
-              onFinishLevel();
-            }
-          }, 700);
-        } else showMsg("Masih ada yang salah ❌", false);
-      }
 
-      function resetCurrent() {
-        const q = QUIZ[idx];
-        answers[idx] = Array(q.slots.length).fill(null);
-        document
-          .querySelectorAll(".slot")
-          .forEach((s) => s.classList.remove("correct", "wrong", "filled"));
-        save();
-        render();
-      }
-
-      function onFinishLevel() {
-        document.getElementById("nextLevelPopup").style.display = "flex";
-        document.getElementById("nextBtn").onclick = () => {
-          document.getElementById("nextLevelPopup").style.display = "none";
-          window.location.href = "level3scratch.html"; // arahkan ke level 3
-        };
-      }
-
-      function showMsg(text, ok, soft = false) {
-        feedback.textContent = text;
-        feedback.className = "msg " + (ok ? "ok" : "err");
-        if (soft) feedback.classList.add("soft");
-        feedback.classList.remove("hidden");
-      }
-
-      function save() {
-        localStorage.setItem(LS_KEY, JSON.stringify({ idx, answers, done }));
-      }
-
-      document.getElementById("resetBtn").addEventListener("click", () => {
-        if (confirm("Yakin mau reset progress?")) {
-          localStorage.removeItem(LS_KEY);
-          location.reload();
+        // save to DB
+        async function saveToServer() {
+          try {
+            const body = new FormData();
+            body.append("action", "save_progress");
+            body.append("progress", JSON.stringify({ idx, answers, done }));
+            const resp = await fetch(API, {
+              method: "POST",
+              body,
+              credentials: "same-origin",
+            });
+            const data = await resp.json();
+            if (!data.success) console.warn("save_progress failed:", data);
+            return data;
+          } catch (err) {
+            console.error("save_progress exception", err);
+            return { success: false, error: "network" };
+          }
         }
-      });
 
-      document.getElementById("btnCheck").onclick = checkCurrent;
-      document.getElementById("btnReset").onclick = resetCurrent;
-      render();
+        // award EXP via server (safe, idempotent server-side)
+        async function awardExpForQuestion(index) {
+          const awardKey = "scratch_level2_q_" + (index + 1);
+          const fd = new FormData();
+          fd.append("action", "grant_exp");
+          fd.append("award_key", awardKey);
+          fd.append("amount", "100"); // amount per question (ubah sesuai req)
+          try {
+            const resp = await fetch(API, {
+              method: "POST",
+              body: fd,
+              credentials: "same-origin",
+            });
+            const ct = resp.headers.get("content-type") || "";
+            if (!resp.ok) {
+              console.warn("awardExp: server non-ok", resp.status);
+              return;
+            }
+            if (ct.includes("application/json")) {
+              const data = await resp.json();
+              if (data.success && data.awarded) {
+                showMsg(`+100 EXP! Mantap 🔥`, true);
+                // (optionally) update displayed exp in profile widget via another fetch call
+              }
+            } else {
+              console.warn("awardExp: unexpected content-type");
+            }
+          } catch (err) {
+            console.error("awardExp exception", err);
+          }
+        }
 
-      // Animasi Bintang
-      const canvas = document.getElementById("starsCanvas");
-      const ctx = canvas.getContext("2d");
-      let stars = [];
-      const numStars = 100;
+        // RENDER
+        function render() {
+          const q = QUIZ[idx];
+          document.getElementById("instruksiBox").textContent =
+            q.instruksi || "";
+          qTitle.textContent = `Tantangan ${idx + 1}/${QUIZ.length}`;
+          previewEl.innerHTML = (q.preview || "")
+            .toString()
+            .replaceAll("?", "<span style='color:#22c55e'>[slot]</span>");
 
-      function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-      }
-      window.addEventListener("resize", resizeCanvas);
-      resizeCanvas();
+          const doneCount = done.filter(Boolean).length;
+          bar.style.width = ((doneCount / QUIZ.length) * 100).toFixed(1) + "%";
 
-      function createStars() {
-        stars = [];
-        for (let i = 0; i < numStars; i++) {
-          stars.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            radius: Math.random() * 1.5,
-            speed: Math.random() * 0.2 + 0.05,
+          pillWrap.innerHTML = "";
+          for (let i = 0; i < QUIZ.length; i++) {
+            const d = document.createElement("div");
+            d.className =
+              "pill" + (done[i] ? " done" : "") + (i === idx ? " active" : "");
+            d.textContent = i + 1;
+            d.onclick = () => {
+              idx = i;
+              saveToServer();
+              render();
+            };
+            pillWrap.appendChild(d);
+          }
+
+          // slots
+          slotsWrap.innerHTML = "";
+          const currentAns =
+            answers[idx] || Array(QUIZ[idx].slots.length).fill(null);
+          for (let i = 0; i < QUIZ[idx].slots.length; i++) {
+            const s = document.createElement("div");
+            s.className = "slot" + (currentAns[i] ? " filled" : "");
+            s.dataset.slotIndex = i;
+            s.ondragover = (e) => e.preventDefault();
+            s.ondrop = (e) => {
+              const tokenKey = e.dataTransfer.getData("text/plain");
+              placeToken(i, tokenKey);
+            };
+            s.textContent = currentAns[i] || "drop here";
+            slotsWrap.appendChild(s);
+          }
+
+          // bank
+          bankWrap.innerHTML = "";
+          const bankTokens = QUIZ[idx].bank.slice();
+          for (let i = bankTokens.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [bankTokens[i], bankTokens[j]] = [bankTokens[j], bankTokens[i]];
+          }
+          bankTokens.forEach((tok, i) => {
+            const uniqueKey = tok + "::" + i;
+            const c = document.createElement("div");
+            c.className = "chip";
+            c.draggable = true;
+            c.textContent = tok;
+            c.ondragstart = (e) =>
+              e.dataTransfer.setData("text/plain", uniqueKey);
+            c.onclick = () => {
+              const firstEmpty = (
+                answers[idx] || Array(QUIZ[idx].slots.length).fill(null)
+              ).findIndex((v) => !v);
+              if (firstEmpty > -1) placeToken(firstEmpty, uniqueKey);
+            };
+            bankWrap.appendChild(c);
+          });
+
+          feedback.className = "msg hidden";
+          feedback.textContent = "";
+          badgeBox.classList.toggle("hidden", !(doneCount === QUIZ.length));
+          updatePrevButtonState();
+        }
+
+        function placeToken(slotIndex, tokenKey) {
+          const [value] = tokenKey.split("::");
+          const q = QUIZ[idx];
+          let cur = answers[idx] || Array(q.slots.length).fill(null);
+          cur[slotIndex] = value;
+          answers[idx] = cur;
+          // save to DB ASAP
+          saveToServer().then(() => render());
+        }
+
+        function showMsg(text, ok, soft = false) {
+          feedback.textContent = text;
+          feedback.className = "msg " + (ok ? "ok" : "err");
+          if (soft) feedback.classList.add("soft");
+          feedback.classList.remove("hidden");
+        }
+
+        // check logic
+        async function checkCurrent() {
+          const q = QUIZ[idx];
+          const cur = answers[idx] || Array(q.slots.length).fill(null);
+          if (cur.some((v) => !v)) {
+            showMsg("Isi semua slot dulu ya 🔎", false, true);
+            return;
+          }
+          const slots = [...document.querySelectorAll(".slot")];
+          let allCorrect = true;
+          for (let i = 0; i < q.slots.length; i++) {
+            if (cur[i] === q.slots[i]) {
+              slots[i].classList.add("correct");
+              slots[i].classList.remove("wrong");
+            } else {
+              slots[i].classList.add("wrong");
+              slots[i].classList.remove("correct");
+              allCorrect = false;
+            }
+          }
+          if (allCorrect) {
+            done[idx] = true;
+            showMsg("Mantap! Jawaban tepat ✅", true);
+            await saveToServer();
+            // award EXP (server ensures idempotency)
+            awardExpForQuestion(idx);
+            setTimeout(() => {
+              if (idx < QUIZ.length - 1) {
+                idx++;
+                saveToServer();
+                render();
+              } else {
+                render();
+                onFinishLevel();
+              }
+            }, 700);
+          } else {
+            showMsg("Masih ada yang salah ❌", false);
+          }
+        }
+
+        function resetCurrent() {
+          answers[idx] = Array(QUIZ[idx].slots.length).fill(null);
+          document
+            .querySelectorAll(".slot")
+            .forEach((s) => s.classList.remove("correct", "wrong", "filled"));
+          saveToServer().then(() => render());
+        }
+
+        function onFinishLevel() {
+          document.getElementById("nextLevelPopup").style.display = "flex";
+          document.getElementById("nextBtn").onclick = () => {
+            document.getElementById("nextLevelPopup").style.display = "none";
+            window.location.href = "level3scratch.html";
+          };
+        }
+
+        // Prev button
+        function updatePrevButtonState() {
+          if (!btnPrev) return;
+          if (idx <= 0) {
+            btnPrev.disabled = true;
+            btnPrev.classList.add("disabled");
+            btnPrev.title = "Tidak ada soal sebelumnya";
+          } else {
+            btnPrev.disabled = false;
+            btnPrev.classList.remove("disabled");
+            btnPrev.title = "Kembali ke soal sebelumnya";
+          }
+        }
+        if (btnPrev)
+          btnPrev.addEventListener("click", (e) => {
+            e.preventDefault();
+            if (idx > 0) {
+              idx = Math.max(0, idx - 1);
+              saveToServer().then(() => render());
+              showMsg(`Kembali ke Tantangan ${idx + 1}`, true, true);
+            }
+          });
+
+        // bind others
+        document
+          .getElementById("btnCheck")
+          .addEventListener("click", checkCurrent);
+        document
+          .getElementById("btnReset")
+          .addEventListener("click", resetCurrent);
+        document.getElementById("resetBtn").addEventListener("click", () => {
+          if (confirm("Yakin mau reset progress?")) {
+            // clear progress on server
+            fetch(API, {
+              method: "POST",
+              credentials: "same-origin",
+              body: new URLSearchParams({
+                action: "save_progress",
+                progress: JSON.stringify({
+                  idx: 0,
+                  answers: Array(QUIZ.length).fill(null),
+                  done: Array(QUIZ.length).fill(false),
+                }),
+              }),
+            }).then(() => {
+              idx = 0;
+              answers = Array(QUIZ.length).fill(null);
+              done = Array(QUIZ.length).fill(false);
+              render();
+            });
+          }
+        });
+
+        // stars animation (same as before)
+        const canvas = document.getElementById("starsCanvas");
+        const ctx = canvas ? canvas.getContext("2d") : null;
+        let stars = [];
+        const numStars = 100;
+        function resizeCanvas() {
+          if (canvas) {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+          }
+        }
+        window.addEventListener("resize", resizeCanvas);
+        resizeCanvas();
+        function createStars() {
+          stars = [];
+          for (let i = 0; i < numStars; i++)
+            stars.push({
+              x: Math.random() * canvas.width,
+              y: Math.random() * canvas.height,
+              radius: Math.random() * 1.5,
+              speed: Math.random() * 0.2 + 0.05,
+            });
+        }
+        function animateStars() {
+          if (!ctx) return;
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.fillStyle = "#fff";
+          stars.forEach((star) => {
+            ctx.beginPath();
+            ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+            ctx.fill();
+            star.y += star.speed;
+            if (star.y > canvas.height) {
+              star.y = 0;
+              star.x = Math.random() * canvas.width;
+            }
+          });
+          requestAnimationFrame(animateStars);
+        }
+        createStars();
+        animateStars();
+
+        // navbar behavior unchanged (omitted for brevity)
+        const hamburger = document.getElementById("hamburger");
+        const sideMenu = document.getElementById("sideMenu");
+        const navbar = document.querySelector(".custom-navbar");
+        function openMenu() {
+          sideMenu.classList.add("active");
+          hamburger.classList.add("open");
+        }
+        function closeMenu() {
+          sideMenu.classList.remove("active");
+          hamburger.classList.remove("open");
+          sideMenu.querySelectorAll("a").forEach((link) => {
+            link.style.animation = "none";
+            setTimeout(() => (link.style.animation = ""), 10);
           });
         }
-      }
-
-      function animateStars() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = "#fff";
-        stars.forEach((star) => {
-          ctx.beginPath();
-          ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-          ctx.fill();
-          star.y += star.speed;
-          if (star.y > canvas.height) {
-            star.y = 0;
-            star.x = Math.random() * canvas.width;
-          }
+        if (hamburger)
+          hamburger.addEventListener("click", () => {
+            const isOpen = sideMenu.classList.toggle("active");
+            hamburger.classList.toggle("open");
+            if (!isOpen) closeMenu();
+          });
+        if (sideMenu) sideMenu.addEventListener("mouseleave", closeMenu);
+        document.addEventListener("mousemove", (e) => {
+          const edgeThreshold = 10;
+          if (window.innerWidth - e.clientX <= edgeThreshold) openMenu();
         });
-        requestAnimationFrame(animateStars);
-      }
+        window.addEventListener("scroll", () => {
+          if (window.scrollY > 50) navbar.classList.add("scrolled");
+          else navbar.classList.remove("scrolled");
+        });
 
-      createStars();
-      animateStars();
+        // init: load server progress then render
+        loadFromServer();
+      });
     </script>
+
     <script src="../js/buttonback.js"></script>
   </body>
 </html>
