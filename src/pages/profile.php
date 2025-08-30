@@ -221,6 +221,29 @@
     <div id="app">
       <section class="bgdesain">
         <canvas id="starfield"></canvas>
+        <div class="avatar-crop-modal" id="avatarCropModal">
+            <div class="avatar-crop-content">
+              <span class="avatar-crop-close" id="avatarCropClose">&times;</span>
+              <h3>Edit foto</h3>
+              <div class="avatar-crop-preview" id="avatarCropPreview"></div>
+              <div class="avatar-crop-slider">
+                <label>Zoom</label>
+                <input
+                  type="range"
+                  id="avatarZoom"
+                  min="1"
+                  max="2.5"
+                  step="0.01"
+                  value="1"
+                />
+              </div>
+              <div class="avatar-crop-actions">
+                <button id="avatarCropDelete" class="btn-delete">Hapus</button>
+                <button id="avatarCropCancel" class="btn-reset">Batal</button>
+                <button id="avatarCropApply" class="btn-save">Terapkan</button>
+              </div>
+            </div>
+          </div>
         <h1 class="profile-title text-center"><span class="my">My</span> <span class="profile">Profile</span></h1>
         <div class="profile-wrapper">
           <div class="profile-left-col" id="profileLeftCol">
@@ -284,9 +307,18 @@
                 <input type="email" name="email" id="editEmail" value="<?= htmlspecialchars($user['email'] ?? '') ?>" />
                 <label>Password</label>
                 <div class="password-field">
-                  <input type="password" name="password" value="" placeholder="Isi jika ingin ganti password" />
+                  <input 
+                    type="password" 
+                    name="password" 
+                    id="editPassword"
+                    placeholder="Isi jika ingin ganti password"
+                    minlength="6"
+                  />
                   <span class="toggle-password" id="toggleEditPassword"><i class="fa fa-eye"></i></span>
                 </div>
+                <small id="passwordWarning" style="color:red; display:none;">
+                  Password minimal 6 karakter
+                </small>
                 <input type="file" id="avatarInput" name="avatar" accept="image/*" style="display:none;">
                 <div class="form-actions">
                   <button type="submit" class="btn-save">Simpan</button>
@@ -331,6 +363,8 @@
       </div>
     <?php endif; ?>
 
+      
+    
     <!-- external scripts (tetap ada) -->
     <script src="../js/pr-navsidebar.js"></script>
     <script src="../js/pr-profile.js"></script>
@@ -388,5 +422,29 @@
         setTimeout(()=> updateExpDisplay(userData.exp), 120);
       });
     </script>
+    <script>
+  const passwordInput = document.getElementById("editPassword");
+  const passwordWarning = document.getElementById("passwordWarning");
+  const editForm = document.getElementById("editProfileForm");
+
+  // realtime cek input
+  passwordInput.addEventListener("input", () => {
+    if (passwordInput.value.length > 0 && passwordInput.value.length < 6) {
+      passwordWarning.style.display = "block";
+    } else {
+      passwordWarning.style.display = "none";
+    }
+  });
+
+  // validasi sebelum submit
+  editForm.addEventListener("submit", (e) => {
+    if (passwordInput.value.length > 0 && passwordInput.value.length < 6) {
+      e.preventDefault();
+      alert("Password minimal 6 karakter!");
+      passwordInput.focus();
+    }
+  });
+</script>
+
   </body>
 </html>

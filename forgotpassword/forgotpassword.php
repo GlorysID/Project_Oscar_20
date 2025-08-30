@@ -10,7 +10,7 @@ unset($_SESSION['flash']);
     <head>
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Kiddos Forgot Password</title>
+      <title>Kiddos Lupa Password</title>
       <link
         href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600&family=Poppins:wght@400;500;600&display=swap"
         rel="stylesheet"
@@ -322,8 +322,8 @@ unset($_SESSION['flash']);
         }
 
         .login-button:hover {
-          background: linear-gradient(135deg, #7b1fa2, #c2185b);
           transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(138, 92, 246, 0.4);
         }
 
         .login-button:active {
@@ -437,9 +437,9 @@ unset($_SESSION['flash']);
           <div class="wrapper">
             <div class="glass-container">
               <div class="login-header">
-                <h2>Forgot Password</h2>
+                <h2>Lupa Password</h2>
                 <p style="color:#ccc;font-size:0.9rem;font-family:'Poppins',sans-serif;margin-top:4px;">
-                  Enter your email to receive reset link
+                  Masukan Email
                 </p>
               </div>
 
@@ -463,13 +463,13 @@ unset($_SESSION['flash']);
                   </div>
                 </div>
 
-                <button type="submit" class="login-button">Send OTP</button>
+                <button type="submit" class="login-button">Kirim OTP</button>
 
                 <div class="back-link">
-                  <a href="../src/pages/login.php">← Back to Login</a>
+                  <a href="../src/pages/login.php">Kembali Ke Login</a>
                 </div>
                 <div class="back-link">
-                  <a href="../index.php">← Back to Landing Page</a>
+                  <a href="../index.php">Kembali Ke Halaman Utama</a>
                 </div>
               </form>
             </div>
