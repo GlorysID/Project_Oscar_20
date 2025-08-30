@@ -1,21 +1,17 @@
 @import url("ki-desain.css");
 @import url("ki-function.css");
 
-
-
 /* DASAR */
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   padding: 0;
   background: #02030a;
   color: #fff;
-
 }
 
 html::-webkit-scrollbar,
 body::-webkit-scrollbar {
   display: none;
 }
-
-

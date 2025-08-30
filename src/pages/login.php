@@ -15,14 +15,13 @@
         scroll-behavior: smooth;
       }
 
-      /* Hide scrollbar di semua browser modern */
       body {
-        scrollbar-width: none; /* Firefox */
-        -ms-overflow-style: none; /* IE 10+ */
+        scrollbar-width: none; 
+        -ms-overflow-style: none; 
       }
       
       body::-webkit-scrollbar {
-        display: none; /* Chrome, Safari, Opera */
+        display: none; 
       }
 
       html::-webkit-scrollbar,
@@ -50,7 +49,6 @@
         text-align: center;
       }
 
-      /* Dark overlay */
     /* Dark overlay */
     .banner-overlay {
       position: absolute;
@@ -58,7 +56,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.65); /* tingkat gelap */
+      background: rgba(0, 0, 0, 0.65); 
       z-index: 1;
     }
 
@@ -112,12 +110,12 @@
       /* floating icons */
       .icon {
         position: absolute;
-        width: 60px; /* ukuran icon container */
+        width: 60px; 
         animation: float 8s ease-in-out infinite, rotate 12s linear infinite;
         z-index: 1;
       }
       .icon img {
-        width: 60px; /* semua gambar icon sama besar */
+        width: 60px; 
         height: auto;
         display: block;
       }
@@ -414,7 +412,7 @@
     input:-webkit-autofill {
       -webkit-box-shadow: 0 0 0 40px rgba(255, 255, 255, 0.08) inset !important;
       -webkit-text-fill-color: #fff !important;
-      caret-color: #fff; /* biar cursor tetap putih */
+      caret-color: #fff; 
       transition: background-color 9999s ease-in-out 0s;
     }
 

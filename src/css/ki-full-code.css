@@ -688,7 +688,7 @@ body::-webkit-scrollbar {
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 20px;
   backdrop-filter: blur(10px);
-  box-shadow: none; /* Hilangkan bayangan */
+  box-shadow: none;
   padding: 24px;
 }
 
@@ -984,7 +984,6 @@ body::-webkit-scrollbar {
   }
 }
 
-/* Hilangkan tombol slider di tablet & mobile */
 @media (max-width: 767.98px) {
   .rt-nav-btn {
     display: none !important;
@@ -995,7 +994,6 @@ body::-webkit-scrollbar {
   }
 }
 
-/* preview editor di mobile */
 @media (max-width: 575.98px) {
   .preview-wrapper {
     height: 260px;
@@ -1007,7 +1005,6 @@ body::-webkit-scrollbar {
   }
 }
 
-/* Navigasi lebih kecil di tablet & android */
 @media (max-width: 767.98px) {
   .custom-navbar {
     padding: 8px 12px;

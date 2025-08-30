@@ -38,7 +38,7 @@ function spawnStars() {
       originalVy: base,
       r: Math.random() < 0.85 ? r(0.6, 1.6) : r(1.6, 2.8),
       opacity: r(0.4, 1),
-      fade: false, // Tambahkan properti fade
+      fade: false,
     });
   }
 }
@@ -74,14 +74,12 @@ function loop() {
     s.x += s.vx;
     s.y += s.vy;
 
-    // Fade out jika bintang melewati batas bawah canvas
     if (s.y > canvas.height - 20 && !s.fade) {
       s.fade = true;
     }
     if (s.fade) {
-      s.opacity -= 0.025; // Fade out smooth
+      s.opacity -= 0.025;
       if (s.opacity <= 0) {
-        // Respawn bintang di atas
         s.x = r(0, canvas.width);
         s.y = r(-100, -10);
         s.vy = s.originalVy;

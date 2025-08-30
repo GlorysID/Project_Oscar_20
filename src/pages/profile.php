@@ -77,23 +77,16 @@
         $amount = max(0, min(10000, intval($_POST['amount'])));
 
         try {
-          // Prefer update using a JSON column 'awarded_keys' in users table if available.
-          // We'll try to SELECT FOR UPDATE exp and awarded_keys; if awarded_keys column doesn't exist,
-          // fallback ke penyimpanan file di /data/awards_user_{id}.json
-
-          // First attempt: check if users table has 'awarded_keys' column
           $hasAwardedKeys = false;
           try {
             $colCheck = $pdo->prepare("SHOW COLUMNS FROM users LIKE 'awarded_keys'");
             $colCheck->execute();
             $hasAwardedKeys = (bool) $colCheck->fetch(PDO::FETCH_ASSOC);
           } catch (Exception $e) {
-            // ignore, fallback to file method
             $hasAwardedKeys = false;
           }
 
           if ($hasAwardedKeys) {
-            // Use transaction with FOR UPDATE to avoid race
             $pdo->beginTransaction();
 
             $sth = $pdo->prepare("SELECT exp, awarded_keys FROM users WHERE id = ? FOR UPDATE");
@@ -156,7 +149,6 @@
               exit;
             }
 
-            // add key, update exp, save file
             $awardedKeys[] = $award_key;
             $newExp = min(10000, $currentExp + $amount);
 
@@ -365,13 +357,11 @@
 
       
     
-    <!-- external scripts (tetap ada) -->
     <script src="../js/pr-navsidebar.js"></script>
     <script src="../js/pr-profile.js"></script>
     <script src="../js/pr-starfield.js"></script>
     <script src="../js/pr-xp.js"></script>
 
-    <!-- inline script: hanya buat update display (tetap dipanggil setelah file eksternal) -->
     <script>
       const userData = {
         id: <?= $logged_in ? intval($user['id']) : 'null' ?>,

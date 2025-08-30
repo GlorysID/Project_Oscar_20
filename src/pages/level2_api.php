@@ -120,7 +120,6 @@ try {
   echo json_encode(['success' => false, 'error' => 'invalid_action']);
   exit;
 } catch (Exception $e) {
-  // hide sensitive details in production, but useful for dev
   error_log("level2_api error: " . $e->getMessage());
   echo json_encode(['success' => false, 'error' => 'exception', 'message' => $e->getMessage()]);
   exit;
@@ -129,5 +128,3 @@ try {
 // Ambil parameter materi
 $materi = $_POST['materi'] ?? $_GET['materi'] ?? 'default';
 
-// Simpan progress per user dan per materi
-// Contoh: $_SESSION['progress'][$user_id][$materi] = $progress;

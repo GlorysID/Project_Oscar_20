@@ -290,7 +290,7 @@
   margin: 12px 0;
   animation: rt-pop 0.18s ease-out;
   align-items: flex-end;
-  gap: 12px; /* Ubah dari 100px ke 12px */
+  gap: 12px;
   top: 50%;
 }
 
@@ -536,7 +536,7 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 20px;
   backdrop-filter: blur(10px);
-  box-shadow: none; /* Hilangkan bayangan */
+  box-shadow: none;
   padding: 24px;
 }
 

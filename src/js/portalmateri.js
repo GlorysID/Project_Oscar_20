@@ -12,7 +12,6 @@ function closeMenu() {
   sideMenu.classList.remove("active");
   hamburger.classList.remove("open");
 
-  // reset animasi biar pas buka lagi fresh
   sideMenu.querySelectorAll("a").forEach((link) => {
     link.style.animation = "none";
     setTimeout(() => (link.style.animation = ""), 10);
