@@ -439,7 +439,7 @@ unset($_SESSION['flash']);
               <div class="login-header">
                 <h2>Lupa Password</h2>
                 <p style="color:#ccc;font-size:0.9rem;font-family:'Poppins',sans-serif;margin-top:4px;">
-                  Masukan Email
+                  Masukan Email Untuk Mendapatkan OTP
                 </p>
               </div>
 
@@ -457,20 +457,18 @@ unset($_SESSION['flash']);
                     <input 
                       type="email" 
                       class="form-input" 
-                      placeholder="Enter your email" 
+                      placeholder="Masukan Email" 
                       required
                       name="email">
                   </div>
                 </div>
 
-                <button type="submit" class="login-button">Kirim OTP</button>
+                <button id="otpButton" type="submit" class="login-button">Kirim OTP</button>
 
                 <div class="back-link">
                   <a href="../src/pages/login.php">Kembali Ke Login</a>
                 </div>
-                <div class="back-link">
-                  <a href="../index.php">Kembali Ke Halaman Utama</a>
-                </div>
+                
               </form>
             </div>
           </div>
@@ -538,5 +536,34 @@ unset($_SESSION['flash']);
         createStars();
         animate();
       </script>
+
+      <!-- TIMER OTP  -->
+       <script>
+  const otpButton = document.getElementById("otpButton");
+  const form = otpButton.closest("form");
+
+  form.addEventListener("submit", function(e) {
+    // Setelah form submit, timer mulai
+    let countdown = 60;
+    otpButton.disabled = true;
+    otpButton.style.opacity = "0.6";
+    otpButton.style.cursor = "not-allowed";
+    otpButton.textContent = `Kirim OTP (${countdown})`;
+
+    const timer = setInterval(() => {
+      countdown--;
+      otpButton.textContent = `Kirim OTP (${countdown})`;
+
+      if (countdown <= 0) {
+        clearInterval(timer);
+        otpButton.disabled = false;
+        otpButton.style.opacity = "1";
+        otpButton.style.cursor = "pointer";
+        otpButton.textContent = "Kirim OTP";
+      }
+    }, 1000);
+  });
+</script>
+
     </body>
   </html>
