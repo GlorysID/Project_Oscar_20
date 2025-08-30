@@ -3,9 +3,42 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Level 1 – Game Scratch: Dasar</title>
+    <title>Game Scratch: Tap/Drag Quiz</title>
     <link rel="stylesheet" href="../css/level1html.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
     <style>
+      #pillWrap {
+        display: flex;
+        flex-wrap: nowrap; /* Biar gak turun ke bawah */
+        gap: 6px;
+        overflow-x: auto; /* Enable scroll horizontal */
+        padding: 6px;
+        max-width: 100%; /* Biar ga melebihi container */
+        scrollbar-width: thin; /* Firefox */
+        max-width: 330px; /* 3 pill @ 40-50px */
+        overflow-x: auto;
+      }
+
+      #pillWrap::-webkit-scrollbar {
+        height: 6px;
+      }
+      #pillWrap::-webkit-scrollbar-thumb {
+        background: #94a3b8;
+        border-radius: 999px;
+      }
+      #pillWrap::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      .pill {
+        flex: 0 0 auto; /* Supaya item ga mengecil */
+        min-width: 40px; /* Lebar tiap pill */
+        text-align: center;
+      }
+
       .pill {
         display: inline-block;
         padding: 6px 10px;
@@ -17,23 +50,66 @@
       }
       .pill.done {
         background: #22c55e;
-        color: white;
+        color: #fff;
       }
       .pill.active {
         background: #3b82f6;
-        color: white;
+        color: #fff;
       }
-      /* styling for disabled ghost button (so disabled prev looks visually off) */
       .ghost.disabled,
-      .ghost:disabled {
+      .ghost[disabled] {
         opacity: 0.45;
-        cursor: not-allowed;
         pointer-events: none;
       }
-      /* small helper for soft messages */
       .msg.soft {
-        opacity: 0.9;
+        opacity: 0.95;
         font-size: 0.95rem;
+      }
+      .chip {
+        background: var(--chip);
+        color: #fff;
+        padding: 8px 12px;
+        border-radius: 999px;
+        font-family: "Baloo 2", sans-serif;
+        cursor: grab;
+        user-select: none;
+      }
+      .chip:active {
+        cursor: grabbing;
+        transform: scale(0.98);
+      }
+      .slots {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+      }
+      .slot {
+        min-width: 90px;
+        min-height: 36px;
+        background: #fff;
+        border: 2px dashed #94a3b8;
+        border-radius: 10px;
+        padding: 6px 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #64748b;
+        font-family: "Baloo 2", sans-serif;
+        user-select: none;
+      }
+      .slot.filled {
+        border-style: solid;
+        border-color: #94a3b8;
+        color: #0f172a;
+      }
+      .slot.correct {
+        border-color: var(--ok);
+        background: #dcfce7;
+      }
+      .slot.wrong {
+        border-color: var(--err);
+        background: #fee2e2;
       }
     </style>
   </head>
@@ -41,16 +117,16 @@
     <!-- Navbar -->
     <nav class="custom-navbar fixed-top">
       <div class="navbar-container">
-        <a href="../../index.php" class="logo">
-          <img src="../img/KiddosLogo.png" alt="Logo" />
-        </a>
+        <a href="../../index.php" class="logo"
+          ><img src="../img/KiddosLogo.png" alt="Logo"
+        /></a>
         <div class="nav-right">
           <div class="chatbot">
             <a href="Kiddos AI.html"
               ><img src="../img/boticons.png" alt="Chatbot"
             /></a>
           </div>
-          <div class="hamburger" id="hamburger">
+          <div class="hamburger" id="hamburger" style="margin-bottom: 0.5rem">
             <span></span><span></span><span></span>
           </div>
         </div>
@@ -77,13 +153,13 @@
     <div class="page-wrapper">
       <div class="shell">
         <header>
-          <h1>Level 1 — Scratch: Dasar-dasar</h1>
+          <h1>Game Scratch: Tap/Drag Quiz</h1>
           <div class="sub">
-            Drag & drop jawaban ke slot kosong. Selesaikan semua untuk dapet
-            badge <b>Scratch Expert</b>.
+            Tap/Drag & drop jawaban ke slot kosong. Selesaikan semua untuk dapat
+            <b>Exp Melimpah</b>.
           </div>
           <div class="progress"><div id="bar" class="bar"></div></div>
-          <button id="resetBtn" class="reset-btn">Reset Progress</button>
+          <button id="resetBtn" class="reset-btn">Reset Soal</button>
           <button
             id="btnPrev"
             class="ghost"
@@ -93,7 +169,6 @@
               height: 2.25rem;
               margin-left: 5px;
             "
-            title="Kembali ke soal sebelumnya"
           >
             <span style="position: relative; top: -2px">⬅️ Kembali</span>
           </button>
@@ -102,21 +177,23 @@
         <!-- LEFT: GAME -->
         <section class="card">
           <div id="qTitle" class="sub" style="font-weight: 700">
-            Tantangan 1/8
+            Tantangan 1/9
           </div>
           <div
             id="instruksiBox"
             class="sub"
-            style="font-weight: 600; color: #ffffff"
+            style="font-weight: 600; color: #fff"
           ></div>
           <div class="prompt"><code id="preview"></code></div>
           <div class="slots" id="slots"></div>
+
           <div>
             <div style="font-weight: 700; margin-bottom: 6px; color: white">
-              Bank Jawaban:
+              Konten Jawaban:
             </div>
             <div id="bank" class="bank"></div>
           </div>
+
           <div class="actions">
             <button id="btnCheck" class="primary">Cek Jawaban</button>
             <button id="btnReset" class="ghost">Reset Susunan</button>
@@ -139,17 +216,17 @@
                 line-height: 1.6;
               "
             >
-              <li>Drag jawaban ke slot kosong.</li>
+              <li>Tap/Drag jawaban ke slot kosong.</li>
               <li>Tekan <b>Cek Jawaban</b> untuk menilai.</li>
               <li>Benar = lanjut otomatis ke soal berikutnya.</li>
-              <li>Selesaikan semua level untuk dapet badge 🎖️.</li>
+              <li>Selesaikan semua level untuk dapat exp melimpah.</li>
             </ul>
           </div>
           <div id="badgeBox" class="badge hidden">
-            <div class="icon">🏅</div>
+            <div class="icon">⭐</div>
             <div>
-              <div style="font-weight: 800">Badge!</div>
-              <div>Scratch Expert — Selesaikan semua level Scratch.</div>
+              <div style="font-weight: 800">Exp!</div>
+              <div>Dapatkan 50 Exp/Soal, Semangattt!</div>
             </div>
           </div>
         </aside>
@@ -159,16 +236,103 @@
     <!-- Popup Next Level -->
     <div id="nextLevelPopup" class="popup-overlay" style="display: none">
       <div class="popup-card">
-        <h2>🎉 Level Scratch Selesai!</h2>
-        <p>Keren! Kamu udah kuasain dasar-dasar Scratch 🎨🧠</p>
-        <button id="nextBtn">➡️ Lanjut ke Level Berikutnya</button>
+        <h2>🎉 Semua level selesai!</h2>
+        <p>Keren! Kamu sudah memenangkan Game Scratch 🚀🧩</p>
+        <button id="nextBtn">➡️ Kembali ke Home</button>
       </div>
     </div>
 
     <script>
+      // endpoint (sesuaikan jika berbeda)
+      const API = "/project_oscar_20/src/pages/level2_api.php";
+      const MATERI = "scratch";
+
       document.addEventListener("DOMContentLoaded", () => {
-        // ======= DATA SOAL SCRATCH =======
         const QUIZ = [
+          {
+            instruksi: "Blok biru digunakan untuk?",
+            preview: "?",
+            slots: ["Motion (Gerakan)"],
+            bank: ["Motion (Gerakan)", "Looks (Tampilan)", "Control (Kontrol)"],
+          },
+          {
+            instruksi: "Contoh blok Motion adalah?",
+            preview: "?",
+            slots: ["move 10 steps"],
+            bank: ["move 10 steps", "Memainkan suara", "say Hello!"],
+          },
+          {
+            instruksi: "Blok ungu (Looks) digunakan untuk?",
+            preview: "?",
+            slots: ["Mengubah tampilan sprite"],
+            bank: [
+              "Mengubah tampilan sprite",
+              "Memutar sprite",
+              "Mengatur skor",
+            ],
+          },
+          {
+            instruksi: "Contoh blok Looks adalah?",
+            preview: "?",
+            slots: ["switch costume to ..."],
+            bank: ["switch costume to ...", "play sound Meow"],
+          },
+          {
+            instruksi: "Blok pink (Sound) digunakan untuk?",
+            preview: "?",
+            slots: ["Memainkan suara"],
+            bank: ["Memainkan suara", "Mengulang perintah", "Membuat variabel"],
+          },
+          {
+            instruksi: "Blok kuning (Events) berfungsi untuk?",
+            preview: "?",
+            slots: ["Memicu peristiwa (aksi)"],
+            bank: [
+              "Memicu peristiwa (aksi)",
+              "Menggambar sprite",
+              "Menghapus variabel",
+            ],
+          },
+          {
+            instruksi: "Blok oranye (Control) digunakan untuk?",
+            preview: "?",
+            slots: ["Mengatur alur program"],
+            bank: [
+              "Mengatur alur program",
+              "Mengubah kostum",
+              "Menambah suara",
+            ],
+          },
+          {
+            instruksi: "Blok hijau (Operators) untuk?",
+            preview: "?",
+            slots: ["Operasi matematika/logika"],
+            bank: [
+              "Operasi matematika/logika",
+              "Memainkan musik",
+              "Menampilkan teks",
+            ],
+          },
+          {
+            instruksi: "Blok oranye tua (Variables) berfungsi untuk?",
+            preview: "?",
+            slots: ["Membuat & mengatur variabel"],
+            bank: [
+              "Membuat & mengatur variabel",
+              "Mengubah warna sprite",
+              "Memicu event",
+            ],
+          },
+          {
+            instruksi: "Blok merah muda (My Blocks) digunakan untuk?",
+            preview: "?",
+            slots: ["Membuat blok buatan sendiri"],
+            bank: [
+              "Membuat blok buatan sendiri",
+              "Menjalankan perintah acak",
+              "Membuat suara baru",
+            ],
+          },
           {
             instruksi: "Apa itu Scratch?",
             preview: "?",
@@ -239,27 +403,104 @@
               "Looks (Tampilan)",
             ],
           },
+          {
+            instruksi: "Apa itu sprite di Scratch?",
+            preview: "?",
+            slots: ["Objek yang bisa digerakkan/diprogram"],
+            bank: [
+              "Objek yang bisa digerakkan/diprogram",
+              "Latar belakang",
+              "Kumpulan blok",
+            ],
+          },
+          {
+            instruksi: "Apa fungsi kostum pada sprite?",
+            preview: "?",
+            slots: ["Mengubah tampilan sprite"],
+            bank: ["Mengubah tampilan sprite", "Mengatur skor", "Memicu event"],
+          },
+          {
+            instruksi: "Stage di Scratch berfungsi sebagai?",
+            preview: "?",
+            slots: ["Latar belakang tempat sprite berada"],
+            bank: [
+              "Latar belakang tempat sprite berada",
+              "Kumpulan suara",
+              "Variabel data",
+            ],
+          },
+          {
+            instruksi: "Contoh kostum pada sprite adalah?",
+            preview: "?",
+            slots: ["Bentuk kucing berbeda"],
+            bank: ["Bentuk kucing berbeda", "Kode gerakan", "Nada musik"],
+          },
+          {
+            instruksi: "Kostum bisa digunakan untuk membuat efek?",
+            preview: "?",
+            slots: ["Animasi"],
+            bank: ["Animasi", "Event", "Variabel"],
+          },
+          {
+            instruksi: "Apa bedanya sprite dan stage?",
+            preview: "?",
+            slots: ["Sprite = objek, Stage = latar"],
+            bank: [
+              "Sprite = objek, Stage = latar",
+              "Sprite = suara, Stage = kostum",
+              "Sprite = event, Stage = variabel",
+            ],
+          },
+          {
+            instruksi: "Bagaimana cara mengganti kostum sprite lewat kode?",
+            preview: "?",
+            slots: ["switch costume to ..."],
+            bank: [
+              "switch costume to ...",
+              "when green flag clicked",
+              "repeat 10",
+            ],
+          },
+          {
+            instruksi: "Stage bisa memiliki?",
+            preview: "?",
+            slots: ["Latar belakang berganti-ganti"],
+            bank: [
+              "Latar belakang berganti-ganti",
+              "Gerakan sprite",
+              "Variabel global",
+            ],
+          },
+          {
+            instruksi: "Event paling umum untuk memulai program di Scratch?",
+            preview: "?",
+            slots: ["when green flag clicked"],
+            bank: ["when green flag clicked", "repeat 10", "forever"],
+          },
+          {
+            instruksi: "Blok kontrol untuk mengulang kode tanpa henti?",
+            preview: "?",
+            slots: ["forever"],
+            bank: ["forever", "say Hello", "switch costume to ..."],
+          },
+          {
+            instruksi: "Blok kontrol untuk mengulang kode sejumlah tertentu?",
+            preview: "?",
+            slots: ["repeat 10"],
+            bank: ["repeat 10", "if ... then", "when space key pressed"],
+          },
+          {
+            instruksi: "Event untuk mendeteksi tombol ditekan?",
+            preview: "?",
+            slots: ["when space key pressed"],
+            bank: ["when space key pressed", "wait 1 seconds", "go to x:0 y:0"],
+          },
         ];
 
-        // ======= STATE =======
-        let idx = 0;
-        let answers = Array(QUIZ.length).fill(null);
-        let done = Array(QUIZ.length).fill(false);
-        const LS_KEY = "course:Scratch:level1:progress";
-
-        try {
-          const saved = JSON.parse(localStorage.getItem(LS_KEY) || "{}");
-          if (saved.idx !== undefined) idx = saved.idx;
-          if (Array.isArray(saved.answers)) answers = saved.answers;
-          if (Array.isArray(saved.done)) done = saved.done;
-        } catch (e) {
-          console.warn("Could not parse saved progress, starting fresh.");
-        }
-
-        // ======= ELEMENTS =======
+        // UI elems
         const bar = document.getElementById("bar");
         const qTitle = document.getElementById("qTitle");
-        const preview = document.getElementById("preview");
+        const previewEl = document.getElementById("preview");
         const slotsWrap = document.getElementById("slots");
         const bankWrap = document.getElementById("bank");
         const feedback = document.getElementById("feedback");
@@ -267,20 +508,99 @@
         const badgeBox = document.getElementById("badgeBox");
         const btnPrev = document.getElementById("btnPrev");
 
-        // ======= RENDER =======
+        // state (will be loaded from DB)
+        let idx = 0;
+        let answers = Array(QUIZ.length).fill(null);
+        let done = Array(QUIZ.length).fill(false);
+
+        // load from DB
+        async function loadFromServer() {
+          try {
+            const resp = await fetch(
+              API + `?action=get_progress&materi=${encodeURIComponent(MATERI)}`,
+              {
+                credentials: "same-origin",
+              }
+            );
+            const data = await resp.json();
+            if (data.success && data.progress) {
+              const p = data.progress;
+              if (p.idx !== undefined) idx = p.idx;
+              if (Array.isArray(p.answers)) answers = p.answers;
+              if (Array.isArray(p.done)) done = p.done;
+            }
+            render();
+          } catch (err) {
+            console.error("Gagal load progress:", err);
+            render();
+          }
+        }
+
+        // save to DB
+        async function saveToServer() {
+          try {
+            const body = new FormData();
+            body.append("action", "save_progress");
+            body.append("materi", MATERI);
+            body.append("progress", JSON.stringify({ idx, answers, done }));
+            const resp = await fetch(API, {
+              method: "POST",
+              body,
+              credentials: "same-origin",
+            });
+            const data = await resp.json();
+            if (!data.success) console.warn("save_progress failed:", data);
+            return data;
+          } catch (err) {
+            console.error("save_progress exception", err);
+            return { success: false, error: "network" };
+          }
+        }
+
+        // award EXP via server (safe, idempotent server-side)
+        async function awardExpForQuestion(index) {
+          const awardKey = `${MATERI}_level2_q_${index + 1}`;
+          const fd = new FormData();
+          fd.append("action", "grant_exp");
+          fd.append("materi", MATERI);
+          fd.append("award_key", awardKey);
+          fd.append("amount", "50");
+          try {
+            const resp = await fetch(API, {
+              method: "POST",
+              body: fd,
+              credentials: "same-origin",
+            });
+            const ct = resp.headers.get("content-type") || "";
+            if (!resp.ok) {
+              console.warn("awardExp: server non-ok", resp.status);
+              return;
+            }
+            if (ct.includes("application/json")) {
+              const data = await resp.json();
+              if (data.success && data.awarded) {
+                showMsg(`+50 EXP! Mantap 🔥`, true);
+              }
+            } else {
+              console.warn("awardExp: unexpected content-type");
+            }
+          } catch (err) {
+            console.error("awardExp exception", err);
+          }
+        }
+
+        // RENDER
         function render() {
           const q = QUIZ[idx];
           document.getElementById("instruksiBox").textContent =
             q.instruksi || "";
           qTitle.textContent = `Tantangan ${idx + 1}/${QUIZ.length}`;
-          preview.innerHTML = (q.preview || "")
+          previewEl.innerHTML = (q.preview || "")
             .toString()
             .replaceAll("?", "<span style='color:#22c55e'>[slot]</span>");
 
           const doneCount = done.filter(Boolean).length;
-          if (bar)
-            bar.style.width =
-              ((doneCount / QUIZ.length) * 100).toFixed(1) + "%";
+          bar.style.width = ((doneCount / QUIZ.length) * 100).toFixed(1) + "%";
 
           pillWrap.innerHTML = "";
           for (let i = 0; i < QUIZ.length; i++) {
@@ -288,6 +608,11 @@
             d.className =
               "pill" + (done[i] ? " done" : "") + (i === idx ? " active" : "");
             d.textContent = i + 1;
+            d.onclick = () => {
+              idx = i;
+              saveToServer();
+              render();
+            };
             pillWrap.appendChild(d);
           }
 
@@ -310,8 +635,7 @@
 
           // bank
           bankWrap.innerHTML = "";
-          let bankTokens = buildBankTokens(QUIZ[idx], currentAns);
-          // shuffle
+          const bankTokens = QUIZ[idx].bank.slice();
           for (let i = bankTokens.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [bankTokens[i], bankTokens[j]] = [bankTokens[j], bankTokens[i]];
@@ -336,73 +660,27 @@
           feedback.className = "msg hidden";
           feedback.textContent = "";
           badgeBox.classList.toggle("hidden", !(doneCount === QUIZ.length));
-
-          // update prev button state each render
           updatePrevButtonState();
         }
 
-        // ======= HELPERS =======
         function placeToken(slotIndex, tokenKey) {
           const [value] = tokenKey.split("::");
           const q = QUIZ[idx];
           let cur = answers[idx] || Array(q.slots.length).fill(null);
           cur[slotIndex] = value;
           answers[idx] = cur;
-          save();
-          render();
-        }
-
-        function buildBankTokens(q, currentAns) {
-          // simply return bank (you can filter out already placed tokens if desired)
-          return q.bank.slice();
-        }
-
-        function save() {
-          try {
-            localStorage.setItem(
-              LS_KEY,
-              JSON.stringify({ idx, answers, done })
-            );
-          } catch (e) {
-            console.warn("Could not save progress to localStorage", e);
-          }
+          // save to DB ASAP
+          saveToServer().then(() => render());
         }
 
         function showMsg(text, ok, soft = false) {
-          if (!feedback) return;
           feedback.textContent = text;
           feedback.className = "msg " + (ok ? "ok" : "err");
           if (soft) feedback.classList.add("soft");
           feedback.classList.remove("hidden");
         }
 
-        // ======= PREV BUTTON HELPERS & BINDING =======
-        function updatePrevButtonState() {
-          if (!btnPrev) return;
-          if (idx <= 0) {
-            btnPrev.disabled = true;
-            btnPrev.classList.add("disabled");
-            btnPrev.title = "Tidak ada soal sebelumnya";
-          } else {
-            btnPrev.disabled = false;
-            btnPrev.classList.remove("disabled");
-            btnPrev.title = "Kembali ke soal sebelumnya";
-          }
-        }
-
-        if (btnPrev) {
-          btnPrev.addEventListener("click", (e) => {
-            e.preventDefault();
-            if (idx > 0) {
-              idx = Math.max(0, idx - 1);
-              save();
-              render();
-              showMsg(`Kembali ke Tantangan ${idx + 1}`, true, true);
-            }
-          });
-        }
-
-        // ======= CHECK LOGIC (with award hook) =======
+        // check logic
         async function checkCurrent() {
           const q = QUIZ[idx];
           const cur = answers[idx] || Array(q.slots.length).fill(null);
@@ -425,17 +703,13 @@
           if (allCorrect) {
             done[idx] = true;
             showMsg("Mantap! Jawaban tepat ✅", true);
-            save();
-
-            // --- Award EXP (non-blocking, safe) ---
-            awardExpForQuestion(idx).catch((err) => {
-              console.warn("awardExpForQuestion failed (ignored):", err);
-            });
-
+            await saveToServer();
+            // award EXP (server ensures idempotency)
+            awardExpForQuestion(idx);
             setTimeout(() => {
               if (idx < QUIZ.length - 1) {
                 idx++;
-                save();
+                saveToServer();
                 render();
               } else {
                 render();
@@ -448,85 +722,77 @@
         }
 
         function resetCurrent() {
-          const q = QUIZ[idx];
-          answers[idx] = Array(q.slots.length).fill(null);
+          answers[idx] = Array(QUIZ[idx].slots.length).fill(null);
           document
             .querySelectorAll(".slot")
             .forEach((s) => s.classList.remove("correct", "wrong", "filled"));
-          save();
-          render();
+          saveToServer().then(() => render());
         }
 
         function onFinishLevel() {
           document.getElementById("nextLevelPopup").style.display = "flex";
           document.getElementById("nextBtn").onclick = () => {
             document.getElementById("nextLevelPopup").style.display = "none";
-            window.location.href = "level2scratch.html"; // adjust if necessary
+            window.location.href = "../../index.php#Games";
           };
         }
 
-        // ======= AWARD EXP SAFE FUNCTION =======
-        async function awardExpForQuestion(index) {
-          const endpoint = "/project_oscar_20/src/pages/profile.php";
-          const awardKey = "scratch_q_" + (index + 1);
-          const amount = 100;
-
-          const fd = new FormData();
-          fd.append("action", "grant_exp");
-          fd.append("award_key", awardKey);
-          fd.append("amount", amount);
-
-          try {
-            const resp = await fetch(endpoint, {
-              method: "POST",
-              body: fd,
-              credentials: "same-origin",
-            });
-            const ct = resp.headers.get("content-type") || "";
-            if (!resp.ok) {
-              console.warn("awardExp: server returned non-OK", resp.status);
-              return { success: false, message: "Server non-OK" };
-            }
-            if (ct.includes("application/json")) {
-              const data = await resp.json();
-              if (data && data.success && data.awarded) {
-                showMsg(`+${amount} EXP! Mantap 🔥`, true);
-              } else {
-                console.log(
-                  "awardExp: not awarded or already awarded",
-                  data && data.message
-                );
-              }
-              return data;
-            } else {
-              const txt = await resp.text();
-              console.warn(
-                "awardExp: unexpected response content-type, ignoring. snippet:",
-                txt.slice(0, 200)
-              );
-              return { success: false, message: "non-json response" };
-            }
-          } catch (err) {
-            console.error("awardExp exception", err);
-            return { success: false, message: "exception" };
+        // Prev button
+        function updatePrevButtonState() {
+          if (!btnPrev) return;
+          if (idx <= 0) {
+            btnPrev.disabled = true;
+            btnPrev.classList.add("disabled");
+            btnPrev.title = "Tidak ada soal sebelumnya";
+          } else {
+            btnPrev.disabled = false;
+            btnPrev.classList.remove("disabled");
+            btnPrev.title = "Kembali ke soal sebelumnya";
           }
         }
-
-        // ======= BIND UI =======
-        const resetBtn = document.getElementById("resetBtn");
-        if (resetBtn)
-          resetBtn.addEventListener("click", () => {
-            if (confirm("Yakin mau reset progress?")) {
-              localStorage.removeItem(LS_KEY);
-              location.reload();
+        if (btnPrev)
+          btnPrev.addEventListener("click", (e) => {
+            e.preventDefault();
+            if (idx > 0) {
+              idx = Math.max(0, idx - 1);
+              saveToServer().then(() => render());
+              showMsg(`Kembali ke Tantangan ${idx + 1}`, true, true);
             }
           });
-        const btnCheck = document.getElementById("btnCheck");
-        if (btnCheck) btnCheck.addEventListener("click", checkCurrent);
-        const btnReset = document.getElementById("btnReset");
-        if (btnReset) btnReset.addEventListener("click", resetCurrent);
 
-        // ======= STARS ANIMATION (UNCHANGED) =======
+        // bind others
+        document
+          .getElementById("btnCheck")
+          .addEventListener("click", checkCurrent);
+        document
+          .getElementById("btnReset")
+          .addEventListener("click", resetCurrent);
+        document.getElementById("resetBtn").addEventListener("click", () => {
+          if (confirm("Yakin mau reset progress?")) {
+            // clear progress on server
+            const params = new URLSearchParams({
+              action: "save_progress",
+              materi: MATERI,
+              progress: JSON.stringify({
+                idx: 0,
+                answers: Array(QUIZ.length).fill(null),
+                done: Array(QUIZ.length).fill(false),
+              }),
+            });
+            fetch(API, {
+              method: "POST",
+              credentials: "same-origin",
+              body: params,
+            }).then(() => {
+              idx = 0;
+              answers = Array(QUIZ.length).fill(null);
+              done = Array(QUIZ.length).fill(false);
+              render();
+            });
+          }
+        });
+
+        // stars animation (same as before)
         const canvas = document.getElementById("starsCanvas");
         const ctx = canvas ? canvas.getContext("2d") : null;
         let stars = [];
@@ -568,7 +834,7 @@
         createStars();
         animateStars();
 
-        // ======= NAVBAR BEHAVIOR (UNCHANGED) =======
+        // navbar behavior unchanged (omitted for brevity)
         const hamburger = document.getElementById("hamburger");
         const sideMenu = document.getElementById("sideMenu");
         const navbar = document.querySelector(".custom-navbar");
@@ -600,8 +866,8 @@
           else navbar.classList.remove("scrolled");
         });
 
-        // Initial render
-        render();
+        // init: load server progress then render
+        loadFromServer();
       });
     </script>
 

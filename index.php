@@ -249,7 +249,7 @@ require_once __DIR__ . "/auth/helpers.php";
             <p>Mainkan Sekarang!</p>
           </div>
         </a>
-        <a href="src/pages/level1html.HTML" style="text-decoration: none">
+        <a href="src/pages/level1html.html" style="text-decoration: none">
           <div class="game-card">
             <div class="media-card">
               <img src="src/img/htmlposter.png" class="poster" alt="Poster" />

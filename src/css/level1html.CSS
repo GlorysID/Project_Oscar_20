@@ -200,7 +200,7 @@ body {
     rgb(7, 0, 11) 0%,
     rgba(29, 3, 49, 1) 100%
   );
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-family: "Baloo 2", sans-serif;
   min-height: 100vh;
 }
 
@@ -233,6 +233,7 @@ body {
   grid-template-columns: 1.2fr 0.8fr;
   gap: 18px;
   min-height: 80vh;
+  margin-top: 1rem;
 }
 
 header {
@@ -282,7 +283,7 @@ h1 {
   border: 1px dashed #cbd5e1;
   border-radius: 12px;
   padding: 14px;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-family: "Baloo 2", sans-serif;
   line-height: 1.8;
   overflow-x: auto;
 }
@@ -303,7 +304,7 @@ h1 {
   align-items: center;
   justify-content: center;
   color: #64748b;
-  font-family: ui-monospace, monospace;
+  font-family: "Baloo 2", sans-serif;
   user-select: none;
 }
 .slot.filled {
@@ -331,7 +332,7 @@ h1 {
   color: #fff;
   padding: 8px 12px;
   border-radius: 999px;
-  font-family: ui-monospace, monospace;
+  font-family: "Baloo 2", sans-serif;
   cursor: grab;
   user-select: none;
 }
@@ -526,5 +527,143 @@ button {
   }
   .reset-btn:hover {
     background: #c0392b;
+  }
+}
+
+/* === FINAL FIX iPhone SE (≤375px) === */
+@media (max-width: 375px) {
+  .shell {
+    display: flex !important;
+    flex-direction: column !important; /* paksa 1 kolom */
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 10px !important;
+    gap: 12px !important;
+  }
+
+  h1 {
+    font-size: 1rem !important;
+    margin-bottom: 4px;
+  }
+  .sub {
+    font-size: 0.75rem !important;
+    margin-bottom: 8px;
+  }
+
+  .prompt {
+    font-size: 0.8rem !important;
+    padding: 8px !important;
+    line-height: 1.4;
+  }
+
+  #pillWrap {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    gap: 5px !important;
+    padding: 4px 2px !important;
+    max-width: 100% !important;
+  }
+  #pillWrap .pill {
+    flex: 0 0 auto !important;
+    width: 30px !important;
+    height: 30px !important;
+    font-size: 0.7rem !important;
+  }
+
+  .slot {
+    width: 100% !important;
+    min-height: 36px !important;
+    font-size: 0.75rem !important;
+    padding: 6px !important;
+    margin-bottom: 6px !important;
+  }
+
+  .chip {
+    flex: 1 1 48% !important; /* 2 kolom rapih */
+    font-size: 0.75rem !important;
+    padding: 6px !important;
+    margin: 3px !important;
+    text-align: center !important;
+  }
+
+  .reset-btn {
+    width: 100% !important;
+    font-size: 0.8rem !important;
+    padding: 8px !important;
+    margin-top: 8px !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .shell {
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 12px !important;
+    gap: 12px !important;
+    min-height: auto !important;
+  }
+
+  h1 {
+    font-size: 1.2rem !important;
+    text-align: center !important;
+  }
+
+  .sub {
+    font-size: 0.8rem !important;
+    text-align: center !important;
+  }
+
+  .progress {
+    height: 8px !important;
+  }
+
+  /* Bank jawaban biar rapih */
+  .bank {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+  }
+
+  .chip {
+    font-size: 0.8rem !important;
+    padding: 6px 10px !important;
+  }
+
+  /* Slot lebih kecil */
+  .slot {
+    min-width: 70px !important;
+    min-height: 30px !important;
+    font-size: 0.8rem !important;
+  }
+
+  /* Sidebar jadi full width */
+  aside.side {
+    width: 100% !important;
+    padding: 10px !important;
+  }
+
+  #pillWrap {
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    flex-wrap: nowrap !important;
+    justify-content: flex-start !important;
+  }
+
+  .pill {
+    min-width: 32px !important;
+    font-size: 0.7rem !important;
+    margin: 2px !important;
+    padding: 4px 6px !important;
+  }
+
+  /* Tombol full width */
+  .actions button,
+  .reset-btn,
+  #btnPrev {
+    width: 100% !important;
+    font-size: 0.8rem !important;
+    margin: 4px 0 !important;
   }
 }

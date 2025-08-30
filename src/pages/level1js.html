@@ -3,9 +3,42 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Level 1 – Game JavaScript: Variabel, Tipe Data & Operator</title>
+    <title>Game JavaScript: Tap/Drag Quiz</title>
     <link rel="stylesheet" href="../css/level1html.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
     <style>
+      #pillWrap {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 6px;
+        overflow-x: auto;
+        padding: 6px;
+        max-width: 100%;
+        scrollbar-width: thin;
+        max-width: 330px;
+        overflow-x: auto;
+      }
+
+      #pillWrap::-webkit-scrollbar {
+        height: 6px;
+      }
+      #pillWrap::-webkit-scrollbar-thumb {
+        background: #94a3b8;
+        border-radius: 999px;
+      }
+      #pillWrap::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      .pill {
+        flex: 0 0 auto;
+        min-width: 40px;
+        text-align: center;
+      }
+
       .pill {
         display: inline-block;
         padding: 6px 10px;
@@ -17,11 +50,66 @@
       }
       .pill.done {
         background: #22c55e;
-        color: white;
+        color: #fff;
       }
       .pill.active {
         background: #3b82f6;
-        color: white;
+        color: #fff;
+      }
+      .ghost.disabled,
+      .ghost[disabled] {
+        opacity: 0.45;
+        pointer-events: none;
+      }
+      .msg.soft {
+        opacity: 0.95;
+        font-size: 0.95rem;
+      }
+      .chip {
+        background: var(--chip);
+        color: #fff;
+        padding: 8px 12px;
+        border-radius: 999px;
+        font-family: "Baloo 2", sans-serif;
+        cursor: grab;
+        user-select: none;
+      }
+      .chip:active {
+        cursor: grabbing;
+        transform: scale(0.98);
+      }
+      .slots {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+      }
+      .slot {
+        min-width: 90px;
+        min-height: 36px;
+        background: #fff;
+        border: 2px dashed #94a3b8;
+        border-radius: 10px;
+        padding: 6px 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #64748b;
+        font-family: "Baloo 2", sans-serif;
+        user-select: none;
+      }
+      .slot.filled {
+        border-style: solid;
+        border-color: #94a3b8;
+        color: #0f172a;
+      }
+      .slot.correct {
+        border-color: var(--ok);
+        background: #dcfce7;
+      }
+      .slot.wrong {
+        border-color: var(--err);
+        background: #fee2e2;
       }
     </style>
   </head>
@@ -29,16 +117,16 @@
     <!-- Navbar -->
     <nav class="custom-navbar fixed-top">
       <div class="navbar-container">
-        <a href="../../index.php" class="logo">
-          <img src="../img/KiddosLogo.png" alt="Logo" />
-        </a>
+        <a href="../../index.php" class="logo"
+          ><img src="../img/KiddosLogo.png" alt="Logo"
+        /></a>
         <div class="nav-right">
           <div class="chatbot">
             <a href="Kiddos AI.html"
               ><img src="../img/boticons.png" alt="Chatbot"
             /></a>
           </div>
-          <div class="hamburger" id="hamburger">
+          <div class="hamburger" id="hamburger" style="margin-bottom: 0.5rem">
             <span></span><span></span><span></span>
           </div>
         </div>
@@ -65,13 +153,13 @@
     <div class="page-wrapper">
       <div class="shell">
         <header>
-          <h1>Level 1 — Variabel, Tipe Data & Operator</h1>
+          <h1>Game JavaScript: Tap/Drag Quiz</h1>
           <div class="sub">
-            Drag & drop kode ke slot kosong. Selesaikan semua level untuk dapet
-            badge <b>JS Master</b>.
+            Tap/Drag & drop jawaban ke slot kosong. Selesaikan semua untuk dapat
+            <b>Exp Melimpah</b>.
           </div>
           <div class="progress"><div id="bar" class="bar"></div></div>
-          <button id="resetBtn" class="reset-btn">Reset Progress</button>
+          <button id="resetBtn" class="reset-btn">Reset Soal</button>
           <button
             id="btnPrev"
             class="ghost"
@@ -89,21 +177,23 @@
         <!-- LEFT: GAME -->
         <section class="card">
           <div id="qTitle" class="sub" style="font-weight: 700">
-            Tantangan 1/8
+            Tantangan 1/9
           </div>
           <div
             id="instruksiBox"
             class="sub"
-            style="font-weight: 600; color: #ffffff"
+            style="font-weight: 600; color: #fff"
           ></div>
           <div class="prompt"><code id="preview"></code></div>
           <div class="slots" id="slots"></div>
+
           <div>
             <div style="font-weight: 700; margin-bottom: 6px; color: white">
-              Bank Kode:
+              Konten Jawaban:
             </div>
             <div id="bank" class="bank"></div>
           </div>
+
           <div class="actions">
             <button id="btnCheck" class="primary">Cek Jawaban</button>
             <button id="btnReset" class="ghost">Reset Susunan</button>
@@ -126,17 +216,17 @@
                 line-height: 1.6;
               "
             >
-              <li>Drag kode ke slot kosong.</li>
+              <li>Tap/Drag jawaban ke slot kosong.</li>
               <li>Tekan <b>Cek Jawaban</b> untuk menilai.</li>
               <li>Benar = lanjut otomatis ke soal berikutnya.</li>
-              <li>Selesaikan semua level untuk dapet badge 🎖️.</li>
+              <li>Selesaikan semua level untuk dapat exp melimpah.</li>
             </ul>
           </div>
           <div id="badgeBox" class="badge hidden">
-            <div class="icon">🏅</div>
+            <div class="icon">⭐</div>
             <div>
-              <div style="font-weight: 800">Badge!</div>
-              <div>JS Master — Selesaikan semua level JavaScript.</div>
+              <div style="font-weight: 800">Exp!</div>
+              <div>Dapatkan 50 Exp/Soal, Semangattt!</div>
             </div>
           </div>
         </aside>
@@ -146,230 +236,632 @@
     <!-- Popup Next Level -->
     <div id="nextLevelPopup" class="popup-overlay" style="display: none">
       <div class="popup-card">
-        <h2>🎉 Level JavaScript Selesai!</h2>
-        <p>Keren! Kamu udah kuasain variabel & tipe data dasar.</p>
-        <button id="nextBtn">➡️ Lanjut ke Level Berikutnya</button>
+        <h2>🎉 Semua level selesai!</h2>
+        <p>Keren! Kamu sudah memenangkan Game Scratch 🚀🧩</p>
+        <button id="nextBtn">➡️ Kembali ke Home</button>
       </div>
     </div>
 
     <script>
-      // ======= DATA SOAL JAVASCRIPT =======
-      const QUIZ = [
-        {
-          instruksi: "Buat variabel dengan kata kunci modern.",
-          preview: "? nama = 'Budi';",
-          slots: ["let"],
-          bank: ["let", "var", "const"],
-        },
-        {
-          instruksi: "Buat konstanta untuk nilai yang tidak berubah.",
-          preview: "? PI = 3.14;",
-          slots: ["const"],
-          bank: ["let", "const", "var"],
-        },
-        {
-          instruksi: "Tipe data apa untuk angka?",
-          preview: "let umur = ?;",
-          slots: ["Number"],
-          bank: ["Number", "String", "Boolean"],
-        },
-        {
-          instruksi: "Tipe data untuk teks 'Halo'.",
-          preview: "let sapaan = ?;",
-          slots: ["String"],
-          bank: ["String", "Number", "Boolean"],
-        },
-        {
-          instruksi: "Operator matematika untuk sisa bagi.",
-          preview: "10 ? 3 // hasil 1",
-          slots: ["%"],
-          bank: ["%", "/", "*"],
-        },
-        {
-          instruksi: "Operator logika 'dan'.",
-          preview: "true ? false",
-          slots: ["&&"],
-          bank: ["&&", "||", "!"],
-        },
-        {
-          instruksi: "Operator perbandingan identik (nilai & tipe).",
-          preview: "5 ? '5' // false",
-          slots: ["==="],
-          bank: ["==", "===", "!="],
-        },
-        {
-          instruksi: "Nilai kosong (kosong tapi ada).",
-          preview: "let x = ?;",
-          slots: ["null"],
-          bank: ["null", "undefined", "0"],
-        },
-      ];
+      const API = "/project_oscar_20/src/pages/level2_api.php";
+      const MATERI = "js";
 
-      // ======= SCRIPT GAME (sama kayak CSS) =======
-      let idx = 0;
-      let answers = Array(QUIZ.length).fill(null);
-      let done = Array(QUIZ.length).fill(false);
-      const LS_KEY = "course:JS:level1:progress";
+      document.addEventListener("DOMContentLoaded", () => {
+        const QUIZ = [
+          {
+            instruksi: "Buat variabel dengan kata kunci modern.",
+            preview: "? nama = 'Budi';",
+            slots: ["let"],
+            bank: ["let", "var", "const"],
+          },
+          {
+            instruksi: "Buat konstanta untuk nilai yang tidak berubah.",
+            preview: "? PI = 3.14;",
+            slots: ["const"],
+            bank: ["let", "const", "var"],
+          },
+          {
+            instruksi: "Tipe data apa untuk angka?",
+            preview: "let umur = ?;",
+            slots: ["Number"],
+            bank: ["Number", "String", "Boolean"],
+          },
+          {
+            instruksi: "Tipe data untuk teks 'Halo'.",
+            preview: "let sapaan = ?;",
+            slots: ["String"],
+            bank: ["String", "Number", "Boolean"],
+          },
+          {
+            instruksi: "Operator matematika untuk sisa bagi.",
+            preview: "10 ? 3 // hasil 1",
+            slots: ["%"],
+            bank: ["%", "/", "*"],
+          },
+          {
+            instruksi: "Operator logika 'dan'.",
+            preview: "true ? false",
+            slots: ["&&"],
+            bank: ["&&", "||", "!"],
+          },
+          {
+            instruksi: "Operator perbandingan identik (nilai & tipe).",
+            preview: "5 ? '5' // false",
+            slots: ["==="],
+            bank: ["==", "===", "!="],
+          },
+          {
+            instruksi: "Nilai kosong (kosong tapi ada).",
+            preview: "let x = ?;",
+            slots: ["null"],
+            bank: ["null", "undefined", "0"],
+          },
+          {
+            instruksi: "Lengkapi pernyataan if sederhana.",
+            preview: "if (x < 10) { ? }",
+            slots: ["console.log('Kecil');"],
+            bank: ["console.log('Kecil');", "console.log('Besar');", "break;"],
+          },
+          {
+            instruksi: "Gunakan else if untuk kondisi tambahan.",
+            preview:
+              "if (x > 10) { console.log('Besar'); } ? { console.log('Sedang'); }",
+            slots: ["else if (x == 10)"],
+            bank: ["else if (x == 10)", "else", "switch(x)"],
+          },
+          {
+            instruksi: "Gunakan else untuk kondisi default.",
+            preview:
+              "if (nilai >= 80) { console.log('Bagus'); } ? { console.log('Perlu belajar'); }",
+            slots: ["else"],
+            bank: ["else", "else if", "switch"],
+          },
+          {
+            instruksi: "Lengkapi switch statement.",
+            preview: "switch(hari) { case 1: console.log('Senin'); break; ? }",
+            slots: ["default: console.log('Hari lain');"],
+            bank: [
+              "default: console.log('Hari lain');",
+              "else console.log('Hari lain');",
+              "stop;",
+            ],
+          },
+          {
+            instruksi: "Gunakan ternary operator.",
+            preview: "let hasil = (umur >= 18) ?",
+            slots: ["'Dewasa' : 'Anak-anak'"],
+            bank: [
+              "'Dewasa' : 'Anak-anak'",
+              "if 'Dewasa' else 'Anak-anak'",
+              ": 'Anak-anak' ? 'Dewasa'",
+            ],
+          },
+          {
+            instruksi: "Buat loop for dasar.",
+            preview: "? { console.log(i); }",
+            slots: ["for (let i = 0; i < 5; i++)"],
+            bank: [
+              "for (let i = 0; i < 5; i++)",
+              "while (i < 5)",
+              "do { i++ } while(i < 5)",
+            ],
+          },
+          {
+            instruksi: "Gunakan while loop.",
+            preview: "let n = 0; ? { console.log(n); n++; }",
+            slots: ["while (n < 3)"],
+            bank: ["while (n < 3)", "for (n < 3)", "switch(n)"],
+          },
+          {
+            instruksi: "Gunakan break untuk menghentikan loop.",
+            preview: "for (let i = 0; i < 5; i++) { if (i == 2) ? }",
+            slots: ["break;"],
+            bank: ["break;", "continue;", "stop;"],
+          },
+          {
+            instruksi: "Buat function declaration bernama halo.",
+            preview: "? halo() { console.log('Hai'); }",
+            slots: ["function"],
+            bank: ["function", "const", "let"],
+          },
+          {
+            instruksi: "Buat function expression dengan const.",
+            preview: "const sapa = ?() { console.log('Halo'); };",
+            slots: ["function"],
+            bank: ["function", "=>", "return"],
+          },
+          {
+            instruksi: "Tambahkan parameter nama pada function.",
+            preview: "function sapa(?){ console.log('Hai ' + nama); }",
+            slots: ["nama"],
+            bank: ["nama", "umur", "return"],
+          },
+          {
+            instruksi: "Gunakan return untuk mengembalikan nilai.",
+            preview: "function tambah(a, b){ ? a + b; }",
+            slots: ["return"],
+            bank: ["return", "console.log", "break"],
+          },
+          {
+            instruksi: "Buat arrow function tanpa parameter.",
+            preview: "const halo = ? { console.log('Halo'); };",
+            slots: ["() =>"],
+            bank: ["() =>", "{}", "function"],
+          },
+          {
+            instruksi: "Buat arrow function dengan 1 parameter (x).",
+            preview: "const kali = ? { return x * 2; };",
+            slots: ["x =>"],
+            bank: ["x =>", "(x)", "() =>"],
+          },
+          {
+            instruksi: "Arrow function ringkas (return otomatis).",
+            preview: "const kali = x => ?",
+            slots: ["x * 2"],
+            bank: ["x * 2", "return x * 2", "{ x * 2 }"],
+          },
+          {
+            instruksi: "Panggil function bernama sapa dengan argumen 'Budi'.",
+            preview: "?('Budi');",
+            slots: ["sapa"],
+            bank: ["sapa", "halo", "fungsi"],
+          },
+          {
+            instruksi: "Buat array kosong bernama data.",
+            preview: "const data = ?;",
+            slots: ["[]"],
+            bank: ["[]", "{}", "null"],
+          },
+          {
+            instruksi: "Akses elemen pertama array angka.",
+            preview: "angka[?];",
+            slots: ["0"],
+            bank: ["0", "1", "first"],
+          },
+          {
+            instruksi: "Tambahkan nilai ke array dengan push.",
+            preview: "angka.? (5);",
+            slots: ["push"],
+            bank: ["push", "pop", "map"],
+          },
+          {
+            instruksi: "Hapus elemen terakhir array dengan ?",
+            preview: "angka.?();",
+            slots: ["pop"],
+            bank: ["pop", "shift", "reduce"],
+          },
+          {
+            instruksi: "Gunakan map untuk kalikan semua elemen dengan 2.",
+            preview: "angka.? (x => x * 2);",
+            slots: ["map"],
+            bank: ["map", "filter", "reduce"],
+          },
+          {
+            instruksi: "Buat object literal bernama orang.",
+            preview: "const orang = ?",
+            slots: ["{}"],
+            bank: ["{}", "[]", "new Object()"],
+          },
+          {
+            instruksi: "Akses properti nama di object user.",
+            preview: "user.?;",
+            slots: ["nama"],
+            bank: ["nama", "user", "prop"],
+          },
+          {
+            instruksi: "Buat method sapa di dalam object.",
+            preview: "const obj = { sapa: function(){ console.log(?); } }",
+            slots: ["'Halo'"],
+            bank: ["'Halo'", "return", "this"],
+          },
+          {
+            instruksi: "Ambil elemen dengan id 'app'.",
+            preview: "document.?('app')",
+            slots: ["getElementById"],
+            bank: ["getElementById", "querySelector", "#app"],
+          },
+          {
+            instruksi: "Ambil elemen pertama dengan selector .btn.",
+            preview: "document.?('.btn')",
+            slots: ["querySelector"],
+            bank: ["querySelector", "getElementById", "queryAll"],
+          },
+          {
+            instruksi: "Ubah isi elemen jadi 'Halo'.",
+            preview: "el.? = 'Halo'",
+            slots: ["innerHTML"],
+            bank: ["innerHTML", "style", "text"],
+          },
+          {
+            instruksi: "Ubah warna teks jadi merah.",
+            preview: "el.style.? = 'red'",
+            slots: ["color"],
+            bank: ["color", "background", "font"],
+          },
+          {
+            instruksi: "Tambah event click ke tombol.",
+            preview: "btn.?('click', fn)",
+            slots: ["addEventListener"],
+            bank: ["addEventListener", "onclick", "onchange"],
+          },
+          {
+            instruksi: "Cegah perilaku default form.",
+            preview: "event.?()",
+            slots: ["preventDefault"],
+            bank: ["preventDefault", "stop", "cancel"],
+          },
+          {
+            instruksi: "Set timeout 1 detik.",
+            preview: "setTimeout(fn, ?)",
+            slots: ["1000"],
+            bank: ["1000", "1", "'1s'"],
+          },
+          {
+            instruksi: "Buat interval jalan tiap 2 detik.",
+            preview: "setInterval(fn, ?)",
+            slots: ["2000"],
+            bank: ["2000", "2", "'2s'"],
+          },
+        ];
 
-      const saved = JSON.parse(localStorage.getItem(LS_KEY) || "{}");
-      if (saved.idx !== undefined) idx = saved.idx;
-      if (saved.answers) answers = saved.answers;
-      if (saved.done) done = saved.done;
+        // UI elems
+        const bar = document.getElementById("bar");
+        const qTitle = document.getElementById("qTitle");
+        const previewEl = document.getElementById("preview");
+        const slotsWrap = document.getElementById("slots");
+        const bankWrap = document.getElementById("bank");
+        const feedback = document.getElementById("feedback");
+        const pillWrap = document.getElementById("pillWrap");
+        const badgeBox = document.getElementById("badgeBox");
+        const btnPrev = document.getElementById("btnPrev");
 
-      const bar = document.getElementById("bar");
-      const qTitle = document.getElementById("qTitle");
-      const preview = document.getElementById("preview");
-      const slotsWrap = document.getElementById("slots");
-      const bankWrap = document.getElementById("bank");
-      const feedback = document.getElementById("feedback");
-      const pillWrap = document.getElementById("pillWrap");
-      const badgeBox = document.getElementById("badgeBox");
+        // state (will be loaded from DB)
+        let idx = 0;
+        let answers = Array(QUIZ.length).fill(null);
+        let done = Array(QUIZ.length).fill(false);
 
-      function render() {
-        const q = QUIZ[idx];
-        document.getElementById("instruksiBox").textContent = q.instruksi || "";
-        qTitle.textContent = `Tantangan ${idx + 1}/${QUIZ.length}`;
-        preview.innerHTML = q.preview.replaceAll(
-          "?",
-          "<span style='color:#22c55e'>[slot]</span>"
-        );
-
-        const doneCount = done.filter(Boolean).length;
-        bar.style.width = ((doneCount / QUIZ.length) * 100).toFixed(1) + "%";
-
-        pillWrap.innerHTML = "";
-        for (let i = 0; i < QUIZ.length; i++) {
-          const d = document.createElement("div");
-          d.className =
-            "pill" + (done[i] ? " done" : "") + (i === idx ? " active" : "");
-          d.textContent = i + 1;
-          pillWrap.appendChild(d);
-        }
-
-        slotsWrap.innerHTML = "";
-        const currentAns = answers[idx] || Array(q.slots.length).fill(null);
-        for (let i = 0; i < q.slots.length; i++) {
-          const s = document.createElement("div");
-          s.className = "slot" + (currentAns[i] ? " filled" : "");
-          s.dataset.slotIndex = i;
-          s.ondragover = (e) => e.preventDefault();
-          s.ondrop = (e) => {
-            const tokenKey = e.dataTransfer.getData("text/plain");
-            placeToken(i, tokenKey);
-          };
-          s.textContent = currentAns[i] || "drop here";
-          slotsWrap.appendChild(s);
-        }
-
-        bankWrap.innerHTML = "";
-        q.bank.forEach((tok, i) => {
-          const uniqueKey = tok + "::" + i;
-          const c = document.createElement("div");
-          c.className = "chip";
-          c.draggable = true;
-          c.textContent = tok;
-          c.ondragstart = (e) =>
-            e.dataTransfer.setData("text/plain", uniqueKey);
-          c.onclick = () => {
-            const firstEmpty = (
-              answers[idx] || Array(q.slots.length).fill(null)
-            ).findIndex((v) => !v);
-            if (firstEmpty > -1) placeToken(firstEmpty, uniqueKey);
-          };
-          bankWrap.appendChild(c);
-        });
-
-        feedback.className = "msg hidden";
-        feedback.textContent = "";
-        badgeBox.classList.toggle("hidden", !(doneCount === QUIZ.length));
-      }
-
-      function placeToken(slotIndex, tokenKey) {
-        const [value] = tokenKey.split("::");
-        const q = QUIZ[idx];
-        let cur = answers[idx] || Array(q.slots.length).fill(null);
-        cur[slotIndex] = value;
-        answers[idx] = cur;
-        save();
-        render();
-      }
-
-      function checkCurrent() {
-        const q = QUIZ[idx];
-        const cur = answers[idx] || Array(q.slots.length).fill(null);
-        if (cur.some((v) => !v)) {
-          showMsg("Isi semua slot dulu ya 🔎", false, true);
-          return;
-        }
-        const slots = [...document.querySelectorAll(".slot")];
-        let allCorrect = true;
-        for (let i = 0; i < q.slots.length; i++) {
-          if (cur[i] === q.slots[i]) {
-            slots[i].classList.add("correct");
-            slots[i].classList.remove("wrong");
-          } else {
-            slots[i].classList.add("wrong");
-            slots[i].classList.remove("correct");
-            allCorrect = false;
+        // load from DB
+        async function loadFromServer() {
+          try {
+            const resp = await fetch(
+              API + `?action=get_progress&materi=${encodeURIComponent(MATERI)}`,
+              {
+                credentials: "same-origin",
+              }
+            );
+            const data = await resp.json();
+            if (data.success && data.progress) {
+              const p = data.progress;
+              if (p.idx !== undefined) idx = p.idx;
+              if (Array.isArray(p.answers)) answers = p.answers;
+              if (Array.isArray(p.done)) done = p.done;
+            }
+            render();
+          } catch (err) {
+            console.error("Gagal load progress:", err);
+            render();
           }
         }
-        if (allCorrect) {
-          done[idx] = true;
-          showMsg("Mantap! Jawaban tepat ✅", true);
-          save();
-          setTimeout(() => {
-            if (idx < QUIZ.length - 1) {
-              idx++;
-              save();
-              render();
-            } else {
-              render();
-              onFinishLevel();
-            }
-          }, 700);
-        } else showMsg("Masih ada yang salah ❌", false);
-      }
 
-      function resetCurrent() {
-        const q = QUIZ[idx];
-        answers[idx] = Array(q.slots.length).fill(null);
-        document
-          .querySelectorAll(".slot")
-          .forEach((s) => s.classList.remove("correct", "wrong", "filled"));
-        save();
-        render();
-      }
-
-      function onFinishLevel() {
-        document.getElementById("nextLevelPopup").style.display = "flex";
-        document.getElementById("nextBtn").onclick = () => {
-          document.getElementById("nextLevelPopup").style.display = "none";
-          window.location.href = "level2js.html";
-        };
-      }
-
-      function showMsg(text, ok, soft = false) {
-        feedback.textContent = text;
-        feedback.className = "msg " + (ok ? "ok" : "err");
-        if (soft) feedback.classList.add("soft");
-        feedback.classList.remove("hidden");
-      }
-
-      function save() {
-        localStorage.setItem(LS_KEY, JSON.stringify({ idx, answers, done }));
-      }
-
-      document.getElementById("resetBtn").addEventListener("click", () => {
-        if (confirm("Yakin mau reset progress?")) {
-          localStorage.removeItem(LS_KEY);
-          location.reload();
+        // save to DB
+        async function saveToServer() {
+          try {
+            const body = new FormData();
+            const progressData = { idx, answers, done };
+            console.log("[saveToServer] Kirim progress:", progressData);
+            body.append("action", "save_progress");
+            body.append("materi", MATERI);
+            body.append("progress", JSON.stringify(progressData));
+            const resp = await fetch(API, {
+              method: "POST",
+              body,
+              credentials: "same-origin",
+            });
+            const data = await resp.json();
+            if (!data.success) console.warn("save_progress failed:", data);
+            return data;
+          } catch (err) {
+            console.error("save_progress exception", err);
+            return { success: false, error: "network" };
+          }
         }
-      });
 
-      document.getElementById("btnCheck").onclick = checkCurrent;
-      document.getElementById("btnReset").onclick = resetCurrent;
-      render();
+        // award EXP via server (safe, idempotent server-side)
+        async function awardExpForQuestion(index) {
+          const awardKey = `${MATERI}_q${index}`;
+          const fd = new FormData();
+          fd.append("action", "grant_exp");
+          fd.append("award_key", awardKey);
+          fd.append("amount", "50");
+          try {
+            const resp = await fetch(API, {
+              method: "POST",
+              body: fd,
+              credentials: "same-origin",
+            });
+            const ct = resp.headers.get("content-type") || "";
+            if (!resp.ok) {
+              console.warn("awardExp: server non-ok", resp.status);
+              return;
+            }
+            if (ct.includes("application/json")) {
+              const data = await resp.json();
+              if (data.success && data.awarded) {
+                showMsg(`+50 EXP! Mantap 🔥`, true);
+              }
+            } else {
+              console.warn("awardExp: unexpected content-type");
+            }
+          } catch (err) {
+            console.error("awardExp exception", err);
+          }
+        }
+
+        // RENDER
+        function render() {
+          const q = QUIZ[idx];
+          document.getElementById("instruksiBox").textContent =
+            q.instruksi || "";
+          qTitle.textContent = `Tantangan ${idx + 1}/${QUIZ.length}`;
+          previewEl.innerHTML = (q.preview || "")
+            .toString()
+            .replaceAll("?", "<span style='color:#22c55e'>[slot]</span>");
+
+          const doneCount = done.filter(Boolean).length;
+          bar.style.width = ((doneCount / QUIZ.length) * 100).toFixed(1) + "%";
+
+          pillWrap.innerHTML = "";
+          for (let i = 0; i < QUIZ.length; i++) {
+            const d = document.createElement("div");
+            d.className =
+              "pill" + (done[i] ? " done" : "") + (i === idx ? " active" : "");
+            d.textContent = i + 1;
+            d.onclick = () => {
+              idx = i;
+              saveToServer();
+              render();
+            };
+            pillWrap.appendChild(d);
+          }
+
+          // slots
+          slotsWrap.innerHTML = "";
+          const currentAns =
+            answers[idx] || Array(QUIZ[idx].slots.length).fill(null);
+          for (let i = 0; i < QUIZ[idx].slots.length; i++) {
+            const s = document.createElement("div");
+            s.className = "slot" + (currentAns[i] ? " filled" : "");
+            s.dataset.slotIndex = i;
+            s.ondragover = (e) => e.preventDefault();
+            s.ondrop = (e) => {
+              const tokenKey = e.dataTransfer.getData("text/plain");
+              placeToken(i, tokenKey);
+            };
+            s.textContent = currentAns[i] || "drop here";
+            slotsWrap.appendChild(s);
+          }
+
+          // bank
+          bankWrap.innerHTML = "";
+          const bankTokens = QUIZ[idx].bank.slice();
+          for (let i = bankTokens.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [bankTokens[i], bankTokens[j]] = [bankTokens[j], bankTokens[i]];
+          }
+          bankTokens.forEach((tok, i) => {
+            const uniqueKey = tok + "::" + i;
+            const c = document.createElement("div");
+            c.className = "chip";
+            c.draggable = true;
+            c.textContent = tok;
+            c.ondragstart = (e) =>
+              e.dataTransfer.setData("text/plain", uniqueKey);
+            c.onclick = () => {
+              const firstEmpty = (
+                answers[idx] || Array(QUIZ[idx].slots.length).fill(null)
+              ).findIndex((v) => !v);
+              if (firstEmpty > -1) placeToken(firstEmpty, uniqueKey);
+            };
+            bankWrap.appendChild(c);
+          });
+
+          feedback.className = "msg hidden";
+          feedback.textContent = "";
+          badgeBox.classList.toggle("hidden", !(doneCount === QUIZ.length));
+          updatePrevButtonState();
+        }
+
+        function placeToken(slotIndex, tokenKey) {
+          const [value] = tokenKey.split("::");
+          const q = QUIZ[idx];
+          let cur = answers[idx] || Array(q.slots.length).fill(null);
+          cur[slotIndex] = value;
+          answers[idx] = cur;
+          // save to DB ASAP
+          saveToServer().then(() => render());
+        }
+
+        function showMsg(text, ok, soft = false) {
+          feedback.textContent = text;
+          feedback.className = "msg " + (ok ? "ok" : "err");
+          if (soft) feedback.classList.add("soft");
+          feedback.classList.remove("hidden");
+        }
+
+        // check logic
+        async function checkCurrent() {
+          const q = QUIZ[idx];
+          const cur = answers[idx] || Array(q.slots.length).fill(null);
+          if (cur.some((v) => !v)) {
+            showMsg("Isi semua slot dulu ya 🔎", false, true);
+            return;
+          }
+          const slots = [...document.querySelectorAll(".slot")];
+          let allCorrect = true;
+          for (let i = 0; i < q.slots.length; i++) {
+            if (cur[i] === q.slots[i]) {
+              slots[i].classList.add("correct");
+              slots[i].classList.remove("wrong");
+            } else {
+              slots[i].classList.add("wrong");
+              slots[i].classList.remove("correct");
+              allCorrect = false;
+            }
+          }
+          if (allCorrect) {
+            done[idx] = true;
+            showMsg("Mantap! Jawaban tepat ✅", true);
+            await saveToServer();
+            // award EXP (server ensures idempotency)
+            awardExpForQuestion(idx);
+            setTimeout(() => {
+              if (idx < QUIZ.length - 1) {
+                idx++;
+                saveToServer();
+                render();
+              } else {
+                render();
+                onFinishLevel();
+              }
+            }, 700);
+          } else {
+            showMsg("Masih ada yang salah ❌", false);
+          }
+        }
+
+        function resetCurrent() {
+          idx = 0;
+          answers = Array(QUIZ.length).fill(null);
+          done = Array(QUIZ.length).fill(false);
+          document
+            .querySelectorAll(".slot")
+            .forEach((s) => s.classList.remove("correct", "wrong", "filled"));
+          saveToServer().then(() => render());
+        }
+
+        function onFinishLevel() {
+          document.getElementById("nextLevelPopup").style.display = "flex";
+          document.getElementById("nextBtn").onclick = () => {
+            document.getElementById("nextLevelPopup").style.display = "none";
+            window.location.href = "../../index.php#Games";
+          };
+        }
+
+        // Prev button
+        function updatePrevButtonState() {
+          if (!btnPrev) return;
+          if (idx <= 0) {
+            btnPrev.disabled = true;
+            btnPrev.classList.add("disabled");
+            btnPrev.title = "Tidak ada soal sebelumnya";
+          } else {
+            btnPrev.disabled = false;
+            btnPrev.classList.remove("disabled");
+            btnPrev.title = "Kembali ke soal sebelumnya";
+          }
+        }
+        if (btnPrev)
+          btnPrev.addEventListener("click", (e) => {
+            e.preventDefault();
+            if (idx > 0) {
+              idx = Math.max(0, idx - 1);
+              saveToServer().then(() => render());
+              showMsg(`Kembali ke Tantangan ${idx + 1}`, true, true);
+            }
+          });
+
+        // bind others
+        document
+          .getElementById("btnCheck")
+          .addEventListener("click", checkCurrent);
+        document
+          .getElementById("btnReset")
+          .addEventListener("click", resetCurrent);
+        document.getElementById("resetBtn").addEventListener("click", () => {
+          if (confirm("Yakin mau reset progress?")) {
+            resetCurrent();
+          }
+        });
+
+        // stars animation (same as before)
+        const canvas = document.getElementById("starsCanvas");
+        const ctx = canvas ? canvas.getContext("2d") : null;
+        let stars = [];
+        const numStars = 100;
+        function resizeCanvas() {
+          if (canvas) {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+          }
+        }
+        window.addEventListener("resize", resizeCanvas);
+        resizeCanvas();
+        function createStars() {
+          stars = [];
+          for (let i = 0; i < numStars; i++)
+            stars.push({
+              x: Math.random() * canvas.width,
+              y: Math.random() * canvas.height,
+              radius: Math.random() * 1.5,
+              speed: Math.random() * 0.2 + 0.05,
+            });
+        }
+        function animateStars() {
+          if (!ctx) return;
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.fillStyle = "#fff";
+          stars.forEach((star) => {
+            ctx.beginPath();
+            ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+            ctx.fill();
+            star.y += star.speed;
+            if (star.y > canvas.height) {
+              star.y = 0;
+              star.x = Math.random() * canvas.width;
+            }
+          });
+          requestAnimationFrame(animateStars);
+        }
+        createStars();
+        animateStars();
+
+        // navbar behavior unchanged (omitted for brevity)
+        const hamburger = document.getElementById("hamburger");
+        const sideMenu = document.getElementById("sideMenu");
+        const navbar = document.querySelector(".custom-navbar");
+        function openMenu() {
+          sideMenu.classList.add("active");
+          hamburger.classList.add("open");
+        }
+        function closeMenu() {
+          sideMenu.classList.remove("active");
+          hamburger.classList.remove("open");
+          sideMenu.querySelectorAll("a").forEach((link) => {
+            link.style.animation = "none";
+            setTimeout(() => (link.style.animation = ""), 10);
+          });
+        }
+        if (hamburger)
+          hamburger.addEventListener("click", () => {
+            const isOpen = sideMenu.classList.toggle("active");
+            hamburger.classList.toggle("open");
+            if (!isOpen) closeMenu();
+          });
+        if (sideMenu) sideMenu.addEventListener("mouseleave", closeMenu);
+        document.addEventListener("mousemove", (e) => {
+          const edgeThreshold = 10;
+          if (window.innerWidth - e.clientX <= edgeThreshold) openMenu();
+        });
+        window.addEventListener("scroll", () => {
+          if (window.scrollY > 50) navbar.classList.add("scrolled");
+          else navbar.classList.remove("scrolled");
+        });
+
+        // init: load server progress then render
+        loadFromServer();
+      });
     </script>
+
     <script src="../js/buttonback.js"></script>
   </body>
 </html>

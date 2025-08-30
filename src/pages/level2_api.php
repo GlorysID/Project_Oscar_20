@@ -17,6 +17,7 @@ $action = $_REQUEST['action'] ?? '';
 
 try {
   if ($action === 'get_progress') {
+    $materi = $_POST['materi'] ?? $_GET['materi'] ?? 'default';
     $stmt = $pdo->prepare("SELECT progress, awards, exp FROM users WHERE id = ?");
     $stmt->execute([$user_id]);
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -24,7 +25,9 @@ try {
     $progress = null;
     if (!empty($row['progress'])) {
       $decoded = json_decode($row['progress'], true);
-      if (json_last_error() === JSON_ERROR_NONE) $progress = $decoded;
+      if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+        $progress = $decoded[$materi] ?? null;
+      }
     }
     $awards = [];
     if (!empty($row['awards'])) {
@@ -38,7 +41,7 @@ try {
   }
 
   if ($action === 'save_progress') {
-    // expects POST 'progress' as JSON string
+    $materi = $_POST['materi'] ?? 'default';
     $raw = $_POST['progress'] ?? null;
     if ($raw === null) {
       echo json_encode(['success' => false, 'error' => 'missing_progress']);
@@ -49,9 +52,24 @@ try {
       echo json_encode(['success' => false, 'error' => 'invalid_json']);
       exit;
     }
-    // Save as JSON text
+    // Ambil progress lama
+    $stmt = $pdo->prepare("SELECT progress FROM users WHERE id = ?");
+    $stmt->execute([$user_id]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $all_progress = [];
+    if (!empty($row['progress'])) {
+      $decoded_all = json_decode($row['progress'], true);
+      if (json_last_error() === JSON_ERROR_NONE && is_array($decoded_all)) {
+        $all_progress = $decoded_all;
+      }
+    }
+    // Validasi: hanya update jika progress yang dikirim bukan null/kosong
+    if ($decoded !== null && $decoded !== [] && $decoded !== "") {
+      $all_progress[$materi] = $decoded;
+    }
+    // Jika progress materi yang dikirim kosong/null, jangan overwrite progress lama
     $stmt = $pdo->prepare("UPDATE users SET progress = ? WHERE id = ?");
-    $ok = $stmt->execute([json_encode($decoded), $user_id]);
+    $ok = $stmt->execute([json_encode($all_progress), $user_id]);
     echo json_encode(['success' => (bool)$ok]);
     exit;
   }
@@ -107,3 +125,9 @@ try {
   echo json_encode(['success' => false, 'error' => 'exception', 'message' => $e->getMessage()]);
   exit;
 }
+
+// Ambil parameter materi
+$materi = $_POST['materi'] ?? $_GET['materi'] ?? 'default';
+
+// Simpan progress per user dan per materi
+// Contoh: $_SESSION['progress'][$user_id][$materi] = $progress;

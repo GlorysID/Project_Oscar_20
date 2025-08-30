@@ -3,9 +3,42 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Level 1 – Game C++: Dasar Pemrograman</title>
+    <title>Game C++: Tap/Drag Quiz</title>
     <link rel="stylesheet" href="../css/level1html.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
     <style>
+      #pillWrap {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 6px;
+        overflow-x: auto;
+        padding: 6px;
+        max-width: 100%;
+        scrollbar-width: thin;
+        max-width: 330px;
+        overflow-x: auto;
+      }
+
+      #pillWrap::-webkit-scrollbar {
+        height: 6px;
+      }
+      #pillWrap::-webkit-scrollbar-thumb {
+        background: #94a3b8;
+        border-radius: 999px;
+      }
+      #pillWrap::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      .pill {
+        flex: 0 0 auto;
+        min-width: 40px;
+        text-align: center;
+      }
+
       .pill {
         display: inline-block;
         padding: 6px 10px;
@@ -17,11 +50,66 @@
       }
       .pill.done {
         background: #22c55e;
-        color: white;
+        color: #fff;
       }
       .pill.active {
         background: #3b82f6;
-        color: white;
+        color: #fff;
+      }
+      .ghost.disabled,
+      .ghost[disabled] {
+        opacity: 0.45;
+        pointer-events: none;
+      }
+      .msg.soft {
+        opacity: 0.95;
+        font-size: 0.95rem;
+      }
+      .chip {
+        background: var(--chip);
+        color: #fff;
+        padding: 8px 12px;
+        border-radius: 999px;
+        font-family: "Baloo 2", sans-serif;
+        cursor: grab;
+        user-select: none;
+      }
+      .chip:active {
+        cursor: grabbing;
+        transform: scale(0.98);
+      }
+      .slots {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+      }
+      .slot {
+        min-width: 90px;
+        min-height: 36px;
+        background: #fff;
+        border: 2px dashed #94a3b8;
+        border-radius: 10px;
+        padding: 6px 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #64748b;
+        font-family: "Baloo 2", sans-serif;
+        user-select: none;
+      }
+      .slot.filled {
+        border-style: solid;
+        border-color: #94a3b8;
+        color: #0f172a;
+      }
+      .slot.correct {
+        border-color: var(--ok);
+        background: #dcfce7;
+      }
+      .slot.wrong {
+        border-color: var(--err);
+        background: #fee2e2;
       }
     </style>
   </head>
@@ -29,16 +117,16 @@
     <!-- Navbar -->
     <nav class="custom-navbar fixed-top">
       <div class="navbar-container">
-        <a href="../../index.php" class="logo">
-          <img src="../img/KiddosLogo.png" alt="Logo" />
-        </a>
+        <a href="../../index.php" class="logo"
+          ><img src="../img/KiddosLogo.png" alt="Logo"
+        /></a>
         <div class="nav-right">
           <div class="chatbot">
             <a href="Kiddos AI.html"
               ><img src="../img/boticons.png" alt="Chatbot"
             /></a>
           </div>
-          <div class="hamburger" id="hamburger">
+          <div class="hamburger" id="hamburger" style="margin-bottom: 0.5rem">
             <span></span><span></span><span></span>
           </div>
         </div>
@@ -50,10 +138,10 @@
       <a href="../../index.php"
         ><img src="../img/homeicons.png" class="menu-icon" />Home</a
       >
-      <a href="../../index.php"
+      <a href="../../index.php #Materi"
         ><img src="../img/brainicons.png" class="menu-icon2" />Learn</a
       >
-      <a href="../../index.php"
+      <a href="../../index.php #Games"
         ><img src="../img/gameicons.png" class="menu-icon3" />Games</a
       >
       <a href="profile.php"
@@ -65,13 +153,13 @@
     <div class="page-wrapper">
       <div class="shell">
         <header>
-          <h1>Level 1 — Dasar C++</h1>
+          <h1>Game C++: Tap/Drag Quiz</h1>
           <div class="sub">
-            Drag & drop kode ke slot kosong. Selesaikan semua level C++ untuk
-            dapet badge <b>C++ Warrior</b>.
+            Tap/Drag & drop jawaban ke slot kosong. Selesaikan semua untuk dapat
+            <b>Exp Melimpah</b>.
           </div>
           <div class="progress"><div id="bar" class="bar"></div></div>
-          <button id="resetBtn" class="reset-btn">Reset Progress</button>
+          <button id="resetBtn" class="reset-btn">Reset Soal</button>
           <button
             id="btnPrev"
             class="ghost"
@@ -89,21 +177,23 @@
         <!-- LEFT: GAME -->
         <section class="card">
           <div id="qTitle" class="sub" style="font-weight: 700">
-            Tantangan 1/8
+            Tantangan 1/9
           </div>
           <div
             id="instruksiBox"
             class="sub"
-            style="font-weight: 600; color: #ffffff"
+            style="font-weight: 600; color: #fff"
           ></div>
           <div class="prompt"><code id="preview"></code></div>
           <div class="slots" id="slots"></div>
+
           <div>
             <div style="font-weight: 700; margin-bottom: 6px; color: white">
-              Bank Kode:
+              Konten Jawaban:
             </div>
             <div id="bank" class="bank"></div>
           </div>
+
           <div class="actions">
             <button id="btnCheck" class="primary">Cek Jawaban</button>
             <button id="btnReset" class="ghost">Reset Susunan</button>
@@ -126,17 +216,17 @@
                 line-height: 1.6;
               "
             >
-              <li>Drag kode ke slot kosong.</li>
+              <li>Tap/Drag jawaban ke slot kosong.</li>
               <li>Tekan <b>Cek Jawaban</b> untuk menilai.</li>
               <li>Benar = lanjut otomatis ke soal berikutnya.</li>
-              <li>Selesaikan semua level untuk dapet badge 🎖️.</li>
+              <li>Selesaikan semua level untuk dapat exp melimpah.</li>
             </ul>
           </div>
           <div id="badgeBox" class="badge hidden">
-            <div class="icon">🎖️</div>
+            <div class="icon">⭐</div>
             <div>
-              <div style="font-weight: 800">Badge!</div>
-              <div>C++ Warrior — Selesaikan semua level C++.</div>
+              <div style="font-weight: 800">Exp!</div>
+              <div>Dapatkan 50 Exp/Soal, Semangattt!</div>
             </div>
           </div>
         </aside>
@@ -146,329 +236,574 @@
     <!-- Popup Next Level -->
     <div id="nextLevelPopup" class="popup-overlay" style="display: none">
       <div class="popup-card">
-        <h2>🎉 Level C++ Selesai!</h2>
-        <p>Keren! Kamu udah kuasain dasar-dasar C++.</p>
-        <button id="nextBtn">➡️ Lanjut ke Level Berikutnya</button>
+        <h2>🎉 Semua level selesai!</h2>
+        <p>Keren! Kamu sudah memenangkan Game Scratch 🚀🧩</p>
+        <button id="nextBtn">➡️ Kembali ke Home</button>
       </div>
     </div>
 
     <script>
-      // ======= DATA SOAL C++ =======
-      const QUIZ = [
-        {
-          instruksi: "Import pustaka standar untuk input/output.",
-          preview: "? <iostream>",
-          slots: ["#include"],
-          bank: ["#include", "using", "int"],
-        },
-        {
-          instruksi: "Buat fungsi utama program C++.",
-          preview: "? main() { return 0; }",
-          slots: ["int"],
-          bank: ["main", "int", "void"],
-        },
-        {
-          instruksi: "Tampilkan teks ke layar.",
-          preview: "cout ? 'Hello World';",
-          slots: ["<<"],
-          bank: ["<<", ">>", "="],
-        },
-        {
-          instruksi: "Ambil input dari user.",
-          preview: "cin ? umur;",
-          slots: [">>"],
-          bank: ["<<", ">>", "--"],
-        },
-        {
-          instruksi: "Komentar satu baris di C++.",
-          preview: "? Ini komentar",
-          slots: ["//"],
-          bank: ["//", "/*", "#"],
-        },
-        {
-          instruksi: "Deklarasi variabel integer bernama umur.",
-          preview: "? umur;",
-          slots: ["int"],
-          bank: ["int", "float", "string"],
-        },
-        {
-          instruksi: "Buat konstanta pi dengan nilai 3.14.",
-          preview: "? double pi = 3.14;",
-          slots: ["const"],
-          bank: ["const", "var", "static"],
-        },
-        {
-          instruksi: "Casting integer x ke tipe float.",
-          preview: "float y = ?(x);",
-          slots: ["float"],
-          bank: ["float", "int", "string"],
-        },
-      ];
+      const API = "/project_oscar_20/src/pages/level2_api.php";
+      const MATERI = "cpp";
 
-      // ======= SCRIPT GAME (sama persis kayak Python) =======
-      let idx = 0;
-      let answers = Array(QUIZ.length).fill(null);
-      let done = Array(QUIZ.length).fill(false);
-      const LS_KEY = "course:CPP:level1:progress";
+      document.addEventListener("DOMContentLoaded", () => {
+        const QUIZ = [
+          {
+            instruksi: "Import pustaka standar untuk input/output.",
+            preview: "? <iostream>",
+            slots: ["#include"],
+            bank: ["#include", "using", "int"],
+          },
+          {
+            instruksi: "Buat fungsi utama program C++.",
+            preview: "? main() { return 0; }",
+            slots: ["int"],
+            bank: ["main", "int", "void"],
+          },
+          {
+            instruksi: "Tampilkan teks ke layar.",
+            preview: "cout ? 'Hello World';",
+            slots: ["<<"],
+            bank: ["<<", ">>", "="],
+          },
+          {
+            instruksi: "Ambil input dari user.",
+            preview: "cin ? umur;",
+            slots: [">>"],
+            bank: ["<<", ">>", "--"],
+          },
+          {
+            instruksi: "Komentar satu baris di C++.",
+            preview: "? Ini komentar",
+            slots: ["//"],
+            bank: ["//", "/*", "#"],
+          },
+          {
+            instruksi: "Deklarasi variabel integer bernama umur.",
+            preview: "? umur;",
+            slots: ["int"],
+            bank: ["int", "float", "string"],
+          },
+          {
+            instruksi: "Buat konstanta pi dengan nilai 3.14.",
+            preview: "? double pi = 3.14;",
+            slots: ["const"],
+            bank: ["const", "var", "static"],
+          },
+          {
+            instruksi: "Casting integer x ke tipe float.",
+            preview: "float y = ?(x);",
+            slots: ["float"],
+            bank: ["float", "int", "string"],
+          },
+          {
+            instruksi: "Operator aritmatika penjumlahan.",
+            preview: "int sum = 5 ? 3;",
+            slots: ["+"],
+            bank: ["+", "-", "*", "/"],
+          },
+          {
+            instruksi: "Operator modulus (sisa bagi).",
+            preview: "int r = 10 ? 3;",
+            slots: ["%"],
+            bank: ["%", "/", "*", "+"],
+          },
+          {
+            instruksi: "Operator relasi lebih besar dari.",
+            preview: "if(x ? 10) cout << 'besar';",
+            slots: [">"],
+            bank: [">", "<", "==", "!="],
+          },
+          {
+            instruksi: "Operator logika AND.",
+            preview: "if(a > 0 ? b < 5) cout << 'ok';",
+            slots: ["&&"],
+            bank: ["&&", "||", "!"],
+          },
+          {
+            instruksi: "Operator increment.",
+            preview: "x ?;",
+            slots: ["++"],
+            bank: ["++", "--", "+="],
+          },
+          {
+            instruksi: "Percabangan if sederhana.",
+            preview: "? (score >= 70) cout << 'Lulus';",
+            slots: ["if"],
+            bank: ["if", "else", "switch"],
+          },
+          {
+            instruksi: "Percabangan if-else.",
+            preview:
+              "? (score >= 70) cout << 'Lulus'; else cout << 'Tidak Lulus';",
+            slots: ["if"],
+            bank: ["if", "else", "switch"],
+          },
+          {
+            instruksi: "Switch-case sederhana.",
+            preview: "? (grade) { case 'A': cout << 'Excellent'; break; }",
+            slots: ["switch"],
+            bank: ["switch", "if", "else"],
+          },
+          {
+            instruksi: "For loop sederhana, cetak 5 kali.",
+            preview: "for(int i=0; i ? 5; i++) cout << i;",
+            slots: ["<"],
+            bank: ["<", "<=", ">", ">="],
+          },
+          {
+            instruksi: "While loop, cetak selama x < 10.",
+            preview: "while(x ? 10) { cout << x; x++; }",
+            slots: ["<"],
+            bank: ["<", ">", "<=", ">="],
+          },
+          {
+            instruksi: "Do...while loop, cetak 3 kali.",
+            preview: "int i=0; do { cout << i; i++; } ?(i<3);",
+            slots: ["while"],
+            bank: ["while", "for", "if"],
+          },
+          {
+            instruksi: "Break dalam loop for.",
+            preview: "for(int i=0; i<10; i++) { if(i==5) ?; }",
+            slots: ["break"],
+            bank: ["break", "continue", "return"],
+          },
+          {
+            instruksi: "Continue dalam loop while.",
+            preview: "while(x<10){ x++; ?; cout << x; }",
+            slots: ["continue"],
+            bank: ["break", "continue", "return"],
+          },
+          {
+            instruksi: "Nested loop: tabel perkalian 1–3.",
+            preview:
+              "for(int i=1;i<=3;i++){ for(int j=1;j<=3;j++){ cout << i*?; } }",
+            slots: ["j"],
+            bank: ["i", "j"],
+          },
+          {
+            instruksi: "Cetak pola bintang 3x3.",
+            preview:
+              "for(int i=0;i<3;i++){ for(int j=0;j<3;j++){ cout << ?; } }",
+            slots: ["'*'"],
+            bank: ["'*'", "i", "j"],
+          },
+          {
+            instruksi: "Loop dengan increment +=2.",
+            preview: "for(int i=0;i<10;i ? 2) cout << i;",
+            slots: ["+="],
+            bank: ["+=", "++", "--"],
+          },
+          {
+            instruksi: "Definisi fungsi sederhana",
+            preview: "int sum(int a, int b) { ? a+b; }",
+            slots: ["return"],
+            bank: ["return", "cout", "if"],
+          },
+          {
+            instruksi: "Fungsi void tanpa return",
+            preview: "void greet() { ? << 'Hello'; }",
+            slots: ["cout"],
+            bank: ["cout", "return", "cin"],
+          },
+          {
+            instruksi: "Fungsi dengan default parameter",
+            preview: "int add(int a, int b=? ) { return a+b; }",
+            slots: ["0"],
+            bank: ["0", "1", "2"],
+          },
+          {
+            instruksi: "Pointer ke variabel",
+            preview: "int x=5; int *p=?;",
+            slots: ["&x"],
+            bank: ["&x", "x", "*x"],
+          },
+          {
+            instruksi: "Akses nilai via pointer",
+            preview: "cout << ?;",
+            slots: ["*p"],
+            bank: ["*p", "p", "&p"],
+          },
+          {
+            instruksi: "Pointer ke array",
+            preview: "int arr[3]={1,2,3}; int *p=?;",
+            slots: ["arr"],
+            bank: ["arr", "&arr", "*arr"],
+          },
+        ];
 
-      const saved = JSON.parse(localStorage.getItem(LS_KEY) || "{}");
-      if (saved.idx !== undefined) idx = saved.idx;
-      if (saved.answers) answers = saved.answers;
-      if (saved.done) done = saved.done;
+        // UI elems
+        const bar = document.getElementById("bar");
+        const qTitle = document.getElementById("qTitle");
+        const previewEl = document.getElementById("preview");
+        const slotsWrap = document.getElementById("slots");
+        const bankWrap = document.getElementById("bank");
+        const feedback = document.getElementById("feedback");
+        const pillWrap = document.getElementById("pillWrap");
+        const badgeBox = document.getElementById("badgeBox");
+        const btnPrev = document.getElementById("btnPrev");
 
-      const bar = document.getElementById("bar");
-      const qTitle = document.getElementById("qTitle");
-      const preview = document.getElementById("preview");
-      const slotsWrap = document.getElementById("slots");
-      const bankWrap = document.getElementById("bank");
-      const feedback = document.getElementById("feedback");
-      const pillWrap = document.getElementById("pillWrap");
-      const badgeBox = document.getElementById("badgeBox");
+        // state (will be loaded from DB)
+        let idx = 0;
+        let answers = Array(QUIZ.length).fill(null);
+        let done = Array(QUIZ.length).fill(false);
 
-      function shuffle(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [array[i], array[j]] = [array[j], array[i]];
-        }
-        return array;
-      }
-
-      function render() {
-        const q = QUIZ[idx];
-        document.getElementById("instruksiBox").textContent = q.instruksi || "";
-        qTitle.textContent = `Tantangan ${idx + 1}/${QUIZ.length}`;
-        preview.innerHTML = q.preview.replaceAll(
-          "?",
-          "<span style='color:#22c55e'>[slot]</span>"
-        );
-
-        const doneCount = done.filter(Boolean).length;
-        bar.style.width = ((doneCount / QUIZ.length) * 100).toFixed(1) + "%";
-
-        pillWrap.innerHTML = "";
-        for (let i = 0; i < QUIZ.length; i++) {
-          const d = document.createElement("div");
-          d.className =
-            "pill" + (done[i] ? " done" : "") + (i === idx ? " active" : "");
-          d.textContent = i + 1;
-          pillWrap.appendChild(d);
-        }
-
-        slotsWrap.innerHTML = "";
-        const currentAns = answers[idx] || Array(q.slots.length).fill(null);
-        for (let i = 0; i < q.slots.length; i++) {
-          const s = document.createElement("div");
-          s.className = "slot" + (currentAns[i] ? " filled" : "");
-          s.dataset.slotIndex = i;
-          s.ondragover = (e) => e.preventDefault();
-          s.ondrop = (e) => {
-            const tokenKey = e.dataTransfer.getData("text/plain");
-            placeToken(i, tokenKey);
-          };
-          s.textContent = currentAns[i] || "drop here";
-          slotsWrap.appendChild(s);
-        }
-
-        const randomizedBank = shuffle([...q.bank]);
-        bankWrap.innerHTML = "";
-        randomizedBank.forEach((tok, i) => {
-          const uniqueKey = tok + "::" + i;
-          const c = document.createElement("div");
-          c.className = "chip";
-          c.draggable = true;
-          c.textContent = tok;
-          c.ondragstart = (e) =>
-            e.dataTransfer.setData("text/plain", uniqueKey);
-          c.onclick = () => {
-            const firstEmpty = (
-              answers[idx] || Array(q.slots.length).fill(null)
-            ).findIndex((v) => !v);
-            if (firstEmpty > -1) placeToken(firstEmpty, uniqueKey);
-          };
-          bankWrap.appendChild(c);
-        });
-
-        feedback.className = "msg hidden";
-        feedback.textContent = "";
-        badgeBox.classList.toggle("hidden", !(doneCount === QUIZ.length));
-      }
-
-      function placeToken(slotIndex, tokenKey) {
-        const [value] = tokenKey.split("::");
-        const q = QUIZ[idx];
-        let cur = answers[idx] || Array(q.slots.length).fill(null);
-        cur[slotIndex] = value;
-        answers[idx] = cur;
-        save();
-        render();
-      }
-
-      function checkCurrent() {
-        const q = QUIZ[idx];
-        const cur = answers[idx] || Array(q.slots.length).fill(null);
-        if (cur.some((v) => !v)) {
-          showMsg("Isi semua slot dulu ya 🔎", false, true);
-          return;
-        }
-        const slots = [...document.querySelectorAll(".slot")];
-        let allCorrect = true;
-        for (let i = 0; i < q.slots.length; i++) {
-          if (cur[i] === q.slots[i]) {
-            slots[i].classList.add("correct");
-            slots[i].classList.remove("wrong");
-          } else {
-            slots[i].classList.add("wrong");
-            slots[i].classList.remove("correct");
-            allCorrect = false;
+        // load from DB
+        async function loadFromServer() {
+          try {
+            const resp = await fetch(
+              API + `?action=get_progress&materi=${encodeURIComponent(MATERI)}`,
+              {
+                credentials: "same-origin",
+              }
+            );
+            const data = await resp.json();
+            if (data.success && data.progress) {
+              const p = data.progress;
+              if (p.idx !== undefined) idx = p.idx;
+              if (Array.isArray(p.answers)) answers = p.answers;
+              if (Array.isArray(p.done)) done = p.done;
+            }
+            render();
+          } catch (err) {
+            console.error("Gagal load progress:", err);
+            render();
           }
         }
-        if (allCorrect) {
-          done[idx] = true;
-          showMsg("Mantap! Jawaban tepat ✅", true);
-          save();
-          setTimeout(() => {
-            if (idx < QUIZ.length - 1) {
-              idx++;
-              save();
-              render();
-            } else {
-              render();
-              onFinishLevel();
-            }
-          }, 700);
-        } else showMsg("Masih ada yang salah ❌", false);
-      }
 
-      function resetCurrent() {
-        const q = QUIZ[idx];
-        answers[idx] = Array(q.slots.length).fill(null);
-        document
-          .querySelectorAll(".slot")
-          .forEach((s) => s.classList.remove("correct", "wrong", "filled"));
-        save();
-        render();
-      }
-
-      function onFinishLevel() {
-        document.getElementById("nextLevelPopup").style.display = "flex";
-        document.getElementById("nextBtn").onclick = () => {
-          document.getElementById("nextLevelPopup").style.display = "none";
-          window.location.href = "level2cpp.html";
-        };
-      }
-
-      function showMsg(text, ok, soft = false) {
-        feedback.textContent = text;
-        feedback.className = "msg " + (ok ? "ok" : "err");
-        if (soft) feedback.classList.add("soft");
-        feedback.classList.remove("hidden");
-      }
-
-      function save() {
-        localStorage.setItem(LS_KEY, JSON.stringify({ idx, answers, done }));
-      }
-
-      document.getElementById("resetBtn").addEventListener("click", () => {
-        if (confirm("Yakin mau reset progress?")) {
-          localStorage.removeItem(LS_KEY);
-          location.reload();
+        // save to DB
+        async function saveToServer() {
+          try {
+            const body = new FormData();
+            body.append("action", "save_progress");
+            body.append("materi", MATERI);
+            body.append("progress", JSON.stringify({ idx, answers, done }));
+            const resp = await fetch(API, {
+              method: "POST",
+              body,
+              credentials: "same-origin",
+            });
+            const data = await resp.json();
+            if (!data.success) console.warn("save_progress failed:", data);
+            return data;
+          } catch (err) {
+            console.error("save_progress exception", err);
+            return { success: false, error: "network" };
+          }
         }
-      });
 
-      document.getElementById("btnCheck").onclick = checkCurrent;
-      document.getElementById("btnReset").onclick = resetCurrent;
-      render();
+        // award EXP via server (safe, idempotent server-side)
+        async function awardExpForQuestion(index) {
+          const awardKey = `${MATERI}_q${index}`;
+          const fd = new FormData();
+          fd.append("action", "grant_exp");
+          fd.append("award_key", awardKey);
+          fd.append("amount", "50");
+          try {
+            const resp = await fetch(API, {
+              method: "POST",
+              body: fd,
+              credentials: "same-origin",
+            });
+            const ct = resp.headers.get("content-type") || "";
+            if (!resp.ok) {
+              console.warn("awardExp: server non-ok", resp.status);
+              return;
+            }
+            if (ct.includes("application/json")) {
+              const data = await resp.json();
+              if (data.success && data.awarded) {
+                showMsg(`+50 EXP! Mantap 🔥`, true);
+              }
+            } else {
+              console.warn("awardExp: unexpected content-type");
+            }
+          } catch (err) {
+            console.error("awardExp exception", err);
+          }
+        }
 
-      // Animasi Bintang
-      const canvas = document.getElementById("starsCanvas");
-      const ctx = canvas.getContext("2d");
-      let stars = [];
-      const numStars = 100;
+        // RENDER
+        function render() {
+          const q = QUIZ[idx];
+          document.getElementById("instruksiBox").textContent =
+            q.instruksi || "";
+          qTitle.textContent = `Tantangan ${idx + 1}/${QUIZ.length}`;
+          previewEl.innerHTML = (q.preview || "")
+            .toString()
+            .replaceAll("?", "<span style='color:#22c55e'>[slot]</span>");
 
-      function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-      }
-      window.addEventListener("resize", resizeCanvas);
-      resizeCanvas();
+          const doneCount = done.filter(Boolean).length;
+          bar.style.width = ((doneCount / QUIZ.length) * 100).toFixed(1) + "%";
 
-      function createStars() {
-        stars = [];
-        for (let i = 0; i < numStars; i++) {
-          stars.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            radius: Math.random() * 1.5,
-            speed: Math.random() * 0.2 + 0.05,
+          pillWrap.innerHTML = "";
+          for (let i = 0; i < QUIZ.length; i++) {
+            const d = document.createElement("div");
+            d.className =
+              "pill" + (done[i] ? " done" : "") + (i === idx ? " active" : "");
+            d.textContent = i + 1;
+            d.onclick = () => {
+              idx = i;
+              saveToServer();
+              render();
+            };
+            pillWrap.appendChild(d);
+          }
+
+          // slots
+          slotsWrap.innerHTML = "";
+          const currentAns =
+            answers[idx] || Array(QUIZ[idx].slots.length).fill(null);
+          for (let i = 0; i < QUIZ[idx].slots.length; i++) {
+            const s = document.createElement("div");
+            s.className = "slot" + (currentAns[i] ? " filled" : "");
+            s.dataset.slotIndex = i;
+            s.ondragover = (e) => e.preventDefault();
+            s.ondrop = (e) => {
+              const tokenKey = e.dataTransfer.getData("text/plain");
+              placeToken(i, tokenKey);
+            };
+            s.textContent = currentAns[i] || "drop here";
+            slotsWrap.appendChild(s);
+          }
+
+          // bank
+          bankWrap.innerHTML = "";
+          const bankTokens = QUIZ[idx].bank.slice();
+          for (let i = bankTokens.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [bankTokens[i], bankTokens[j]] = [bankTokens[j], bankTokens[i]];
+          }
+          bankTokens.forEach((tok, i) => {
+            const uniqueKey = tok + "::" + i;
+            const c = document.createElement("div");
+            c.className = "chip";
+            c.draggable = true;
+            c.textContent = tok;
+            c.ondragstart = (e) =>
+              e.dataTransfer.setData("text/plain", uniqueKey);
+            c.onclick = () => {
+              const firstEmpty = (
+                answers[idx] || Array(QUIZ[idx].slots.length).fill(null)
+              ).findIndex((v) => !v);
+              if (firstEmpty > -1) placeToken(firstEmpty, uniqueKey);
+            };
+            bankWrap.appendChild(c);
+          });
+
+          feedback.className = "msg hidden";
+          feedback.textContent = "";
+          badgeBox.classList.toggle("hidden", !(doneCount === QUIZ.length));
+          updatePrevButtonState();
+        }
+
+        function placeToken(slotIndex, tokenKey) {
+          const [value] = tokenKey.split("::");
+          const q = QUIZ[idx];
+          let cur = answers[idx] || Array(q.slots.length).fill(null);
+          cur[slotIndex] = value;
+          answers[idx] = cur;
+          // save to DB ASAP
+          saveToServer().then(() => render());
+        }
+
+        function showMsg(text, ok, soft = false) {
+          feedback.textContent = text;
+          feedback.className = "msg " + (ok ? "ok" : "err");
+          if (soft) feedback.classList.add("soft");
+          feedback.classList.remove("hidden");
+        }
+
+        // check logic
+        async function checkCurrent() {
+          const q = QUIZ[idx];
+          const cur = answers[idx] || Array(q.slots.length).fill(null);
+          if (cur.some((v) => !v)) {
+            showMsg("Isi semua slot dulu ya 🔎", false, true);
+            return;
+          }
+          const slots = [...document.querySelectorAll(".slot")];
+          let allCorrect = true;
+          for (let i = 0; i < q.slots.length; i++) {
+            if (cur[i] === q.slots[i]) {
+              slots[i].classList.add("correct");
+              slots[i].classList.remove("wrong");
+            } else {
+              slots[i].classList.add("wrong");
+              slots[i].classList.remove("correct");
+              allCorrect = false;
+            }
+          }
+          if (allCorrect) {
+            done[idx] = true;
+            showMsg("Mantap! Jawaban tepat ✅", true);
+            await saveToServer();
+            // award EXP (server ensures idempotency)
+            awardExpForQuestion(idx);
+            setTimeout(() => {
+              if (idx < QUIZ.length - 1) {
+                idx++;
+                saveToServer();
+                render();
+              } else {
+                render();
+                onFinishLevel();
+              }
+            }, 700);
+          } else {
+            showMsg("Masih ada yang salah ❌", false);
+          }
+        }
+
+        function resetCurrent() {
+          answers[idx] = Array(QUIZ[idx].slots.length).fill(null);
+          document
+            .querySelectorAll(".slot")
+            .forEach((s) => s.classList.remove("correct", "wrong", "filled"));
+          saveToServer().then(() => render());
+        }
+
+        function onFinishLevel() {
+          document.getElementById("nextLevelPopup").style.display = "flex";
+          document.getElementById("nextBtn").onclick = () => {
+            document.getElementById("nextLevelPopup").style.display = "none";
+            window.location.href = "../../index.php#Games";
+          };
+        }
+
+        // Prev button
+        function updatePrevButtonState() {
+          if (!btnPrev) return;
+          if (idx <= 0) {
+            btnPrev.disabled = true;
+            btnPrev.classList.add("disabled");
+            btnPrev.title = "Tidak ada soal sebelumnya";
+          } else {
+            btnPrev.disabled = false;
+            btnPrev.classList.remove("disabled");
+            btnPrev.title = "Kembali ke soal sebelumnya";
+          }
+        }
+        if (btnPrev)
+          btnPrev.addEventListener("click", (e) => {
+            e.preventDefault();
+            if (idx > 0) {
+              idx = Math.max(0, idx - 1);
+              saveToServer().then(() => render());
+              showMsg(`Kembali ke Tantangan ${idx + 1}`, true, true);
+            }
+          });
+
+        // bind others
+        document
+          .getElementById("btnCheck")
+          .addEventListener("click", checkCurrent);
+        document
+          .getElementById("btnReset")
+          .addEventListener("click", resetCurrent);
+        document.getElementById("resetBtn").addEventListener("click", () => {
+          if (confirm("Yakin mau reset progress?")) {
+            // clear progress on server
+            fetch(API, {
+              method: "POST",
+              credentials: "same-origin",
+              body: new URLSearchParams({
+                action: "save_progress",
+                progress: JSON.stringify({
+                  idx: 0,
+                  answers: Array(QUIZ.length).fill(null),
+                  done: Array(QUIZ.length).fill(false),
+                }),
+              }),
+            }).then(() => {
+              idx = 0;
+              answers = Array(QUIZ.length).fill(null);
+              done = Array(QUIZ.length).fill(false);
+              render();
+            });
+          }
+        });
+
+        // stars animation (same as before)
+        const canvas = document.getElementById("starsCanvas");
+        const ctx = canvas ? canvas.getContext("2d") : null;
+        let stars = [];
+        const numStars = 100;
+        function resizeCanvas() {
+          if (canvas) {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+          }
+        }
+        window.addEventListener("resize", resizeCanvas);
+        resizeCanvas();
+        function createStars() {
+          stars = [];
+          for (let i = 0; i < numStars; i++)
+            stars.push({
+              x: Math.random() * canvas.width,
+              y: Math.random() * canvas.height,
+              radius: Math.random() * 1.5,
+              speed: Math.random() * 0.2 + 0.05,
+            });
+        }
+        function animateStars() {
+          if (!ctx) return;
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.fillStyle = "#fff";
+          stars.forEach((star) => {
+            ctx.beginPath();
+            ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+            ctx.fill();
+            star.y += star.speed;
+            if (star.y > canvas.height) {
+              star.y = 0;
+              star.x = Math.random() * canvas.width;
+            }
+          });
+          requestAnimationFrame(animateStars);
+        }
+        createStars();
+        animateStars();
+
+        // navbar behavior unchanged (omitted for brevity)
+        const hamburger = document.getElementById("hamburger");
+        const sideMenu = document.getElementById("sideMenu");
+        const navbar = document.querySelector(".custom-navbar");
+        function openMenu() {
+          sideMenu.classList.add("active");
+          hamburger.classList.add("open");
+        }
+        function closeMenu() {
+          sideMenu.classList.remove("active");
+          hamburger.classList.remove("open");
+          sideMenu.querySelectorAll("a").forEach((link) => {
+            link.style.animation = "none";
+            setTimeout(() => (link.style.animation = ""), 10);
           });
         }
-      }
-
-      function drawStars() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = "white";
-        stars.forEach((star) => {
-          ctx.beginPath();
-          ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-          ctx.fill();
+        if (hamburger)
+          hamburger.addEventListener("click", () => {
+            const isOpen = sideMenu.classList.toggle("active");
+            hamburger.classList.toggle("open");
+            if (!isOpen) closeMenu();
+          });
+        if (sideMenu) sideMenu.addEventListener("mouseleave", closeMenu);
+        document.addEventListener("mousemove", (e) => {
+          const edgeThreshold = 10;
+          if (window.innerWidth - e.clientX <= edgeThreshold) openMenu();
         });
-      }
-
-      function updateStars() {
-        stars.forEach((star) => {
-          star.y += star.speed;
-          if (star.y > canvas.height) {
-            star.y = 0;
-            star.x = Math.random() * canvas.width;
-          }
+        window.addEventListener("scroll", () => {
+          if (window.scrollY > 50) navbar.classList.add("scrolled");
+          else navbar.classList.remove("scrolled");
         });
-      }
 
-      function animate() {
-        drawStars();
-        updateStars();
-        requestAnimationFrame(animate);
-      }
-
-      createStars();
-      animate();
-
-      // Navbar
-      const hamburger = document.getElementById("hamburger");
-      const sideMenu = document.getElementById("sideMenu");
-      const navbar = document.querySelector(".custom-navbar");
-
-      function openMenu() {
-        sideMenu.classList.add("active");
-        hamburger.classList.add("open");
-      }
-      function closeMenu() {
-        sideMenu.classList.remove("active");
-        hamburger.classList.remove("open");
-        sideMenu.querySelectorAll("a").forEach((link) => {
-          link.style.animation = "none";
-          setTimeout(() => (link.style.animation = ""), 10);
-        });
-      }
-      hamburger.addEventListener("click", () => {
-        const isOpen = sideMenu.classList.toggle("active");
-        hamburger.classList.toggle("open");
-        if (!isOpen) closeMenu();
-      });
-      sideMenu.addEventListener("mouseleave", () => {
-        closeMenu();
-      });
-      document.addEventListener("mousemove", (e) => {
-        const edgeThreshold = 10;
-        if (window.innerWidth - e.clientX <= edgeThreshold) {
-          openMenu();
-        }
-      });
-      window.addEventListener("scroll", () => {
-        if (window.scrollY > 50) navbar.classList.add("scrolled");
-        else navbar.classList.remove("scrolled");
+        // init: load server progress then render
+        loadFromServer();
       });
     </script>
+
     <script src="../js/buttonback.js"></script>
   </body>
 </html>
