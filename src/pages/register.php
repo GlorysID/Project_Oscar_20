@@ -319,8 +319,8 @@
       }
 
       .register-button:hover {
-        background: linear-gradient(135deg, #7b1fa2, #c2185b);
         transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(138, 92, 246, 0.4);
       }
 
       .register-button:active {
@@ -412,12 +412,12 @@
         <canvas id="starsCanvas"></canvas>
         <div class="banner-gradient"></div>
         
-        <div class="icon python"><img src="../img/pythonicons.png" alt="Python"></div>
-        <div class="icon js"><img src="../img/jsicons.png" alt="JavaScript"></div>  
-        <div class="icon html"><img src="../img/htmlicons.png" alt="Html"></div>
-        <div class="icon css"><img src="../img/cssicons.png" alt="Cascading Style Sheet"></div>
-        <div class="icon scratch"><img src="../img/scratchicons.png" alt="Scratch"></div>
-        <div class="icon cpp"><img src="../img/cppicons.png" alt="c++"></div>
+        <div class="icon python"><img src="/Project_Oscar_20/src/img/pythonicons.png" alt="Python"></div>
+        <div class="icon js"><img src="/Project_Oscar_20/src/img/jsicons.png" alt="JavaScript"></div>  
+        <div class="icon html"><img src="/Project_Oscar_20/src/img/htmlicons.png" alt="Html"></div>
+        <div class="icon css"><img src="/Project_Oscar_20/src/img/cssicons.png" alt="Cascading Style Sheet"></div>
+        <div class="icon scratch"><img src="/Project_Oscar_20/src/img/scratchicons.png" alt="Scratch"></div>
+        <div class="icon cpp"><img src="/Project_Oscar_20/src/img/cppicons.png" alt="c++"></div>
         
         <!-- Register Form Container -->
         <div class="wrapper">
@@ -434,7 +434,7 @@
                   <input 
                     type="text" 
                     class="form-input" 
-                    placeholder="Enter Your Username" 
+                    placeholder="Username" 
                     required
                    name="username">
                 </div>
@@ -446,7 +446,7 @@
                   <input 
                     type="email" 
                     class="form-input" 
-                    placeholder="Enter Your Email" 
+                    placeholder="Masukan Email" 
                     required
                    name="email">
                 </div>
@@ -459,7 +459,7 @@
                     type="password" 
                     class="form-input" 
                     id="password"
-                    placeholder="Enter Your Password" 
+                    placeholder="Masukan Password" 
                     required
                     name="password"
                     minlength="6">
@@ -483,10 +483,10 @@
               <button type="submit" class="register-button">Sign Up</button>
               
               <div class="login-link">
-                Already have an account? <a href="login.php">Log In</a>
+                Sudah Punya Akun? <a href="login.php">Log In</a>
               </div>
               <div class="back-link">
-                <a href="../../index.php">← Back to Landing Page</a>
+                <a href="/Project_Oscar_20/index.php">Kembali Ke Halaman Utama</a>
               </div>
             </form>
           </div>

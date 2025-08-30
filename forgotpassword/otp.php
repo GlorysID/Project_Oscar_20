@@ -1,17 +1,47 @@
+<?php
+require __DIR__ . '/config.php';
+require __DIR__ . '/helpers.php';
+ensure_session();
+$flash = $_SESSION['flash'] ?? null; unset($_SESSION['flash']);
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kiddos Login</title>
+    <title>Kiddos Verify OTP</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600&family=Poppins:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
-    
     <style>
-      html {
+      /* === semua CSS container, banner, dll. biarin sama kayak sebelumnya === */
+
+      /* tambahan style buat input OTP */
+      .otp-inputs {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+      }
+      .otp-inputs input {
+        width: 44px;
+        height: 44px;
+        text-align: center;
+        font-size: 1.2rem;
+        border-radius: 10px;
+        border: 1px solid var(--rt-border);
+        background: rgba(255,255,255,0.08);
+        color: #fff;
+        font-family: 'Poppins', sans-serif;
+      }
+      .otp-inputs input:focus {
+        outline: none;
+        border-color: rgba(255, 255, 255, 0.3);
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+      }
+
+            html {
         scroll-behavior: smooth;
       }
 
@@ -389,6 +419,7 @@
           left: 12px;
           font-size: 1rem;
         }
+
       }
 
     .toggle-password {
@@ -409,81 +440,54 @@
   font-weight: 500;
   display: none;
 }
-
-        
     </style>
   </head>
   <body>
     <div class="app">
-
       <!-- Banner -->
       <section class="banner">
         <canvas id="starsCanvas"></canvas>
         <div class="banner-gradient"></div>
-        
-   <div class="icon python"><img src="/Project_Oscar_20/src/img/pythonicons.png" alt="Python"></div>
-        <div class="icon js"><img src="/Project_Oscar_20/src/img/jsicons.png" alt="JavaScript"></div>  
+
+        <!-- Floating icons -->
+        <div class="icon python"><img src="/Project_Oscar_20/src/img/pythonicons.png" alt="Python"></div>
+        <div class="icon js"><img src="/Project_Oscar_20/src/img/jsicons.png" alt="JavaScript"></div>
         <div class="icon html"><img src="/Project_Oscar_20/src/img/htmlicons.png" alt="Html"></div>
         <div class="icon css"><img src="/Project_Oscar_20/src/img/cssicons.png" alt="Cascading Style Sheet"></div>
         <div class="icon scratch"><img src="/Project_Oscar_20/src/img/scratchicons.png" alt="Scratch"></div>
         <div class="icon cpp"><img src="/Project_Oscar_20/src/img/cppicons.png" alt="c++"></div>
-        
 
-    
-        <!-- Login Form Container (MENGGUNAKAN STRUKTUR ASLI) -->
+        <!-- OTP Form Container -->
         <div class="wrapper">
           <div class="glass-container">
             <div class="login-header">
-              <h2>Log In</h2>
+              <h2>Verify OTP</h2>
+              <p style="color:#ccc;font-size:0.9rem;font-family:'Poppins',sans-serif;margin-top:4px;">
+                Enter the 6-digit code sent to your email
+              </p>
             </div>
-            
-            <form class="login-form" method="POST" action="../../auth/login.php">
-              <div class="form-group">
-                <div class="input-container">
-                  <i class="fas fa-user input-icon"></i>
-                  <input 
-                    type="text" 
-                    class="form-input" 
-                    placeholder="Username Atau Email" 
-                    required
-                    name="login">
-                </div>
-              </div>
-              
-              <div class="form-group">
-                <div class="input-container">
-                  <i class="fas fa-lock input-icon"></i>
-                  <input 
-                    type="password" 
-                    class="form-input" 
-                    id="password"
-                    placeholder="Masukan Password" 
-                    required
-                    name="password">
-                  <i class="fas fa-eye toggle-password" id="togglePassword"></i>
-                </div>
-                 <small id="passwordError" style="color:#ff4d6d; font-size:0.8rem; display:none; font-family:'Poppins',sans-serif;">
-                    Password must be at least 6 characters
-                  </small>
-              </div>
-                            
-              <div class="forgot-password">
-                <a href="/Project_Oscar_20/forgotpassword/forgotpassword.php">Lupa Password?</a>
-              </div>
-              
-              <div class="checkbox-container">
-                <input type="checkbox" id="keepLoggedIn" name="remember">
-                <label for="keepLoggedIn">Ingat Saya</label>
-              </div>
-              
-              <button type="submit" class="login-button">Log In</button>
-              
-              <div class="signup-link">
-                Tidak Punya Akun? <a href="register.php">Register Disini</a>
-              </div>
 
+              <form class="login-form" method="POST" action="verifyotp.php">
+  <input type="hidden" name="csrf" value="<?= htmlspecialchars(csrf_token()) ?>">
+  <input type="hidden" name="email" value="<?= htmlspecialchars($_SESSION['otp_sent_email'] ?? '') ?>">
+
+  <div class="form-group otp-inputs">
+    <input type="text" name="otp[]" maxlength="1" pattern="[0-9]" required>
+    <input type="text" name="otp[]" maxlength="1" pattern="[0-9]" required>
+    <input type="text" name="otp[]" maxlength="1" pattern="[0-9]" required>
+    <input type="text" name="otp[]" maxlength="1" pattern="[0-9]" required>
+    <input type="text" name="otp[]" maxlength="1" pattern="[0-9]" required>
+    <input type="text" name="otp[]" maxlength="1" pattern="[0-9]" required>
+  </div>
+
+  <!-- taruh button di dalam form -->
+  <button type="submit" class="login-button">Verify OTP</button>
+</form>
+
+  
+    
               <div class="back-link">
-                <a href="/Project_Oscar_20/index.php">Kembali Ke Halaman Utama</a>
+                <a href="/Project_Oscar_20/forgotpassword/forgotpassword.php">Kembali ke halaman sebelumnya</a>
               </div>
             </form>
           </div>
@@ -491,19 +495,10 @@
       </section>
     </div>
 
-    <!-- Modal Error Window -->
-        <div id="errorModal" style="display:none;position:fixed;z-index:9999;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;">
-          <div style="background:#fff;padding:32px 24px;border-radius:14px;max-width:320px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.25);">
-            <div id="errorMsg" style="color:#c2185b;font-size:1.1rem;font-family:'Poppins',sans-serif;margin-bottom:18px;"></div>
-            <button onclick="document.getElementById('errorModal').style.display='none'" style="background:#8b5cf6;color:#fff;border:none;padding:8px 24px;border-radius:8px;font-weight:600;cursor:pointer;">OK</button>
-          </div>
-        </div>
-
     <script>
-      // Animasi Bintang di Banner
+      /* animasi bintang tetap sama */
       const canvas = document.getElementById("starsCanvas");
       const ctx = canvas.getContext("2d");
-
       let stars = [];
       const numStars = 150;
 
@@ -511,7 +506,6 @@
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
       }
-
       window.addEventListener("resize", resizeCanvas);
       resizeCanvas();
 
@@ -546,7 +540,6 @@
           star.y += star.speed;
           star.opacity += (Math.random() - 0.5) * 0.02;
           star.opacity = Math.max(0.2, Math.min(1, star.opacity));
-          
           if (star.y > canvas.height + star.radius) {
             star.y = -star.radius;
             star.x = Math.random() * canvas.width;
@@ -563,50 +556,20 @@
       createStars();
       animate();
 
-
-  // Error Modal Logic
-  (function() {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('e') === 'wrong') {
-      document.getElementById('errorMsg').textContent = "Password salah. Silakan coba lagi.";
-      document.getElementById('errorModal').style.display = "flex";
-    }
-    if (params.get('e') === 'invalid') {
-      document.getElementById('errorMsg').textContent = "Email dan password harus diisi.";
-      document.getElementById('errorModal').style.display = "flex";
-    }
-    if (params.get('e') === 'server') {
-      document.getElementById('errorMsg').textContent = "Terjadi kesalahan server. Coba lagi nanti.";
-      document.getElementById('errorModal').style.display = "flex";
-    }
-  })();
-
-  // toggle eye
-  const togglePassword = document.getElementById("togglePassword");
-const passwordInput = document.getElementById("password");
-
-togglePassword.addEventListener("click", function () {
-  // cek tipe input
-  const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
-  passwordInput.setAttribute("type", type);
-
-  // ganti icon mata / mata dicoret
-  this.classList.toggle("fa-eye");
-  this.classList.toggle("fa-eye-slash");
-});
-
-// minimum pasword 
-const passwordError = document.getElementById("passwordError");
-
-passwordInput.addEventListener("input", function() {
-  if (passwordInput.value.length > 0 && passwordInput.value.length < 6) {
-    passwordError.style.display = "block";
-  } else {
-    passwordError.style.display = "none";
-  }
-});
-
-
+      /* Auto focus OTP input */
+      const inputs = document.querySelectorAll('.otp-inputs input');
+      inputs.forEach((input, index) => {
+        input.addEventListener('input', () => {
+          if (input.value.length === 1 && index < inputs.length - 1) {
+            inputs[index + 1].focus();
+          }
+        });
+        input.addEventListener('keydown', (e) => {
+          if (e.key === 'Backspace' && !input.value && index > 0) {
+            inputs[index - 1].focus();
+          }
+        });
+      });
     </script>
   </body>
 </html>
