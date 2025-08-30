@@ -393,15 +393,28 @@
         }
       }
       .toggle-password {
-  position: absolute;
-  right: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #ddd;
-  cursor: pointer;
-  font-size: 1rem;
-  z-index: 2;
-}
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #ddd;
+      cursor: pointer;
+      font-size: 1rem;
+      z-index: 2;
+    }
+  
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover, 
+    input:-webkit-autofill:focus, 
+    input:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 40px rgba(255, 255, 255, 0.08) inset !important;
+      -webkit-text-fill-color: #fff !important;
+      caret-color: #fff;
+      border-radius: 12px;
+      transition: background-color 9999s ease-in-out 0s;
+    }
+
+
     </style>
   </head>
   <body>

@@ -158,7 +158,7 @@
         pointer-events: none;
       }
 
-      /* === LOGIN FORM STYLES (MENGGUNAKAN STYLE ASLI) === */
+      
       .wrapper {
         display: flex;
         gap: 40px;
@@ -391,24 +391,33 @@
         }
       }
 
-    .toggle-password {
-    position: absolute;
-    right: 14px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #ddd;
-    cursor: pointer;
-    font-size: 1rem;
-    z-index: 2;
-  }
+        .toggle-password {
+        position: absolute;
+        right: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #ddd;
+        cursor: pointer;
+        font-size: 1rem;
+        z-index: 2;
+      }
 
-  #passwordError {
-  margin-top: 5px;
-  color: #ff4d6d;
-  font-size: 0.8rem;
-  font-weight: 500;
-  display: none;
-}
+      #passwordError {
+      margin-top: 5px;
+      color: #ff4d6d;
+      font-size: 0.8rem;
+      font-weight: 500;
+      display: none;
+    }
+
+  
+    input:-webkit-autofill {
+      -webkit-box-shadow: 0 0 0 40px rgba(255, 255, 255, 0.08) inset !important;
+      -webkit-text-fill-color: #fff !important;
+      caret-color: #fff; /* biar cursor tetap putih */
+      transition: background-color 9999s ease-in-out 0s;
+    }
+
 
         
     </style>
@@ -427,8 +436,6 @@
         <div class="icon css"><img src="/Project_Oscar_20/src/img/cssicons.png" alt="Cascading Style Sheet"></div>
         <div class="icon scratch"><img src="/Project_Oscar_20/src/img/scratchicons.png" alt="Scratch"></div>
         <div class="icon cpp"><img src="/Project_Oscar_20/src/img/cppicons.png" alt="c++"></div>
-        
-
     
         <!-- Login Form Container (MENGGUNAKAN STRUKTUR ASLI) -->
         <div class="wrapper">
@@ -492,15 +499,14 @@
     </div>
 
     <!-- Modal Error Window -->
-        <div id="errorModal" style="display:none;position:fixed;z-index:9999;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;">
-          <div style="background:#fff;padding:32px 24px;border-radius:14px;max-width:320px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.25);">
-            <div id="errorMsg" style="color:#c2185b;font-size:1.1rem;font-family:'Poppins',sans-serif;margin-bottom:18px;"></div>
-            <button onclick="document.getElementById('errorModal').style.display='none'" style="background:#8b5cf6;color:#fff;border:none;padding:8px 24px;border-radius:8px;font-weight:600;cursor:pointer;">OK</button>
-          </div>
-        </div>
+    <div id="errorModal" style="display:none;position:fixed;z-index:9999;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;">
+      <div style="background:#fff;padding:32px 24px;border-radius:14px;max-width:320px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.25);">
+        <div id="errorMsg" style="color:#c2185b;font-size:1.1rem;font-family:'Poppins',sans-serif;margin-bottom:18px;"></div>
+        <button onclick="document.getElementById('errorModal').style.display='none'" style="background:#8b5cf6;color:#fff;border:none;padding:8px 24px;border-radius:8px;font-weight:600;cursor:pointer;">OK</button>
+      </div>
+    </div>
 
     <script>
-      // Animasi Bintang di Banner
       const canvas = document.getElementById("starsCanvas");
       const ctx = canvas.getContext("2d");
 
@@ -511,7 +517,6 @@
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
       }
-
       window.addEventListener("resize", resizeCanvas);
       resizeCanvas();
 
@@ -562,51 +567,46 @@
 
       createStars();
       animate();
+      // Error Modal Logic
+      (function() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('e') === 'wrong') {
+          document.getElementById('errorMsg').textContent = "Password salah. Silakan coba lagi.";
+          document.getElementById('errorModal').style.display = "flex";
+        }
+        if (params.get('e') === 'invalid') {
+          document.getElementById('errorMsg').textContent = "Email dan password harus diisi.";
+          document.getElementById('errorModal').style.display = "flex";
+        }
+        if (params.get('e') === 'server') {
+          document.getElementById('errorMsg').textContent = "Terjadi kesalahan server. Coba lagi nanti.";
+          document.getElementById('errorModal').style.display = "flex";
+        }
+      })();
+      // toggle eye
+      const togglePassword = document.getElementById("togglePassword");
+      const passwordInput = document.getElementById("password");
 
+      togglePassword.addEventListener("click", function () {
+        // cek tipe input
+        const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+        passwordInput.setAttribute("type", type);
 
-  // Error Modal Logic
-  (function() {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('e') === 'wrong') {
-      document.getElementById('errorMsg').textContent = "Password salah. Silakan coba lagi.";
-      document.getElementById('errorModal').style.display = "flex";
-    }
-    if (params.get('e') === 'invalid') {
-      document.getElementById('errorMsg').textContent = "Email dan password harus diisi.";
-      document.getElementById('errorModal').style.display = "flex";
-    }
-    if (params.get('e') === 'server') {
-      document.getElementById('errorMsg').textContent = "Terjadi kesalahan server. Coba lagi nanti.";
-      document.getElementById('errorModal').style.display = "flex";
-    }
-  })();
+        // ganti icon mata / mata dicoret
+        this.classList.toggle("fa-eye");
+        this.classList.toggle("fa-eye-slash");
+      });
 
-  // toggle eye
-  const togglePassword = document.getElementById("togglePassword");
-const passwordInput = document.getElementById("password");
+      // minimum pasword 
+      const passwordError = document.getElementById("passwordError");
 
-togglePassword.addEventListener("click", function () {
-  // cek tipe input
-  const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
-  passwordInput.setAttribute("type", type);
-
-  // ganti icon mata / mata dicoret
-  this.classList.toggle("fa-eye");
-  this.classList.toggle("fa-eye-slash");
-});
-
-// minimum pasword 
-const passwordError = document.getElementById("passwordError");
-
-passwordInput.addEventListener("input", function() {
-  if (passwordInput.value.length > 0 && passwordInput.value.length < 6) {
-    passwordError.style.display = "block";
-  } else {
-    passwordError.style.display = "none";
-  }
-});
-
-
+      passwordInput.addEventListener("input", function() {
+        if (passwordInput.value.length > 0 && passwordInput.value.length < 6) {
+          passwordError.style.display = "block";
+        } else {
+          passwordError.style.display = "none";
+        }
+      });
     </script>
   </body>
 </html>
