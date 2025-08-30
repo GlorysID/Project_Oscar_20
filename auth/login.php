@@ -13,7 +13,7 @@ if ($login === '' || $password === '') {
     redirect("/src/pages/login.php?e=invalid");
 }
 
-// Allow login by email OR username
+// LOGIN EMAIL/USERNAME
 try {
     $stmt = $pdo->prepare("SELECT id, username, email, full_name, password_hash, avatar 
                        FROM users 
@@ -27,9 +27,8 @@ try {
         redirect("/src/pages/login.php?e=wrong");
     }
 
-    // setelah verifikasi password berhasil
-set_user_session($row, isset($_POST['remember'])); // remember dari checkbox di form
-// redirect to main page (index)
+set_user_session($row, isset($_POST['remember'])); // ingat saya
+
 redirect("/index.php");
 
 } catch (Exception $ex) {

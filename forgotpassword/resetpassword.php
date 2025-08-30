@@ -16,9 +16,7 @@
           rel="stylesheet"
         />
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
-        <style>
-          /* === semua CSS container, banner, dll. biarin sama kayak sebelumnya === */
-          
+        <style>          
           .error-msg {
             color: #ff4d6d;
             font-size: 0.8rem;
@@ -28,18 +26,17 @@
             display: none;
           }
 
-                html {
+          html {
             scroll-behavior: smooth;
           }
 
-          /* Hide scrollbar di semua browser modern */
           body {
-            scrollbar-width: none; /* Firefox */
-            -ms-overflow-style: none; /* IE 10+ */
+            scrollbar-width: none;
+            -ms-overflow-style: none;
           }
           
           body::-webkit-scrollbar {
-            display: none; /* Chrome, Safari, Opera */
+            display: none;
           }
 
           html::-webkit-scrollbar,
@@ -47,7 +44,6 @@
             display: none;
           }
 
-          /* === BANNER DARK SPACE STYLE === */
           body {
             margin: 0;
             font-family: "Baloo 2", sans-serif;
@@ -55,7 +51,6 @@
             background: #1d0331;
           }
 
-          /* Banner */
           .banner {
             position: relative;
             height: 100vh;
@@ -67,19 +62,16 @@
             text-align: center;
           }
 
-          /* Dark overlay */
-        /* Dark overlay */
         .banner-overlay {
           position: absolute;
           top: 0;
           left: 0;
           width: 100%;
           height: 100%;
-          background: rgba(0, 0, 0, 0.65); /* tingkat gelap */
+          background: rgba(0, 0, 0, 0.65);
           z-index: 1;
         }
 
-        /* gradient overlay untuk transisi halus */
         .banner-gradient {
           position: absolute;
           bottom: 0;
@@ -126,15 +118,14 @@
       }
     }
 
-          /* floating icons */
           .icon {
             position: absolute;
-            width: 60px; /* ukuran icon container */
+            width: 60px;
             animation: float 8s ease-in-out infinite, rotate 12s linear infinite;
             z-index: 1;
           }
           .icon img {
-            width: 60px; /* semua gambar icon sama besar */
+            width: 60px;
             height: auto;
             display: block;
           }
@@ -175,7 +166,6 @@
             pointer-events: none;
           }
 
-          /* === LOGIN FORM STYLES (MENGGUNAKAN STYLE ASLI) === */
           .wrapper {
             display: flex;
             gap: 40px;
@@ -500,7 +490,7 @@
         </div>
 
         <script>
-          /* animasi bintang tetap sama */
+          /* animasi bintang*/
           const canvas = document.getElementById("starsCanvas");
           const ctx = canvas.getContext("2d");
           let stars = [];
@@ -560,7 +550,6 @@
           createStars();
           animate();
 
-          /* Toggle eye untuk password */
           function setupToggle(inputId, toggleId) {
             const input = document.getElementById(inputId);
             const toggle = document.getElementById(toggleId);
@@ -595,46 +584,25 @@
               confirmPassError.style.display = "none";
             }
           });
-        </script>
-      </body>
-    </html>
-ss.addEventListener("input", () => {
-            if (newPass.value.length > 0 && newPass.value.length < 6) {
-              newPassError.style.display = "block";
-            } else {
-              newPassError.style.display = "none";
-            }
-          });
 
-          confirmPass.addEventListener("input", () => {
-            if (confirmPass.value !== newPass.value) {
-              confirmPassError.style.display = "block";
-            } else {
-              confirmPassError.style.display = "none";
-            }
-          });
+          document.querySelector("form").addEventListener("submit", function(e) {
+          const pass = document.getElementById("password").value;
+          const confirm = document.getElementById("confirm_password").value;
 
-          <script>
-document.querySelector("form").addEventListener("submit", function(e) {
-    const pass = document.getElementById("password").value;
-    const confirm = document.getElementById("confirm_password").value;
+          // minimal 6 karakter
+          if (pass.length < 6) {
+              alert("Password minimal 6 karakter.");
+              e.preventDefault();
+              return;
+          }
 
-    // minimal 6 karakter
-    if (pass.length < 6) {
-        alert("Password minimal 6 karakter.");
-        e.preventDefault();
-        return;
-    }
-
-    // harus sama
-    if (pass !== confirm) {
-        alert("Password dan Konfirmasi Password tidak sama.");
-        e.preventDefault();
-        return;
-    }
-});
-</script>
-
+          // harus sama
+          if (pass !== confirm) {
+              alert("Password dan Konfirmasi Password tidak sama.");
+              e.preventDefault();
+              return;
+          }
+      });
         </script>
       </body>
     </html>

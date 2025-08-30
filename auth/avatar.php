@@ -12,8 +12,7 @@ $default = __DIR__ . "/../src/img/profileicon.png";
 $path = $default;
 
 if ($row && !empty($row['avatar'])) {
-    // Contoh: "/uploads/avatars/avatar_5_xxx.png"
-    $relative = ltrim($row['avatar'], '/'); // hapus "/" depan
+    $relative = ltrim($row['avatar'], '/');
     $candidate = __DIR__ . "/../" . $relative;
 
     if (is_file($candidate)) {

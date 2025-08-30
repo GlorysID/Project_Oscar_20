@@ -3,7 +3,6 @@ require_once __DIR__ . "/auth/config.php";
 require_once __DIR__ . "/auth/helpers.php";
 
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,8 +15,8 @@ require_once __DIR__ . "/auth/helpers.php";
     />
     <link rel="stylesheet" href="bootstrap-5.3.7-dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="src/css/style.css" />
-
     <style>
+
       html::-webkit-scrollbar,
       body::-webkit-scrollbar {
         display: none;
@@ -47,51 +46,38 @@ require_once __DIR__ . "/auth/helpers.php";
         cursor: not-allowed;
         transform: none;
       }
+
     </style>
   </head>
   <body>
     <!-- Navbar -->
     <nav class="custom-navbar fixed-top">
       <div class="navbar-container">
-        <a href="#" class="logo"
-          ><img src="src/img/KiddosLogo.png" alt="Logo"
-        /></a>
+        <a href="#" class="logo"><img src="src/img/KiddosLogo.png" alt="Logo"/></a>
         <div class="nav-right">
+
           <?php if (is_logged_in()): ?>
-          <div
-            id="userMenu"
-            style="display: flex; align-items: center; gap: 10px"
-          >
+          <div id="userMenu" style="display: flex; align-items: center; gap: 10px">
             <img
               src="<?= $BASE_URL ?>/auth/avatar.php?id=<?= $_SESSION['user']['id'] ?>"
               alt="Avatar"
-              style="
-                width: 36px;
-                height: 36px;
-                border-radius: 50%;
-                object-fit: cover;
-                cursor: pointer;
-              "
+              style=" width: 36px; height: 36px; border-radius: 50%; object-fit: cover; cursor: pointer;"
               onclick="location.href='src/pages/profile.php'"
             />
-            <a href="auth/logout.php" class="btn btn-outline-light btn-sm" style="padding-top:0.3rem;"
-              >Logout</a
-            >
+            <a href="auth/logout.php" class="btn btn-outline-light btn-sm" style="padding-top:0.3rem;">Logout</a>
           </div>
+
           <?php else: ?>
 
-          <div
-            class="auth-buttons"
-            style="display: flex; gap: 10px; align-items: center"
-          >
+          <div class="auth-buttons" style="display: flex; gap: 10px; align-items: center">
             <a href="src/pages/login.php" class="btn">Login</a>
             <a href="src/pages/register.php" class="btn">Sign Up</a>
           </div>
+
           <?php endif; ?>
+
           <div class="chatbot">
-            <a href="src/pages/Kiddos AI.html"
-              ><img src="src/img/boticons.png" alt="Chatbot"
-            /></a>
+            <a href="src/pages/Kiddos AI.html" ><img src="src/img/boticons.png" alt="Chatbot"/></a>
           </div>
           <div class="hamburger" id="hamburger">
             <span></span><span></span><span></span>
@@ -99,16 +85,13 @@ require_once __DIR__ . "/auth/helpers.php";
         </div>
       </div>
     </nav>
+    <!-- END NAVBAR -->
 
-    <!-- Side Menu -->
+    <!-- SIDE MENU -->
     <div class="side-menu" id="sideMenu">
       <a href="#"><img src="src/img/homeicons.png" class="menu-icon" />Home</a>
-      <a href="#Materi"
-        ><img src="src/img/brainicons.png" class="menu-icon2" />Learn</a
-      >
-      <a href="#Games"
-        ><img src="src/img/gameicons.png" class="menu-icon3" />Games</a
-      >
+      <a href="#Materi"><img src="src/img/brainicons.png" class="menu-icon2" />Learn</a>
+      <a href="#Games"><img src="src/img/gameicons.png" class="menu-icon3" />Games</a>
       <?php if (is_logged_in()): ?>
       <a href="src/pages/profile.php">
         <img src="src/img/profileicons.png" class="menu-icon" />Profile
@@ -119,16 +102,14 @@ require_once __DIR__ . "/auth/helpers.php";
       </a>
       <?php endif; ?>
     </div>
+    <!-- END SIDEMENU -->
 
-    <!-- Banner -->
-
+    <!-- BANNER -->
     <section class="banner">
       <canvas id="starsCanvas"></canvas>
-
       <div class="banner-gradient"></div>
       <img src="src/img/KiddosMain.png" class="main-logo" alt="Kiddos Logo" />
       <a href="#Materi" class="main-button">Pelajari Sekarang!</a>
-
       <img src="src/img/pythonicons.png" class="icon python" alt="Python" />
       <img src="src/img/jsicons.png" class="icon js" alt="JavaScript" />
       <img src="src/img/htmlicons.png" class="icon html" alt="HTML" />
@@ -136,21 +117,18 @@ require_once __DIR__ . "/auth/helpers.php";
       <img src="src/img/scratchicons.png" class="icon scratch" alt="scratch" />
       <img src="src/img/cppicons.png" class="icon cpp" alt="C++" />
     </section>
+    <!-- END BANNER -->
 
-    <!-- Materi Section -->
+    <!-- MATERI -->
     <section class="materi-section container my-5" id="Materi">
       <div class="materi-h">
         <p class="kategori-text">Kategori</p>
         <h2 class="judul-materi">Mau Belajar Apa Nih?</h2>
       </div>
-
       <div class="row g-4 mt-3">
         <!-- Materi Boxes -->
         <div class="col-lg-4 col-md-6 col-sm-12">
-          <a
-            href="src/pages/portalmateriscratch.html"
-            style="text-decoration: none"
-          >
+          <a href="src/pages/portalmateriscratch.html"style="text-decoration: none">
             <div class="materi-box">
               <img src="src/img/scratchicons.png" class="materi-icon" />
               <div>
@@ -162,10 +140,7 @@ require_once __DIR__ . "/auth/helpers.php";
         </div>
 
         <div class="col-lg-4 col-md-6 col-sm-12">
-          <a
-            href="src/pages/portalmaterihtml.html"
-            style="text-decoration: none"
-          >
+          <a href="src/pages/portalmaterihtml.html" style="text-decoration: none">
             <div class="materi-box">
               <img src="src/img/htmlicons.png" class="materi-icon" />
               <div>
@@ -177,10 +152,7 @@ require_once __DIR__ . "/auth/helpers.php";
         </div>
 
         <div class="col-lg-4 col-md-6 col-sm-12">
-          <a
-            href="src/pages/portalmatericss.html"
-            style="text-decoration: none"
-          >
+          <a href="src/pages/portalmatericss.html" style="text-decoration: none">
             <div class="materi-box">
               <img src="src/img/cssicons.png" class="materi-icon" />
               <div>
@@ -219,10 +191,7 @@ require_once __DIR__ . "/auth/helpers.php";
         </div>
 
         <div class="col-lg-4 col-md-6 col-sm-12">
-          <a
-            href="src/pages/portalmatericpp.html"
-            style="text-decoration: none"
-          >
+          <a href="src/pages/portalmatericpp.html" style="text-decoration: none">
             <div class="materi-box">
               <img src="src/img/cppicons.png" class="materi-icon" />
               <div>
@@ -234,22 +203,15 @@ require_once __DIR__ . "/auth/helpers.php";
         </div>
       </div>
     </section>
+    <!-- END MATERI -->
 
-    <!-- Section Tips dari Maskot -->
+    <!-- MASKOT -->
     <section class="mascot-section container my-5">
       <div class="row align-items-center g-4">
         <!-- Maskot kiri -->
-        <div
-          class="col-md-4 d-flex justify-content-md-end justify-content-center"
-        >
-          <img
-            src="src/img/maskotfullbody1.png"
-            alt="Maskot"
-            class="mascot-img"
-            id="mascot1"
-          />
+        <div class="col-md-4 d-flex justify-content-md-end justify-content-center">
+          <img src="src/img/maskotfullbody1.png" alt="Maskot" class="mascot-img" id="mascot1"/>
         </div>
-
         <!-- Bubble chat kanan -->
         <div class="col-md-8">
           <div class="mascot-bubble">
@@ -262,7 +224,9 @@ require_once __DIR__ . "/auth/helpers.php";
         </div>
       </div>
     </section>
-    <!-- Game Section -->
+    <!-- END MASKOT -->
+
+    <!-- GAME SECTION-->
     <section class="games-section" id="Games">
       <div class="games-h">
         <p class="Games-text">Games</p>
@@ -352,7 +316,8 @@ require_once __DIR__ . "/auth/helpers.php";
         </a>
       </div>
     </section>
-
+    <!-- END GAME SECTION -->
+     <!-- FOOTER -->
     <footer class="footer">
       <div class="footer-container">
         <!-- Kolom 1: Identitas -->
@@ -361,6 +326,7 @@ require_once __DIR__ . "/auth/helpers.php";
           <p>SMK BINA MANDIRI MULTIMEDIA</p>
           <p><em>“Yang Handal Berawal Dari Yang Dasar”</em></p>
         </div>
+    
 
         <!-- Kolom 2: Navigasi -->
         <div class="footer-links">
@@ -394,9 +360,9 @@ require_once __DIR__ . "/auth/helpers.php";
         © 2025 Tim E-Learning Dev – SMK BINA MANDIRI MULTIMEDIA.
       </p>
     </footer>
+    <!-- END FOOTER -->
 
-    <!-- modal -->
-    <!-- Modal untuk login warning -->
+    <!-- WINDOW WARNING -->
     <div id="loginModal" class="modal" style="display: none">
       <div class="modal-content">
         <h3>⚠ Harus Login</h3>
@@ -405,6 +371,7 @@ require_once __DIR__ . "/auth/helpers.php";
         <button onclick="closeLoginModal()">Tutup</button>
       </div>
     </div>
+    <!-- END WINDOW WARNING -->
 
     <script src="src/js/script.js"></script>
   </body>

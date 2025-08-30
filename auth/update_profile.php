@@ -1,7 +1,7 @@
 <?php
 // update_profile.php
 require_once __DIR__ . "/config.php";
-require_once __DIR__ . "/helpers.php"; // <-- WAJIB!
+require_once __DIR__ . "/helpers.php"; 
 session_start();
 
 // validasi login
@@ -57,11 +57,6 @@ if ($password !== '') {
     $params[':password_hash'] = password_hash($password, PASSWORD_DEFAULT);
 }
 
-/*
- * Avatar handling: simpan PATH web-accessible ke DB (bukan BLOB).
- * Physical folder: project_root/uploads/avatars/
- * Saved DB value example: /project-oscar-main/uploads/avatars/avatar_123_abcd.png
- */
 if (!empty($_FILES['avatar']['tmp_name']) && is_uploaded_file($_FILES['avatar']['tmp_name'])) {
     $allowed = ['image/jpeg' => 'jpg', 'image/png' => 'png', 'image/webp' => 'webp'];
     $finfo = finfo_open(FILEINFO_MIME_TYPE);
@@ -73,20 +68,19 @@ if (!empty($_FILES['avatar']['tmp_name']) && is_uploaded_file($_FILES['avatar'][
         exit();
     }
 
-    $maxBytes = 2 * 1024 * 1024; // 2 MB
+    $maxBytes = 2 * 1024 * 1024;
     if ($_FILES['avatar']['size'] > $maxBytes) {
         header("Location: " . rtrim($BASE_URL, '/') . "/src/pages/profile.php?e=file_too_large");
         exit();
     }
 
-    // buat folder uploads/avatars jika belum ada
+
     $uploadsDir = __DIR__ . "/../uploads/avatars";
     if (!is_dir($uploadsDir) && !mkdir($uploadsDir, 0755, true)) {
         header("Location: " . rtrim($BASE_URL, '/') . "/src/pages/profile.php?e=upload_dir_failed");
         exit();
     }
 
-    // nama file aman & acak
     try {
         $random = bin2hex(random_bytes(8));
     } catch (Exception $e) {
@@ -101,12 +95,11 @@ if (!empty($_FILES['avatar']['tmp_name']) && is_uploaded_file($_FILES['avatar'][
         exit();
     }
 
-    // hapus file avatar lama jika memang berada di folder uploads/avatars
     $stmt = $pdo->prepare("SELECT avatar FROM users WHERE id = :id LIMIT 1");
     $stmt->execute([':id' => $user_id]);
     $old = $stmt->fetch(PDO::FETCH_ASSOC);
     if ($old && !empty($old['avatar'])) {
-        $oldAvatar = $old['avatar']; // bisa '/project_oscar_20/uploads/avatars/...' atau 'uploads/...'
+        $oldAvatar = $old['avatar'];
         $oldBasename = basename($oldAvatar);
         $oldFull = $uploadsDir . DIRECTORY_SEPARATOR . $oldBasename;
         if (is_file($oldFull)) {
@@ -114,28 +107,24 @@ if (!empty($_FILES['avatar']['tmp_name']) && is_uploaded_file($_FILES['avatar'][
         }
     }
 
-    // simpan web path (TANPA BASE_URL)
     $webPath = '/uploads/avatars/' . $filename;
 
     $fields[] = "avatar = :avatar";
     $params[':avatar'] = $webPath;
 }
 
-// lakukan update jika ada field
+
 if (!empty($fields)) {
     $sql = "UPDATE users SET " . implode(", ", $fields) . " WHERE id = :id";
     $stmt = $pdo->prepare($sql);
     $stmt->execute($params);
 }
 
-// ambil data user terbaru dan update session
 $stmt = $pdo->prepare("SELECT id, username, email, full_name, avatar FROM users WHERE id = :id LIMIT 1");
 $stmt->execute([':id' => $user_id]);
 $updated = $stmt->fetch(PDO::FETCH_ASSOC);
 if ($updated) {
-    // Ganti ini:
-    // $_SESSION['user'] = $updated;
-    // Jadi:
+
     set_user_session($updated);
 }
 

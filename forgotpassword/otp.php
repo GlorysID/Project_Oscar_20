@@ -9,16 +9,13 @@ $flash = $_SESSION['flash'] ?? null; unset($_SESSION['flash']);
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kiddos Verify OTP</title>
+    <title>Kiddos OTP</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600&family=Poppins:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
     <style>
-      /* === semua CSS container, banner, dll. biarin sama kayak sebelumnya === */
-
-      /* tambahan style buat input OTP */
       .otp-inputs {
         display: flex;
         justify-content: space-between;
@@ -41,18 +38,17 @@ $flash = $_SESSION['flash'] ?? null; unset($_SESSION['flash']);
         box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
       }
 
-            html {
+      html {
         scroll-behavior: smooth;
       }
 
-      /* Hide scrollbar di semua browser modern */
       body {
-        scrollbar-width: none; /* Firefox */
-        -ms-overflow-style: none; /* IE 10+ */
+        scrollbar-width: none;
+        -ms-overflow-style: none;
       }
       
       body::-webkit-scrollbar {
-        display: none; /* Chrome, Safari, Opera */
+        display: none;
       }
 
       html::-webkit-scrollbar,
@@ -60,7 +56,6 @@ $flash = $_SESSION['flash'] ?? null; unset($_SESSION['flash']);
         display: none;
       }
 
-      /* === BANNER DARK SPACE STYLE === */
       body {
         margin: 0;
         font-family: "Baloo 2", sans-serif;
@@ -68,7 +63,7 @@ $flash = $_SESSION['flash'] ?? null; unset($_SESSION['flash']);
         background: #1d0331;
       }
 
-      /* Banner */
+    
       .banner {
         position: relative;
         height: 100vh;
@@ -80,19 +75,16 @@ $flash = $_SESSION['flash'] ?? null; unset($_SESSION['flash']);
         text-align: center;
       }
 
-      /* Dark overlay */
-    /* Dark overlay */
     .banner-overlay {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.65); /* tingkat gelap */
+      background: rgba(0, 0, 0, 0.65);
       z-index: 1;
     }
 
-    /* gradient overlay untuk transisi halus */
     .banner-gradient {
       position: absolute;
       bottom: 0;
@@ -139,20 +131,18 @@ $flash = $_SESSION['flash'] ?? null; unset($_SESSION['flash']);
   }
 }
 
-      /* floating icons */
       .icon {
         position: absolute;
-        width: 60px; /* ukuran icon container */
+        width: 60px;
         animation: float 8s ease-in-out infinite, rotate 12s linear infinite;
         z-index: 1;
       }
       .icon img {
-        width: 60px; /* semua gambar icon sama besar */
+        width: 60px;
         height: auto;
         display: block;
       }
 
-      /* Positions */
       .python {
         top: 20%;
         left: 10%;
@@ -188,7 +178,6 @@ $flash = $_SESSION['flash'] ?? null; unset($_SESSION['flash']);
         pointer-events: none;
       }
 
-      /* === LOGIN FORM STYLES (MENGGUNAKAN STYLE ASLI) === */
       .wrapper {
         display: flex;
         gap: 40px;
@@ -422,24 +411,24 @@ $flash = $_SESSION['flash'] ?? null; unset($_SESSION['flash']);
 
       }
 
-    .toggle-password {
-    position: absolute;
-    right: 14px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #ddd;
-    cursor: pointer;
-    font-size: 1rem;
-    z-index: 2;
-  }
+      .toggle-password {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #ddd;
+      cursor: pointer;
+      font-size: 1rem;
+      z-index: 2;
+    }
 
-  #passwordError {
-  margin-top: 5px;
-  color: #ff4d6d;
-  font-size: 0.8rem;
-  font-weight: 500;
-  display: none;
-}
+      #passwordError {
+      margin-top: 5px;
+      color: #ff4d6d;
+      font-size: 0.8rem;
+      font-weight: 500;
+      display: none;
+    }
     </style>
   </head>
   <body>
@@ -468,24 +457,19 @@ $flash = $_SESSION['flash'] ?? null; unset($_SESSION['flash']);
             </div>
 
               <form class="login-form" method="POST" action="verifyotp.php">
-  <input type="hidden" name="csrf" value="<?= htmlspecialchars(csrf_token()) ?>">
-  <input type="hidden" name="email" value="<?= htmlspecialchars($_SESSION['otp_sent_email'] ?? '') ?>">
+                <input type="hidden" name="csrf" value="<?= htmlspecialchars(csrf_token()) ?>">
+                <input type="hidden" name="email" value="<?= htmlspecialchars($_SESSION['otp_sent_email'] ?? '') ?>">
 
-  <div class="form-group otp-inputs">
-    <input type="text" name="otp[]" maxlength="1" pattern="[0-9]" required>
-    <input type="text" name="otp[]" maxlength="1" pattern="[0-9]" required>
-    <input type="text" name="otp[]" maxlength="1" pattern="[0-9]" required>
-    <input type="text" name="otp[]" maxlength="1" pattern="[0-9]" required>
-    <input type="text" name="otp[]" maxlength="1" pattern="[0-9]" required>
-    <input type="text" name="otp[]" maxlength="1" pattern="[0-9]" required>
-  </div>
-
-  <!-- taruh button di dalam form -->
-  <button type="submit" class="login-button">Verify OTP</button>
-</form>
-
-  
-    
+                <div class="form-group otp-inputs">
+                  <input type="text" name="otp[]" maxlength="1" pattern="[0-9]" required>
+                  <input type="text" name="otp[]" maxlength="1" pattern="[0-9]" required>
+                  <input type="text" name="otp[]" maxlength="1" pattern="[0-9]" required>
+                  <input type="text" name="otp[]" maxlength="1" pattern="[0-9]" required>
+                  <input type="text" name="otp[]" maxlength="1" pattern="[0-9]" required>
+                  <input type="text" name="otp[]" maxlength="1" pattern="[0-9]" required>
+                </div>
+                <button type="submit" class="login-button">Verify OTP</button>
+              </form>
               <div class="back-link">
                 <a href="/Project_Oscar_20/forgotpassword/forgotpassword.php">Kembali ke halaman sebelumnya</a>
               </div>
@@ -495,8 +479,9 @@ $flash = $_SESSION['flash'] ?? null; unset($_SESSION['flash']);
       </section>
     </div>
 
+
     <script>
-      /* animasi bintang tetap sama */
+      /* animasi bintang*/
       const canvas = document.getElementById("starsCanvas");
       const ctx = canvas.getContext("2d");
       let stars = [];
@@ -556,7 +541,7 @@ $flash = $_SESSION['flash'] ?? null; unset($_SESSION['flash']);
       createStars();
       animate();
 
-      /* Auto focus OTP input */
+      /* OTP input */
       const inputs = document.querySelectorAll('.otp-inputs input');
       inputs.forEach((input, index) => {
         input.addEventListener('input', () => {

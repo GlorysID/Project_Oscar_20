@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . '/helpers.php'; // includes ensure_session(), csrf helpers
+require __DIR__ . '/helpers.php';
 require __DIR__ . '/config.php';
 ensure_session();
 
@@ -8,7 +8,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-// CSRF optional: cek jika ada token pada form reset
 csrf_check();
 
 $email = $_SESSION['otp_verified_email'] ?? '';
@@ -44,11 +43,9 @@ try {
         // sukses
         unset($_SESSION['otp_verified_email']);
         $_SESSION['flash'] = 'Password berhasil diubah. Silakan login.';
-        header('Location: ../src/pages/login.php'); // arahkan ke landing page
+        header('Location: ../src/pages/login.php');
         exit;
     } else {
-        // tidak ada row terupdate -> kemungkinan masalah data
-        // (tambahkan logging jika perlu)
         error_log("UPDATE password gagal untuk email: {$email}");
         $_SESSION['flash'] = 'Gagal mengubah password — data pengguna tidak ditemukan. Hub admin.';
         header('Location: resetpassword.php');

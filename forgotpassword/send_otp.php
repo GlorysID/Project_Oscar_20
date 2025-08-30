@@ -27,7 +27,6 @@ if ($user) {
     $upd->execute([$hash, $expires, $user['id']]);
     $_SESSION['otp_sent_email'] = $email;
 
-    // konversi untuk tampilan email (ke WIB / Asia/Jakarta)
     $dt = new DateTime($expires, new DateTimeZone('UTC'));
     $dt->setTimezone(new DateTimeZone('Asia/Jakarta'));
     $expires_local = $dt->format('Y-m-d H:i:s');

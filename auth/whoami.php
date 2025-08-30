@@ -1,5 +1,3 @@
-<!-- auth/whoami.php — untuk client-side nav -->
-
 <?php
 require_once __DIR__ . "/config.php";
 require_once __DIR__ . "/helpers.php";
@@ -13,7 +11,6 @@ if (!$user) {
     exit;
 }
 
-// Kirim hanya field yang aman
 echo json_encode([
     'logged_in' => true,
     'id' => $user['id'],

@@ -1,6 +1,5 @@
 <?php
-// === Database & SMTP Config ===
-// Rename this file to config.php and fill your credentials.
+
 
 $DB_HOST = getenv('DB_HOST') ?: 'localhost';
 $DB_NAME = getenv('DB_NAME') ?: 'kiddos_auth';
@@ -17,7 +16,7 @@ try {
     die("Database connection failed.");
 }
 
-// SMTP (optional: PHPMailer). If you have composer vendor, it will be used.
+// SMTP
 $SMTP = [
     'host' => getenv('SMTP_HOST') ?: 'smtp.gmail.com',
     'port' => getenv('SMTP_PORT') ?: 587,

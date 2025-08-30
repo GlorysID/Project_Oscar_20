@@ -28,9 +28,7 @@
 }
 
 
-    // panggil saat login sukses; $row: array dari query user
     function set_user_session(array $row, $remember = false) {
-        // regenerasi session id utk keamanan
         session_regenerate_id(true);
 
         $_SESSION['user'] = [
@@ -40,11 +38,8 @@
             'full_name' => $row['full_name'] ?? '',
             'avatar' => $row['avatar'] ?? null
         ];
-
-        // Jika ingin implementasi "remember me" terpisah, bisa set cookie persistent di sini.
     }
 
-    // safe logout function
     function logout_user() {
         $_SESSION = [];
         if (ini_get("session.use_cookies")) {
@@ -57,7 +52,7 @@
         session_destroy();
     }
 
-    // require_login() tetap ada jika halaman harus memaksa redirect
+
     function require_login() {
         if (!is_logged_in()) {
             redirect("/src/pages/login.php?e=unauthorized");

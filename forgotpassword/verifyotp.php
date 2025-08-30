@@ -6,10 +6,8 @@ ensure_session();
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') { http_response_code(405); exit; }
 csrf_check();
 
-// Ambil email dari POST atau session
 $email = trim($_POST['email'] ?? ($_SESSION['otp_sent_email'] ?? ''));
 
-// Gabung 6 input digit jadi string
 $otpArray = $_POST['otp'] ?? [];
 $otp = implode('', array_map('trim', $otpArray));
 
@@ -37,7 +35,6 @@ if ($row && !empty($row['reset_token']) && !empty($row['reset_expires'])) {
 
 if ($ok) {
     $_SESSION['otp_verified_email'] = $email;
-    // invalidate token setelah berhasil
     $pdo->prepare('UPDATE users SET reset_token = NULL, reset_expires = NULL WHERE email = ?')->execute([$email]);
     header('Location: resetpassword.php');
     exit;

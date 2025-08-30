@@ -21,14 +21,13 @@ unset($_SESSION['flash']);
           scroll-behavior: smooth;
         }
 
-        /* Hide scrollbar di semua browser modern */
         body {
-          scrollbar-width: none; /* Firefox */
-          -ms-overflow-style: none; /* IE 10+ */
+          scrollbar-width: none;
+          -ms-overflow-style: none;
         }
         
         body::-webkit-scrollbar {
-          display: none; /* Chrome, Safari, Opera */
+          display: none;
         }
 
         html::-webkit-scrollbar,
@@ -36,7 +35,7 @@ unset($_SESSION['flash']);
           display: none;
         }
 
-        /* === BANNER DARK SPACE STYLE === */
+        
         body {
           margin: 0;
           font-family: "Baloo 2", sans-serif;
@@ -56,19 +55,16 @@ unset($_SESSION['flash']);
           text-align: center;
         }
 
-        /* Dark overlay */
-      /* Dark overlay */
       .banner-overlay {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.65); /* tingkat gelap */
+        background: rgba(0, 0, 0, 0.65);
         z-index: 1;
       }
 
-      /* gradient overlay untuk transisi halus */
       .banner-gradient {
         position: absolute;
         bottom: 0;
@@ -97,74 +93,72 @@ unset($_SESSION['flash']);
       }
 
 
-        @keyframes twinkle {
-          0% {
-            opacity: 0.7;
-          }
-          100% {
-            opacity: 1;
-          }
+      @keyframes twinkle {
+        0% {
+        opacity: 0.7;
         }
+        100% {
+        opacity: 1;
+        }
+      }
 
-        @keyframes rotate {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
+      @keyframes rotate {
+        0% {
+        transform: rotate(0deg);
+        }
+        100% {
+        transform: rotate(360deg);
+        }
+      }
 
-        /* floating icons */
-        .icon {
-          position: absolute;
-          width: 60px; /* ukuran icon container */
-          animation: float 8s ease-in-out infinite, rotate 12s linear infinite;
-          z-index: 1;
-        }
-        .icon img {
-          width: 60px; /* semua gambar icon sama besar */
-          height: auto;
-          display: block;
-        }
+      .icon {
+        position: absolute;
+        width: 60px;
+        animation: float 8s ease-in-out infinite, rotate 12s linear infinite;
+        z-index: 1;
+      }
+      .icon img {
+        width: 60px;
+        height: auto;
+        display: block;
+      }
 
-        /* Positions */
-        .python {
-          top: 20%;
-          left: 10%;
-        }
-        .js {
-          top: 60%;
-          left: 15%;
-        }
-        .html {
-          top: 40%;
-          right: 15%;
-        }
-        .css {
-          top: 70%;
-          right: 10%;
-        }
-        .scratch {
-          top: 15%;
-          left: 50%;
-        }
-        .cpp {
-          top: 80%;
-          left: 45%;
-        }
+        
+      .python {
+        top: 20%;
+        left: 10%;
+      }
+      .js {
+        top: 60%;
+        left: 15%;
+      }
+      .html {
+        top: 40%;
+        right: 15%;
+      }
+      .css {
+        top: 70%;
+        right: 10%;
+      }
+      .scratch {
+        top: 15%;
+        left: 50%;
+      }
+      .cpp {
+        top: 80%;
+        left: 45%;
+      }
 
-        #starsCanvas {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          z-index: 0;
-          pointer-events: none;
-        }
+      #starsCanvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        pointer-events: none;
+      }
 
-        /* === LOGIN FORM STYLES (MENGGUNAKAN STYLE ASLI) === */
         .wrapper {
           display: flex;
           gap: 40px;
@@ -348,8 +342,6 @@ unset($_SESSION['flash']);
         .signup-link, .back-link  a:hover {
           text-decoration: underline;
         }
-
-        /* Responsive Design */
         @media (max-width: 768px) {
           .wrapper {
             padding: 15px;
@@ -408,14 +400,13 @@ unset($_SESSION['flash']);
       z-index: 2;
     }
 
-    #passwordError {
-    margin-top: 5px;
-    color: #ff4d6d;
-    font-size: 0.8rem;
-    font-weight: 500;
-    display: none;
-  }
-
+      #passwordError {
+      margin-top: 5px;
+      color: #ff4d6d;
+      font-size: 0.8rem;
+      font-weight: 500;
+      display: none;
+    }
       </style>
     </head>
     <body>
@@ -424,7 +415,6 @@ unset($_SESSION['flash']);
         <section class="banner">
           <canvas id="starsCanvas"></canvas>
           <div class="banner-gradient"></div>
-
           <!-- Floating icons -->
           <div class="icon python"><img src="/Project_Oscar_20/src/img/pythonicons.png" alt="Python"></div>
           <div class="icon js"><img src="/Project_Oscar_20/src/img/jsicons.png" alt="JavaScript"></div>
@@ -432,7 +422,6 @@ unset($_SESSION['flash']);
           <div class="icon css"><img src="/Project_Oscar_20/src/img/cssicons.png" alt="Cascading Style Sheet"></div>
           <div class="icon scratch"><img src="/Project_Oscar_20/src/img/scratchicons.png" alt="Scratch"></div>
           <div class="icon cpp"><img src="/Project_Oscar_20/src/img/cppicons.png" alt="c++"></div>
-
           <!-- Forgot Password Container -->
           <div class="wrapper">
             <div class="glass-container">
@@ -444,10 +433,10 @@ unset($_SESSION['flash']);
               </div>
 
               <?php if ($flash): ?>
-    <div style="color:#ff4d6d; font-size:0.95em; margin-bottom:10px; text-align:center;">
-      <?= htmlspecialchars($flash) ?>
-    </div>
-  <?php endif; ?>
+                <div style="color:#ff4d6d; font-size:0.95em; margin-bottom:10px; text-align:center;">
+                  <?= htmlspecialchars($flash) ?>
+                </div>
+              <?php endif; ?>
 
               <form class="login-form" method="POST" action="send_otp.php">
                 <input type="hidden" name="csrf" value="<?php echo htmlspecialchars(csrf_token()); ?>">
@@ -462,13 +451,10 @@ unset($_SESSION['flash']);
                       name="email">
                   </div>
                 </div>
-
                 <button id="otpButton" type="submit" class="login-button">Kirim OTP</button>
-
                 <div class="back-link">
                   <a href="../src/pages/login.php">Kembali Ke Login</a>
                 </div>
-                
               </form>
             </div>
           </div>
@@ -476,19 +462,17 @@ unset($_SESSION['flash']);
       </div>
 
       <script>
-        /* animasi bintang tetap lu pakai aja */
+        // ANIMASI BINTANG
         const canvas = document.getElementById("starsCanvas");
         const ctx = canvas.getContext("2d");
         let stars = [];
         const numStars = 150;
-
         function resizeCanvas() {
           canvas.width = window.innerWidth;
           canvas.height = window.innerHeight;
         }
         window.addEventListener("resize", resizeCanvas);
         resizeCanvas();
-
         function createStars() {
           stars = [];
           for (let i = 0; i < numStars; i++) {
@@ -535,35 +519,32 @@ unset($_SESSION['flash']);
 
         createStars();
         animate();
+
+        // TIMER OTP
+        const otpButton = document.getElementById("otpButton");
+        const form = otpButton.closest("form");
+
+        form.addEventListener("submit", function(e) {
+          // Setelah form submit, timer mulai
+          let countdown = 60;
+          otpButton.disabled = true;
+          otpButton.style.opacity = "0.6";
+          otpButton.style.cursor = "not-allowed";
+          otpButton.textContent = `Kirim OTP (${countdown})`;
+
+          const timer = setInterval(() => {
+            countdown--;
+            otpButton.textContent = `Kirim OTP (${countdown})`;
+
+            if (countdown <= 0) {
+              clearInterval(timer);
+              otpButton.disabled = false;
+              otpButton.style.opacity = "1";
+              otpButton.style.cursor = "pointer";
+              otpButton.textContent = "Kirim OTP";
+            }
+          }, 1000);
+        });
       </script>
-
-      <!-- TIMER OTP  -->
-       <script>
-  const otpButton = document.getElementById("otpButton");
-  const form = otpButton.closest("form");
-
-  form.addEventListener("submit", function(e) {
-    // Setelah form submit, timer mulai
-    let countdown = 60;
-    otpButton.disabled = true;
-    otpButton.style.opacity = "0.6";
-    otpButton.style.cursor = "not-allowed";
-    otpButton.textContent = `Kirim OTP (${countdown})`;
-
-    const timer = setInterval(() => {
-      countdown--;
-      otpButton.textContent = `Kirim OTP (${countdown})`;
-
-      if (countdown <= 0) {
-        clearInterval(timer);
-        otpButton.disabled = false;
-        otpButton.style.opacity = "1";
-        otpButton.style.cursor = "pointer";
-        otpButton.textContent = "Kirim OTP";
-      }
-    }, 1000);
-  });
-</script>
-
     </body>
   </html>

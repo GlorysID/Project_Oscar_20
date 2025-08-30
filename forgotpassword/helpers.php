@@ -14,7 +14,7 @@ function minutes_from_now(int $m) {
 }
 
 function send_email($to, $subject, $html, $SMTP) {
-    // Load PHPMailer manual dari folder /PHPMailer
+    // Load PHPMailer
     $phpMailerBase = __DIR__ . '/../PHPMailer/src';
     require_once $phpMailerBase . '/PHPMailer.php';
     require_once $phpMailerBase . '/SMTP.php';
@@ -22,8 +22,6 @@ function send_email($to, $subject, $html, $SMTP) {
 
     try {
         $mail = new PHPMailer\PHPMailer\PHPMailer(true);
-
-        // Server settings
         $mail->isSMTP();
         $mail->Host       = $SMTP['host'] ?? 'smtp.gmail.com';
         $mail->Port       = (int)($SMTP['port'] ?? 587);
@@ -37,13 +35,11 @@ function send_email($to, $subject, $html, $SMTP) {
             $mail->SMTPSecure = PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
         }
 
-        // From / To
         $fromEmail = $SMTP['from_email'] ?? $SMTP['user'] ?? 'no-reply@example.com';
         $fromName  = $SMTP['from_name']  ?? 'App';
         $mail->setFrom($fromEmail, $fromName);
         $mail->addAddress($to);
 
-        // Content
         $mail->isHTML(true);
         $mail->Subject = $subject;
         $mail->Body    = $html;
