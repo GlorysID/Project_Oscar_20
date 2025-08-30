@@ -263,7 +263,7 @@
             </div>
 
             <div class="achievements-container" id="achievementsContainer">
-              <div class="achievements-header">Achievements</div>
+              <div class="achievements-header">List Materi</div>
               <div class="achievements-list" id="achievementsPreview">
                 <span class="badge"><img src="../img/pythonicons.png" alt="Python" /></span>
                 <span class="badge"><img src="../img/jsicons.png" alt="JS" /></span>
